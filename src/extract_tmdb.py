@@ -31,7 +31,7 @@ def fetch_movie_metadata(start_page=1, end_page=5):
 
 
 if __name__ == "__main__":
-    data = fetch_movie_metadata(start_page=1, end_page=10)
+    data = fetch_movie_metadata(start_page=1, end_page=1)
 
     # Save locally to data/raw/
     output_path = os.path.join("data", "raw", "tmdb_metadata.json")
