@@ -1,12 +1,12 @@
 import os
 import time
+import requests
 import pandas as pd
-import tmdbsimple as tmdb
 from dotenv import load_dotenv
 
-# Automatically loads the TMDB API key from your PyCharm .env configuration
+# Load the v4 Bearer Token from .env
 load_dotenv()
-tmdb.API_KEY = os.getenv("TMDB_API_KEY")
+TMDB_TOKEN = os.getenv("TMDB_BEARER_TOKEN")
 
 
 def align_via_imdb():
@@ -16,56 +16,82 @@ def align_via_imdb():
 
     print("Loading OPUS metadata...")
     df = pd.read_csv(opus_path, sep=';')
+    valid_df = df[df['imdb_id'].notna() & df['imdb_id'].astype(str).str.startswith('tt')].copy()
 
-    # Filter for rows that actually contain a valid IMDB ID (starts with 'tt')
-    valid_df = df[df['imdb_id'].notna() & df['imdb_id'].str.startswith('tt')].copy()
-    print(f"Found {len(valid_df)} records with valid IMDB IDs ready for alignment.")
+    # --- TIP 2: CHECKPOINTING (Avoid restarting from 0 if script crashes) ---
+    if os.path.exists(output_path):
+        existing_df = pd.read_csv(output_path, sep=';', encoding='utf-8-sig')
+        processed_ids = set(existing_df['imdb_id'].astype(str).tolist())
+        print(f"Found {len(processed_ids)} previously processed movies. Resuming...")
+    else:
+        processed_ids = set()
+        print("Starting fresh alignment...")
+
+    # Filter out movies we have already matched
+    to_process = valid_df[~valid_df['imdb_id'].isin(processed_ids)]
+    print(f"Movies left to process: {len(to_process)}")
+
+    # --- TIP 1: v4 BEARER TOKEN HEADERS ---
+    headers = {
+        "accept": "application/json",
+        "Authorization": f"Bearer {TMDB_TOKEN}"
+    }
 
     aligned_records = []
-
-    print("Querying TMDB /find endpoint. This will take time...")
-
-    # Track iterations for progress reporting
     count = 0
 
-    for _, row in valid_df.iterrows():
+    for _, row in to_process.iterrows():
         imdb_id = row['imdb_id']
+        url = f"https://api.themoviedb.org/3/find/{imdb_id}?external_source=imdb_id"
+
         try:
-            # Ping the TMDB API for this specific IMDB ID
-            find = tmdb.Find(imdb_id)
-            response = find.info(external_source='imdb_id')
+            response = requests.get(url, headers=headers, timeout=10)
 
-            # The API returns a dictionary of lists. We want 'movie_results'.
-            if response['movie_results']:
-                movie = response['movie_results'][0]  # Take the exact match
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('movie_results'):
+                    movie = data['movie_results'][0]
 
-                aligned_records.append({
-                    'opus_id': row['opus_id'],
-                    'imdb_id': imdb_id,
-                    'tmdb_id': movie['id'],
-                    'tmdb_title': movie['title'],
-                    'release_year': movie.get('release_date', '')[:4],
-                    'plot': movie.get('overview', '')
-                })
-        except Exception as e:
-            # Silently catch timeouts or API errors so the script doesn't crash halfway
-            pass
+                    # --- TIP 3: HANDLING IMAGES PROPERLY ---
+                    poster_path = movie.get('poster_path')
+                    full_poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else ""
+
+                    aligned_records.append({
+                        'opus_id': row['opus_id'],
+                        'imdb_id': imdb_id,
+                        'tmdb_id': movie.get('id'),
+                        'tmdb_title': movie.get('title'),
+                        'release_year': str(movie.get('release_date', ''))[:4],
+                        'poster_url': full_poster_url,
+                        'plot': movie.get('overview', '')
+                    })
+        except requests.exceptions.RequestException:
+            print(f"Network error on {imdb_id}. Skipping for now.")
+            pass  # Catch timeouts without crashing
 
         count += 1
-        # Print progress and throttle the requests so TMDB doesn't ban your IP
+
+        # Batch save every 100 records to protect progress
         if count % 100 == 0:
-            print(f"Processed {count} movies...")
-            time.sleep(0.2)  # 200ms delay to respect API rate limits
+            batch_df = pd.DataFrame(aligned_records)
+            # If file doesn't exist yet, write headers. If it does, append without headers.
+            write_header = not os.path.exists(output_path)
+            batch_df.to_csv(output_path, mode='a', index=False, sep=';', encoding='utf-8-sig', header=write_header)
 
-    aligned_df = pd.DataFrame(aligned_records)
+            aligned_records = []  # Clear the batch from memory
+            print(f"Processed and saved {count} movies...")
 
-    # Export for team handoff
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    aligned_df.to_csv(output_path, index=False, sep=';', encoding='utf-8-sig')
-    print(f"Alignment complete. {len(aligned_df)} records perfectly matched and saved to {output_path}")
+            # Tiny sleep just to be polite to TMDB's servers
+            time.sleep(0.05)
+
+    # Save any remaining records in the final batch
+    if aligned_records:
+        batch_df = pd.DataFrame(aligned_records)
+        write_header = not os.path.exists(output_path)
+        batch_df.to_csv(output_path, mode='a', index=False, sep=';', encoding='utf-8-sig', header=write_header)
+
+    print(f"Alignment complete. Master lookup table is at {output_path}")
 
 
 if __name__ == "__main__":
-    # TEST MODE: Uncomment the line below to test on just the first 10 rows before running the full dataset
-    # valid_df = valid_df.head(10)
     align_via_imdb()
