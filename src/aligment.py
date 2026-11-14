@@ -18,6 +18,14 @@ def align_via_imdb():
     df = pd.read_csv(opus_path, sep=';')
     valid_df = df[df['imdb_id'].notna() & df['imdb_id'].astype(str).str.startswith('tt')].copy()
 
+    print(f"Total raw rows in metadata: {len(valid_df)}")
+
+    # --- DEDUPLICATION STEP ---
+    # Keep only the first occurrence of each imdb_id for API efficiency.
+    # (We preserve the original opus_id mapping, but drop redundant TMDB lookups)
+    unique_movies_df = valid_df.drop_duplicates(subset=['imdb_id']).copy()
+    print(f"Unique movies to query on TMDB: {len(unique_movies_df)}")
+
     # --- TIP 2: CHECKPOINTING (Avoid restarting from 0 if script crashes) ---
     if os.path.exists(output_path):
         existing_df = pd.read_csv(output_path, sep=';', encoding='utf-8-sig')
