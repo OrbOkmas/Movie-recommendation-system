@@ -17,16 +17,13 @@ def align_via_imdb():
     print("Loading OPUS metadata...")
     df = pd.read_csv(opus_path, sep=';')
     valid_df = df[df['imdb_id'].notna() & df['imdb_id'].astype(str).str.startswith('tt')].copy()
+    print(f"Total raw rows with valid IMDB IDs: {len(valid_df)}")
 
-    print(f"Total raw rows in metadata: {len(valid_df)}")
+    # Deduplicate directly into valid_df so every downstream step uses unique movies
+    valid_df = valid_df.drop_duplicates(subset=['imdb_id'], keep='first').copy()
+    print(f"Unique movies to query on TMDB: {len(valid_df)}")
 
-    # --- DEDUPLICATION STEP ---
-    # Keep only the first occurrence of each imdb_id for API efficiency.
-    # (We preserve the original opus_id mapping, but drop redundant TMDB lookups)
-    unique_movies_df = valid_df.drop_duplicates(subset=['imdb_id']).copy()
-    print(f"Unique movies to query on TMDB: {len(unique_movies_df)}")
-
-    # --- TIP 2: CHECKPOINTING (Avoid restarting from 0 if script crashes) ---
+    # Checkpointing: filter against the deduplicated valid_df
     if os.path.exists(output_path):
         existing_df = pd.read_csv(output_path, sep=';', encoding='utf-8-sig')
         processed_ids = set(existing_df['imdb_id'].astype(str).tolist())
@@ -35,7 +32,6 @@ def align_via_imdb():
         processed_ids = set()
         print("Starting fresh alignment...")
 
-    # Filter out movies we have already matched
     to_process = valid_df[~valid_df['imdb_id'].isin(processed_ids)]
     print(f"Movies left to process: {len(to_process)}")
 
