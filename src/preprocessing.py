@@ -121,38 +121,44 @@ def stream_target_subtitles(txt_path: str, target_ids: set[str]) -> Iterator[tup
             yield current_id, " ".join(buffer)
 
 
+import nltk
+from nltk.stem import WordNetLemmatizer
+from spacy.lang.en.stop_words import STOP_WORDS
+
 def lemmatize_for_tfidf(
     texts: list[str],
     nlp: spacy.Language,
     batch_size: int = 32,
     max_words: int = 10_000,
 ) -> list[str]:
-    """Track A: Fast rule-based lemmatization with outlier truncation and low RAM footprint."""
-    # Cap extreme outlier documents (>10k words) so corrupted mega-files never stall batches
+    """Track A: Fast WordNet lemmatization using spaCy's tokenizer (~10x faster than nlp.pipe)."""
+    nltk.download("wordnet", quiet=True)
+    nltk.download("omw-1.4", quiet=True)
+    lemmatizer = WordNetLemmatizer()
+    tokenizer = nlp.tokenizer
+
     capped_texts = [
         " ".join(t.split()[:max_words]) if len(t) > 60_000 else t
         for t in texts
     ]
 
     processed_docs: list[str] = []
-    pipe_stream = nlp.pipe(capped_texts, batch_size=batch_size, n_process=1)
-
-    for doc in tqdm(
-        pipe_stream,
+    for text in tqdm(
+        capped_texts,
         total=len(capped_texts),
         desc="Lemmatizing for TF-IDF",
         unit="movie",
         smoothing=0.05,
     ):
-        lemmas = [
-            token.lemma_.lower()
-            for token in doc
-            if not token.is_stop
-            and not token.is_punct
-            and not token.is_space
-            and token.is_alpha
-            and len(token.lemma_) > 1
-        ]
+        doc = tokenizer(text)
+        lemmas = []
+        for token in doc:
+            if token.is_alpha and not token.is_space:
+                word = token.text.lower()
+                if word not in STOP_WORDS and len(word) > 1:
+                    lemma = lemmatizer.lemmatize(word)
+                    if len(lemma) > 1 and lemma not in STOP_WORDS:
+                        lemmas.append(lemma)
         processed_docs.append(" ".join(lemmas))
 
     return processed_docs
