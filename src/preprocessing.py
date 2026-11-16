@@ -25,13 +25,14 @@ WHITESPACE_PATTERN = re.compile(r"\s+")
 
 
 def load_spacy_model() -> spacy.Language:
-    """Loads en_core_web_sm with parser/NER disabled, auto-downloading if missing."""
+    """Loads en_core_web_sm in fast dictionary-lemmatizer mode (no neural tagger overhead)."""
+    disabled_pipes = ["parser", "ner", "tok2vec", "tagger"]
     try:
-        nlp = spacy.load("en_core_web_sm", disable=["parser", "ner"])
+        nlp = spacy.load("en_core_web_sm", disable=disabled_pipes)
     except OSError:
         print("spaCy model 'en_core_web_sm' not found. Downloading automatically...")
         spacy_download("en_core_web_sm")
-        nlp = spacy.load("en_core_web_sm", disable=["parser", "ner"])
+        nlp = spacy.load("en_core_web_sm", disable=disabled_pipes)
 
     nlp.max_length = 2_000_000
     return nlp
@@ -123,15 +124,22 @@ def stream_target_subtitles(txt_path: str, target_ids: set[str]) -> Iterator[tup
 def lemmatize_for_tfidf(
     texts: list[str],
     nlp: spacy.Language,
-    batch_size: int = 256,
+    batch_size: int = 32,
+    max_words: int = 10_000,
 ) -> list[str]:
-    """Track A: Single-process batched lemmatization (Windows-safe) with live tqdm ETA."""
+    """Track A: Fast rule-based lemmatization with outlier truncation and low RAM footprint."""
+    # Cap extreme outlier documents (>10k words) so corrupted mega-files never stall batches
+    capped_texts = [
+        " ".join(t.split()[:max_words]) if len(t) > 60_000 else t
+        for t in texts
+    ]
+
     processed_docs: list[str] = []
-    pipe_stream = nlp.pipe(texts, batch_size=batch_size, n_process=1)
+    pipe_stream = nlp.pipe(capped_texts, batch_size=batch_size, n_process=1)
 
     for doc in tqdm(
         pipe_stream,
-        total=len(texts),
+        total=len(capped_texts),
         desc="Lemmatizing for TF-IDF",
         unit="movie",
         smoothing=0.05,
