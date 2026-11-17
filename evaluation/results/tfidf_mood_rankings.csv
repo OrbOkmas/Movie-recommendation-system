@@ -1,0 +1,120 @@
+﻿query_id,category,query,processed_query,rank,movie_id,title,score,genres,release_year
+M01,direct_mood,I feel like watching something gloomy and thrilling.,gloomy thrilling,1,tt0032961,Quiet Wedding,0.027949,Comedy|Romance,1941
+M01,direct_mood,I feel like watching something gloomy and thrilling.,gloomy thrilling,2,tt2011351,Chips,0.026642,Comedy|Drama,2012
+M01,direct_mood,I feel like watching something gloomy and thrilling.,gloomy thrilling,3,tt0082162,Chashme Buddoor,0.01646,Comedy|Romance,1981
+M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",cozy comforting movie rainy evening,1,tt0075342,The Town That Dreaded Sundown,0.022548,Horror|Mystery|Thriller|Crime,1976
+M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",cozy comforting movie rainy evening,2,tt0277106,Le Loup blanc,0.016129,TV Movie,1977
+M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",cozy comforting movie rainy evening,3,tt0124008,Miss Morison's Ghosts,0.01535,Horror|Thriller|TV Movie,1981
+M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",cozy comforting movie rainy evening,4,tt0024034,42nd Street,0.013614,Comedy|Drama|Romance,1933
+M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",cozy comforting movie rainy evening,5,tt0104695,Leap of Faith,0.01342,Comedy|Drama|Romance,1992
+M03,direct_mood,Something eerie and unsettling that slowly builds tension.,eerie unsettling slowly build tension,1,tt2180016,Iceberg Slim: Portrait of a Pimp,0.021311,Documentary,2012
+M03,direct_mood,Something eerie and unsettling that slowly builds tension.,eerie unsettling slowly build tension,2,tt0057280,Crypt of the Vampire,0.019302,Horror,1964
+M03,direct_mood,Something eerie and unsettling that slowly builds tension.,eerie unsettling slowly build tension,3,tt0405024,Hum Kaun Hai,0.018391,Horror,2004
+M03,direct_mood,Something eerie and unsettling that slowly builds tension.,eerie unsettling slowly build tension,4,tt1537032,Kanthaswamy,0.016466,Action|Crime|Adventure,2009
+M03,direct_mood,Something eerie and unsettling that slowly builds tension.,eerie unsettling slowly build tension,5,tt0064492,The Uninvited,0.016189,Drama,1969
+M04,direct_mood,An uplifting and hopeful film that makes me feel better.,uplifting hopeful film feel better,1,tt0064030,Anne of the Thousand Days,0.029445,Drama|History|Romance,1969
+M04,direct_mood,An uplifting and hopeful film that makes me feel better.,uplifting hopeful film feel better,2,tt0073619,Women Reply,0.022072,Documentary,1975
+M04,direct_mood,An uplifting and hopeful film that makes me feel better.,uplifting hopeful film feel better,3,tt0064492,The Uninvited,0.020361,Drama,1969
+M04,direct_mood,An uplifting and hopeful film that makes me feel better.,uplifting hopeful film feel better,4,tt2149025,Left 4 Dead: Impulse 76 Fan Film,0.020225,,2011
+M04,direct_mood,An uplifting and hopeful film that makes me feel better.,uplifting hopeful film feel better,5,tt2011351,Chips,0.019957,Comedy|Drama,2012
+M05,direct_mood,I am in the mood for something melancholic and reflective.,melancholic reflective,1,tt1134664,Boogie Woogie,0.020725,Comedy|Drama,2010
+M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",funny chaotic movie seriously,1,tt1937090,All We Ever Wanted,0.033765,Documentary,2010
+M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",funny chaotic movie seriously,2,tt3129916,High Society,0.03251,Drama|Comedy,2014
+M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",funny chaotic movie seriously,3,tt2011351,Chips,0.028208,Comedy|Drama,2012
+M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",funny chaotic movie seriously,4,tt1117983,My Normal,0.026517,Comedy|Drama|Romance,2010
+M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",funny chaotic movie seriously,5,tt4526950,Perfect Match,0.025411,Comedy|Romance|TV Movie,2015
+M07,mood_theme,A tense mystery set in an isolated place with secrets.,tense mystery set isolated place secret,1,tt0405024,Hum Kaun Hai,0.029075,Horror,2004
+M07,mood_theme,A tense mystery set in an isolated place with secrets.,tense mystery set isolated place secret,2,tt0222368,The Nameless,0.027624,Thriller|Mystery|Horror|Drama,1999
+M07,mood_theme,A tense mystery set in an isolated place with secrets.,tense mystery set isolated place secret,3,tt1985989,"Love, In Between",0.022295,Drama|Romance,2010
+M07,mood_theme,A tense mystery set in an isolated place with secrets.,tense mystery set isolated place secret,4,tt0082000,Contamination,0.021597,Science Fiction|Horror,1980
+M07,mood_theme,A tense mystery set in an isolated place with secrets.,tense mystery set isolated place secret,5,tt1446208,Ways to Live Forever,0.020232,Drama|Family,2010
+M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,bittersweet coming age story friendship growing apart,1,tt2319760,Girlfriend Boyfriend,0.048218,Drama|Comedy|Romance,2012
+M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,bittersweet coming age story friendship growing apart,2,tt0102571,The Elementary School,0.041307,Comedy|Drama,1991
+M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,bittersweet coming age story friendship growing apart,3,tt0384566,Suite Habana,0.037696,Documentary,2003
+M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,bittersweet coming age story friendship growing apart,4,tt0064815,Pirosmani,0.035792,Drama|History,1969
+M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,bittersweet coming age story friendship growing apart,5,tt0082162,Chashme Buddoor,0.029424,Comedy|Romance,1981
+M09,mood_theme,A warm romance about two people finding each other unexpectedly.,warm romance people finding unexpectedly,1,tt0053002,Dangerous Love Affairs,0.030394,Drama|Romance,1959
+M09,mood_theme,A warm romance about two people finding each other unexpectedly.,warm romance people finding unexpectedly,2,tt0341266,Bhoot,0.024408,Horror,2003
+M09,mood_theme,A warm romance about two people finding each other unexpectedly.,warm romance people finding unexpectedly,3,tt0079385,Justine and the Whip,0.018873,Drama,1979
+M09,mood_theme,A warm romance about two people finding each other unexpectedly.,warm romance people finding unexpectedly,4,tt0039211,Born to Kill,0.017988,Crime|Drama|Thriller,1947
+M09,mood_theme,A warm romance about two people finding each other unexpectedly.,warm romance people finding unexpectedly,5,tt4441150,Salt and Fire,0.017899,Drama|Thriller,2016
+M10,mood_theme,"A haunting movie about grief, memory and loss.",haunting movie grief memory loss,1,tt0044733,Hôtel des Invalides,0.025037,Documentary,1952
+M10,mood_theme,"A haunting movie about grief, memory and loss.",haunting movie grief memory loss,2,tt0016847,Faust,0.023071,Fantasy|Drama|Horror,1926
+M10,mood_theme,"A haunting movie about grief, memory and loss.",haunting movie grief memory loss,3,tt0488334,Scared,0.022035,Horror|Thriller,2005
+M10,mood_theme,"A haunting movie about grief, memory and loss.",haunting movie grief memory loss,4,tt0074427,Under the Sheets,0.020615,Comedy,1976
+M10,mood_theme,"A haunting movie about grief, memory and loss.",haunting movie grief memory loss,5,tt0405024,Hum Kaun Hai,0.018639,Horror,2004
+M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",adventurous story wonder exploration discovery,1,tt0334588,Flying Saucers Over Istanbul,0.036075,Comedy|Science Fiction|Fantasy,1955
+M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",adventurous story wonder exploration discovery,2,tt0311972,Guardian of the Frontier,0.023279,Drama|Thriller|Horror|Mystery,2002
+M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",adventurous story wonder exploration discovery,3,tt0124008,Miss Morison's Ghosts,0.021438,Horror|Thriller|TV Movie,1981
+M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",adventurous story wonder exploration discovery,4,tt0116442,Grace of My Heart,0.016572,Comedy|Drama|Music,1996
+M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",adventurous story wonder exploration discovery,5,tt1134664,Boogie Woogie,0.016389,Comedy|Drama,2010
+M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,paranoid psychological thriller betrayal deception,1,tt0105839,Once Upon a Time in China II,0.019205,Action|Comedy,1992
+M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,paranoid psychological thriller betrayal deception,2,tt4147210,Even Lambs Have Teeth,0.01779,Thriller|Horror,2015
+M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,paranoid psychological thriller betrayal deception,3,tt1937090,All We Ever Wanted,0.01627,Documentary,2010
+M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,paranoid psychological thriller betrayal deception,4,tt0217862,"Fireworks, Should We See It from the Side or the Bottom?",0.015097,Drama|Romance,1993
+M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,paranoid psychological thriller betrayal deception,5,tt0097100,Communion,0.011861,Drama|Horror|Science Fiction|Thriller,1989
+M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,like autumn rain quiet dread,1,tt0083560,Angel,0.042559,Drama|Music,1982
+M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,like autumn rain quiet dread,2,tt0104695,Leap of Faith,0.037482,Comedy|Drama|Romance,1992
+M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,like autumn rain quiet dread,3,tt0064492,The Uninvited,0.033438,Drama,1969
+M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,like autumn rain quiet dread,4,tt3129916,High Society,0.03231,Drama|Comedy,2014
+M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,like autumn rain quiet dread,5,tt1221141,The Headless Woman,0.031794,Drama|Mystery,2008
+M14,subtle_vibe,Something that feels like a lonely city at midnight.,like lonely city midnight,1,tt0064492,The Uninvited,0.041,Drama,1969
+M14,subtle_vibe,Something that feels like a lonely city at midnight.,like lonely city midnight,2,tt0311972,Guardian of the Frontier,0.035451,Drama|Thriller|Horror|Mystery,2002
+M14,subtle_vibe,Something that feels like a lonely city at midnight.,like lonely city midnight,3,tt0053002,Dangerous Love Affairs,0.033153,Drama|Romance,1959
+M14,subtle_vibe,Something that feels like a lonely city at midnight.,like lonely city midnight,4,tt0089343,Insignificance,0.032991,Drama|Comedy,1985
+M14,subtle_vibe,Something that feels like a lonely city at midnight.,like lonely city midnight,5,tt0039211,Born to Kill,0.032324,Crime|Drama|Thriller,1947
+M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",vibe old forgotten seaside town,1,tt4147210,Even Lambs Have Teeth,0.035455,Thriller|Horror,2015
+M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",vibe old forgotten seaside town,2,tt2195498,The Almost Man,0.023928,Comedy|Drama,2012
+M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",vibe old forgotten seaside town,3,tt0105342,A Shadow of a Doubt,0.021312,Drama,1993
+M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",vibe old forgotten seaside town,4,tt0064815,Pirosmani,0.018802,Drama|History,1969
+M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",vibe old forgotten seaside town,5,tt0079385,Justine and the Whip,0.016337,Drama,1979
+M16,subtle_vibe,I want to feel uneasy and curious at the same time.,feel uneasy curious time,1,tt0068207,Anna and the Wolves,0.03794,Drama,1973
+M16,subtle_vibe,I want to feel uneasy and curious at the same time.,feel uneasy curious time,2,tt1513713,Love in Another Language,0.033479,,2009
+M16,subtle_vibe,I want to feel uneasy and curious at the same time.,feel uneasy curious time,3,tt0124008,Miss Morison's Ghosts,0.032572,Horror|Thriller|TV Movie,1981
+M16,subtle_vibe,I want to feel uneasy and curious at the same time.,feel uneasy curious time,4,tt0057280,Crypt of the Vampire,0.032401,Horror,1964
+M16,subtle_vibe,I want to feel uneasy and curious at the same time.,feel uneasy curious time,5,tt1985989,"Love, In Between",0.031532,Drama|Romance,2010
+M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,dreamy surreal movie beautiful disturbing atmosphere,1,tt0152930,Taxi,0.032468,Action|Comedy|Crime|Adventure,1998
+M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,dreamy surreal movie beautiful disturbing atmosphere,2,tt0074427,Under the Sheets,0.028239,Comedy,1976
+M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,dreamy surreal movie beautiful disturbing atmosphere,3,tt0082162,Chashme Buddoor,0.024881,Comedy|Romance,1981
+M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,dreamy surreal movie beautiful disturbing atmosphere,4,tt0188653,Journey to the Sun,0.023483,Drama,1999
+M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,dreamy surreal movie beautiful disturbing atmosphere,5,tt1446208,Ways to Live Forever,0.023163,Drama|Family,2010
+M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",intimate quiet film hidden emotional intensity,1,tt1117983,My Normal,0.024958,Comedy|Drama|Romance,2010
+M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",intimate quiet film hidden emotional intensity,2,tt0073619,Women Reply,0.024678,Documentary,1975
+M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",intimate quiet film hidden emotional intensity,3,tt0100142,Metropolitan,0.024043,Comedy|Drama|Romance,1990
+M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",intimate quiet film hidden emotional intensity,4,tt2180016,Iceberg Slim: Portrait of a Pimp,0.022355,Documentary,2012
+M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",intimate quiet film hidden emotional intensity,5,tt3129916,High Society,0.021271,Drama|Comedy,2014
+M19,negation,"A dark mystery, but not something too scary.",dark mystery scary,1,tt0057280,Crypt of the Vampire,0.042865,Horror,1964
+M19,negation,"A dark mystery, but not something too scary.",dark mystery scary,2,tt0097100,Communion,0.02871,Drama|Horror|Science Fiction|Thriller,1989
+M19,negation,"A dark mystery, but not something too scary.",dark mystery scary,3,tt0311972,Guardian of the Frontier,0.026491,Drama|Thriller|Horror|Mystery,2002
+M19,negation,"A dark mystery, but not something too scary.",dark mystery scary,4,tt0008538,The Savage,0.026347,Drama,1917
+M19,negation,"A dark mystery, but not something too scary.",dark mystery scary,5,tt0405024,Hum Kaun Hai,0.022999,Horror,2004
+M20,negation,I want something sad but not hopeless.,sad hopeless,1,tt0091235,The Last Emperor,0.036225,Drama|History|Romance,1986
+M20,negation,I want something sad but not hopeless.,sad hopeless,2,tt1331129,The Tree,0.028341,,2009
+M20,negation,I want something sad but not hopeless.,sad hopeless,3,tt1731230,Turquoise,0.018504,Drama|Family|Romance,2010
+M20,negation,I want something sad but not hopeless.,sad hopeless,4,tt1446208,Ways to Live Forever,0.018013,Drama|Family,2010
+M20,negation,I want something sad but not hopeless.,sad hopeless,5,tt0100142,Metropolitan,0.01703,Comedy|Drama|Romance,1990
+M21,negation,Suspense without violence or gore.,suspense violence gore,1,tt0085518,Faces of Death II,0.047456,Horror,1981
+M21,negation,Suspense without violence or gore.,suspense violence gore,2,tt0082000,Contamination,0.029727,Science Fiction|Horror,1980
+M21,negation,Suspense without violence or gore.,suspense violence gore,3,tt0079385,Justine and the Whip,0.022364,Drama,1979
+M21,negation,Suspense without violence or gore.,suspense violence gore,4,tt0361959,Noam Chomsky: Distorted Morality,0.020646,Documentary,2003
+M21,negation,Suspense without violence or gore.,suspense violence gore,5,tt0051150,The Vampire,0.011732,Horror|Science Fiction,1957
+M22,negation,A funny movie that is not childish.,funny movie childish,1,tt0082162,Chashme Buddoor,0.034715,Comedy|Romance,1981
+M22,negation,A funny movie that is not childish.,funny movie childish,2,tt2195498,The Almost Man,0.029694,Comedy|Drama,2012
+M22,negation,A funny movie that is not childish.,funny movie childish,3,tt0277106,Le Loup blanc,0.029351,TV Movie,1977
+M22,negation,A funny movie that is not childish.,funny movie childish,4,tt1117983,My Normal,0.02603,Comedy|Drama|Romance,2010
+M22,negation,A funny movie that is not childish.,funny movie childish,5,tt1446208,Ways to Live Forever,0.024587,Drama|Family,2010
+M23,negation,"No horror, just tension and psychological mystery.",horror tension psychological mystery,1,tt2180016,Iceberg Slim: Portrait of a Pimp,0.026561,Documentary,2012
+M23,negation,"No horror, just tension and psychological mystery.",horror tension psychological mystery,2,tt0085518,Faces of Death II,0.023413,Horror,1981
+M23,negation,"No horror, just tension and psychological mystery.",horror tension psychological mystery,3,tt0075342,The Town That Dreaded Sundown,0.022468,Horror|Mystery|Thriller|Crime,1976
+M23,negation,"No horror, just tension and psychological mystery.",horror tension psychological mystery,4,tt1937090,All We Ever Wanted,0.022401,Documentary,2010
+M23,negation,"No horror, just tension and psychological mystery.",horror tension psychological mystery,5,tt0488334,Scared,0.021516,Horror|Thriller,2005
+M24,negation,Exciting but without loud action and explosions.,exciting loud action explosion,1,tt0085518,Faces of Death II,0.02543,Horror,1981
+M24,negation,Exciting but without loud action and explosions.,exciting loud action explosion,2,tt0079385,Justine and the Whip,0.019757,Drama,1979
+M24,negation,Exciting but without loud action and explosions.,exciting loud action explosion,3,tt0044733,Hôtel des Invalides,0.016744,Documentary,1952
+M24,negation,Exciting but without loud action and explosions.,exciting loud action explosion,4,tt0105839,Once Upon a Time in China II,0.0149,Action|Comedy,1992
+M24,negation,Exciting but without loud action and explosions.,exciting loud action explosion,5,tt1117983,My Normal,0.014667,Comedy|Drama|Romance,2010
+M27,edge_case,"A genre I cannot name, just something different.",genre different,1,tt1985989,"Love, In Between",0.025254,Drama|Romance,2010
+M27,edge_case,"A genre I cannot name, just something different.",genre different,2,tt0379381,A Smile,0.0251,Romance|Drama,2003
+M27,edge_case,"A genre I cannot name, just something different.",genre different,3,tt0057280,Crypt of the Vampire,0.024107,Horror,1964
+M27,edge_case,"A genre I cannot name, just something different.",genre different,4,tt1221141,The Headless Woman,0.021576,Drama|Mystery,2008
+M27,edge_case,"A genre I cannot name, just something different.",genre different,5,tt0334588,Flying Saucers Over Istanbul,0.020413,Comedy|Science Fiction|Fantasy,1955

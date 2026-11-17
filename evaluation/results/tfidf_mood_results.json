@@ -1,0 +1,1313 @@
+[
+  {
+    "query_id": "M01",
+    "category": "direct_mood",
+    "query": "I feel like watching something gloomy and thrilling.",
+    "test_purpose": "dark suspense",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "gloomy thrilling",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0032961",
+        "title": "Quiet Wedding",
+        "score": 0.027949,
+        "release_year": "1941",
+        "genres": "Comedy|Romance"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt2011351",
+        "title": "Chips",
+        "score": 0.026642,
+        "release_year": "2012",
+        "genres": "Comedy|Drama"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0082162",
+        "title": "Chashme Buddoor",
+        "score": 0.01646,
+        "release_year": "1981",
+        "genres": "Comedy|Romance"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M02",
+    "category": "direct_mood",
+    "query": "I want a cozy, comforting movie for a rainy evening.",
+    "test_purpose": "cozy comfort",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "cozy comforting movie rainy evening",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0075342",
+        "title": "The Town That Dreaded Sundown",
+        "score": 0.022548,
+        "release_year": "1976",
+        "genres": "Horror|Mystery|Thriller|Crime"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0277106",
+        "title": "Le Loup blanc",
+        "score": 0.016129,
+        "release_year": "1977",
+        "genres": "TV Movie"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0124008",
+        "title": "Miss Morison's Ghosts",
+        "score": 0.01535,
+        "release_year": "1981",
+        "genres": "Horror|Thriller|TV Movie"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0024034",
+        "title": "42nd Street",
+        "score": 0.013614,
+        "release_year": "1933",
+        "genres": "Comedy|Drama|Romance"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0104695",
+        "title": "Leap of Faith",
+        "score": 0.01342,
+        "release_year": "1992",
+        "genres": "Comedy|Drama|Romance"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M03",
+    "category": "direct_mood",
+    "query": "Something eerie and unsettling that slowly builds tension.",
+    "test_purpose": "slow-burn dread",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "eerie unsettling slowly build tension",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt2180016",
+        "title": "Iceberg Slim: Portrait of a Pimp",
+        "score": 0.021311,
+        "release_year": "2012",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0057280",
+        "title": "Crypt of the Vampire",
+        "score": 0.019302,
+        "release_year": "1964",
+        "genres": "Horror"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0405024",
+        "title": "Hum Kaun Hai",
+        "score": 0.018391,
+        "release_year": "2004",
+        "genres": "Horror"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt1537032",
+        "title": "Kanthaswamy",
+        "score": 0.016466,
+        "release_year": "2009",
+        "genres": "Action|Crime|Adventure"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0064492",
+        "title": "The Uninvited",
+        "score": 0.016189,
+        "release_year": "1969",
+        "genres": "Drama"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M04",
+    "category": "direct_mood",
+    "query": "An uplifting and hopeful film that makes me feel better.",
+    "test_purpose": "hopeful uplifting",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "uplifting hopeful film feel better",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0064030",
+        "title": "Anne of the Thousand Days",
+        "score": 0.029445,
+        "release_year": "1969",
+        "genres": "Drama|History|Romance"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0073619",
+        "title": "Women Reply",
+        "score": 0.022072,
+        "release_year": "1975",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0064492",
+        "title": "The Uninvited",
+        "score": 0.020361,
+        "release_year": "1969",
+        "genres": "Drama"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt2149025",
+        "title": "Left 4 Dead: Impulse 76 Fan Film",
+        "score": 0.020225,
+        "release_year": "2011"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt2011351",
+        "title": "Chips",
+        "score": 0.019957,
+        "release_year": "2012",
+        "genres": "Comedy|Drama"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M05",
+    "category": "direct_mood",
+    "query": "I am in the mood for something melancholic and reflective.",
+    "test_purpose": "melancholy introspection",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "melancholic reflective",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt1134664",
+        "title": "Boogie Woogie",
+        "score": 0.020725,
+        "release_year": "2010",
+        "genres": "Comedy|Drama"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M06",
+    "category": "direct_mood",
+    "query": "Give me a funny, chaotic movie that does not take itself seriously.",
+    "test_purpose": "chaotic comedy",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "funny chaotic movie seriously",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt1937090",
+        "title": "All We Ever Wanted",
+        "score": 0.033765,
+        "release_year": "2010",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt3129916",
+        "title": "High Society",
+        "score": 0.03251,
+        "release_year": "2014",
+        "genres": "Drama|Comedy"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt2011351",
+        "title": "Chips",
+        "score": 0.028208,
+        "release_year": "2012",
+        "genres": "Comedy|Drama"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt1117983",
+        "title": "My Normal",
+        "score": 0.026517,
+        "release_year": "2010",
+        "genres": "Comedy|Drama|Romance"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt4526950",
+        "title": "Perfect Match",
+        "score": 0.025411,
+        "release_year": "2015",
+        "genres": "Comedy|Romance|TV Movie"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M07",
+    "category": "mood_theme",
+    "query": "A tense mystery set in an isolated place with secrets.",
+    "test_purpose": "tension isolation mystery",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "tense mystery set isolated place secret",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0405024",
+        "title": "Hum Kaun Hai",
+        "score": 0.029075,
+        "release_year": "2004",
+        "genres": "Horror"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0222368",
+        "title": "The Nameless",
+        "score": 0.027624,
+        "release_year": "1999",
+        "genres": "Thriller|Mystery|Horror|Drama"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt1985989",
+        "title": "Love, In Between",
+        "score": 0.022295,
+        "release_year": "2010",
+        "genres": "Drama|Romance"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0082000",
+        "title": "Contamination",
+        "score": 0.021597,
+        "release_year": "1980",
+        "genres": "Science Fiction|Horror"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt1446208",
+        "title": "Ways to Live Forever",
+        "score": 0.020232,
+        "release_year": "2010",
+        "genres": "Drama|Family"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M08",
+    "category": "mood_theme",
+    "query": "A bittersweet coming-of-age story about friendship and growing apart.",
+    "test_purpose": "bittersweet coming of age",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "bittersweet coming age story friendship growing apart",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt2319760",
+        "title": "Girlfriend Boyfriend",
+        "score": 0.048218,
+        "release_year": "2012",
+        "genres": "Drama|Comedy|Romance"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0102571",
+        "title": "The Elementary School",
+        "score": 0.041307,
+        "release_year": "1991",
+        "genres": "Comedy|Drama"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0384566",
+        "title": "Suite Habana",
+        "score": 0.037696,
+        "release_year": "2003",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0064815",
+        "title": "Pirosmani",
+        "score": 0.035792,
+        "release_year": "1969",
+        "genres": "Drama|History"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0082162",
+        "title": "Chashme Buddoor",
+        "score": 0.029424,
+        "release_year": "1981",
+        "genres": "Comedy|Romance"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M09",
+    "category": "mood_theme",
+    "query": "A warm romance about two people finding each other unexpectedly.",
+    "test_purpose": "warm romance",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "warm romance people finding unexpectedly",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0053002",
+        "title": "Dangerous Love Affairs",
+        "score": 0.030394,
+        "release_year": "1959",
+        "genres": "Drama|Romance"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0341266",
+        "title": "Bhoot",
+        "score": 0.024408,
+        "release_year": "2003",
+        "genres": "Horror"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0079385",
+        "title": "Justine and the Whip",
+        "score": 0.018873,
+        "release_year": "1979",
+        "genres": "Drama"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0039211",
+        "title": "Born to Kill",
+        "score": 0.017988,
+        "release_year": "1947",
+        "genres": "Crime|Drama|Thriller"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt4441150",
+        "title": "Salt and Fire",
+        "score": 0.017899,
+        "release_year": "2016",
+        "genres": "Drama|Thriller"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M10",
+    "category": "mood_theme",
+    "query": "A haunting movie about grief, memory and loss.",
+    "test_purpose": "grief memory loss",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "haunting movie grief memory loss",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0044733",
+        "title": "Hôtel des Invalides",
+        "score": 0.025037,
+        "release_year": "1952",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0016847",
+        "title": "Faust",
+        "score": 0.023071,
+        "release_year": "1926",
+        "genres": "Fantasy|Drama|Horror"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0488334",
+        "title": "Scared",
+        "score": 0.022035,
+        "release_year": "2005",
+        "genres": "Horror|Thriller"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0074427",
+        "title": "Under the Sheets",
+        "score": 0.020615,
+        "release_year": "1976",
+        "genres": "Comedy"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0405024",
+        "title": "Hum Kaun Hai",
+        "score": 0.018639,
+        "release_year": "2004",
+        "genres": "Horror"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M11",
+    "category": "mood_theme",
+    "query": "An adventurous story full of wonder, exploration and discovery.",
+    "test_purpose": "wonder adventure",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "adventurous story wonder exploration discovery",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0334588",
+        "title": "Flying Saucers Over Istanbul",
+        "score": 0.036075,
+        "release_year": "1955",
+        "genres": "Comedy|Science Fiction|Fantasy"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0311972",
+        "title": "Guardian of the Frontier",
+        "score": 0.023279,
+        "release_year": "2002",
+        "genres": "Drama|Thriller|Horror|Mystery"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0124008",
+        "title": "Miss Morison's Ghosts",
+        "score": 0.021438,
+        "release_year": "1981",
+        "genres": "Horror|Thriller|TV Movie"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0116442",
+        "title": "Grace of My Heart",
+        "score": 0.016572,
+        "release_year": "1996",
+        "genres": "Comedy|Drama|Music"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt1134664",
+        "title": "Boogie Woogie",
+        "score": 0.016389,
+        "release_year": "2010",
+        "genres": "Comedy|Drama"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M12",
+    "category": "mood_theme",
+    "query": "A paranoid psychological thriller about betrayal and deception.",
+    "test_purpose": "paranoia betrayal suspense",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "paranoid psychological thriller betrayal deception",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0105839",
+        "title": "Once Upon a Time in China II",
+        "score": 0.019205,
+        "release_year": "1992",
+        "genres": "Action|Comedy"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt4147210",
+        "title": "Even Lambs Have Teeth",
+        "score": 0.01779,
+        "release_year": "2015",
+        "genres": "Thriller|Horror"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt1937090",
+        "title": "All We Ever Wanted",
+        "score": 0.01627,
+        "release_year": "2010",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0217862",
+        "title": "Fireworks, Should We See It from the Side or the Bottom?",
+        "score": 0.015097,
+        "release_year": "1993",
+        "genres": "Drama|Romance"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0097100",
+        "title": "Communion",
+        "score": 0.011861,
+        "release_year": "1989",
+        "genres": "Drama|Horror|Science Fiction|Thriller"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M13",
+    "category": "subtle_vibe",
+    "query": "I want a movie that feels like autumn rain and quiet dread.",
+    "test_purpose": "figurative atmosphere",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "like autumn rain quiet dread",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0083560",
+        "title": "Angel",
+        "score": 0.042559,
+        "release_year": "1982",
+        "genres": "Drama|Music"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0104695",
+        "title": "Leap of Faith",
+        "score": 0.037482,
+        "release_year": "1992",
+        "genres": "Comedy|Drama|Romance"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0064492",
+        "title": "The Uninvited",
+        "score": 0.033438,
+        "release_year": "1969",
+        "genres": "Drama"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt3129916",
+        "title": "High Society",
+        "score": 0.03231,
+        "release_year": "2014",
+        "genres": "Drama|Comedy"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt1221141",
+        "title": "The Headless Woman",
+        "score": 0.031794,
+        "release_year": "2008",
+        "genres": "Drama|Mystery"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M14",
+    "category": "subtle_vibe",
+    "query": "Something that feels like a lonely city at midnight.",
+    "test_purpose": "metaphorical loneliness",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "like lonely city midnight",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0064492",
+        "title": "The Uninvited",
+        "score": 0.041,
+        "release_year": "1969",
+        "genres": "Drama"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0311972",
+        "title": "Guardian of the Frontier",
+        "score": 0.035451,
+        "release_year": "2002",
+        "genres": "Drama|Thriller|Horror|Mystery"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0053002",
+        "title": "Dangerous Love Affairs",
+        "score": 0.033153,
+        "release_year": "1959",
+        "genres": "Drama|Romance"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0089343",
+        "title": "Insignificance",
+        "score": 0.032991,
+        "release_year": "1985",
+        "genres": "Drama|Comedy"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0039211",
+        "title": "Born to Kill",
+        "score": 0.032324,
+        "release_year": "1947",
+        "genres": "Crime|Drama|Thriller"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M15",
+    "category": "subtle_vibe",
+    "query": "A movie with the vibe of an old, forgotten seaside town.",
+    "test_purpose": "setting atmosphere",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "vibe old forgotten seaside town",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt4147210",
+        "title": "Even Lambs Have Teeth",
+        "score": 0.035455,
+        "release_year": "2015",
+        "genres": "Thriller|Horror"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt2195498",
+        "title": "The Almost Man",
+        "score": 0.023928,
+        "release_year": "2012",
+        "genres": "Comedy|Drama"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0105342",
+        "title": "A Shadow of a Doubt",
+        "score": 0.021312,
+        "release_year": "1993",
+        "genres": "Drama"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0064815",
+        "title": "Pirosmani",
+        "score": 0.018802,
+        "release_year": "1969",
+        "genres": "Drama|History"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0079385",
+        "title": "Justine and the Whip",
+        "score": 0.016337,
+        "release_year": "1979",
+        "genres": "Drama"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M16",
+    "category": "subtle_vibe",
+    "query": "I want to feel uneasy and curious at the same time.",
+    "test_purpose": "mixed emotion",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "feel uneasy curious time",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0068207",
+        "title": "Anna and the Wolves",
+        "score": 0.03794,
+        "release_year": "1973",
+        "genres": "Drama"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt1513713",
+        "title": "Love in Another Language",
+        "score": 0.033479,
+        "release_year": "2009"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0124008",
+        "title": "Miss Morison's Ghosts",
+        "score": 0.032572,
+        "release_year": "1981",
+        "genres": "Horror|Thriller|TV Movie"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0057280",
+        "title": "Crypt of the Vampire",
+        "score": 0.032401,
+        "release_year": "1964",
+        "genres": "Horror"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt1985989",
+        "title": "Love, In Between",
+        "score": 0.031532,
+        "release_year": "2010",
+        "genres": "Drama|Romance"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M17",
+    "category": "subtle_vibe",
+    "query": "A dreamy and surreal movie with a beautiful but disturbing atmosphere.",
+    "test_purpose": "surreal ambience",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "dreamy surreal movie beautiful disturbing atmosphere",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0152930",
+        "title": "Taxi",
+        "score": 0.032468,
+        "release_year": "1998",
+        "genres": "Action|Comedy|Crime|Adventure"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0074427",
+        "title": "Under the Sheets",
+        "score": 0.028239,
+        "release_year": "1976",
+        "genres": "Comedy"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0082162",
+        "title": "Chashme Buddoor",
+        "score": 0.024881,
+        "release_year": "1981",
+        "genres": "Comedy|Romance"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0188653",
+        "title": "Journey to the Sun",
+        "score": 0.023483,
+        "release_year": "1999",
+        "genres": "Drama"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt1446208",
+        "title": "Ways to Live Forever",
+        "score": 0.023163,
+        "release_year": "2010",
+        "genres": "Drama|Family"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M18",
+    "category": "subtle_vibe",
+    "query": "An intimate, quiet film with hidden emotional intensity.",
+    "test_purpose": "nuanced emotional tone",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "intimate quiet film hidden emotional intensity",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt1117983",
+        "title": "My Normal",
+        "score": 0.024958,
+        "release_year": "2010",
+        "genres": "Comedy|Drama|Romance"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0073619",
+        "title": "Women Reply",
+        "score": 0.024678,
+        "release_year": "1975",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0100142",
+        "title": "Metropolitan",
+        "score": 0.024043,
+        "release_year": "1990",
+        "genres": "Comedy|Drama|Romance"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt2180016",
+        "title": "Iceberg Slim: Portrait of a Pimp",
+        "score": 0.022355,
+        "release_year": "2012",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt3129916",
+        "title": "High Society",
+        "score": 0.021271,
+        "release_year": "2014",
+        "genres": "Drama|Comedy"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M19",
+    "category": "negation",
+    "query": "A dark mystery, but not something too scary.",
+    "test_purpose": "negated fear",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "dark mystery scary",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0057280",
+        "title": "Crypt of the Vampire",
+        "score": 0.042865,
+        "release_year": "1964",
+        "genres": "Horror"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0097100",
+        "title": "Communion",
+        "score": 0.02871,
+        "release_year": "1989",
+        "genres": "Drama|Horror|Science Fiction|Thriller"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0311972",
+        "title": "Guardian of the Frontier",
+        "score": 0.026491,
+        "release_year": "2002",
+        "genres": "Drama|Thriller|Horror|Mystery"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0008538",
+        "title": "The Savage",
+        "score": 0.026347,
+        "release_year": "1917",
+        "genres": "Drama"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0405024",
+        "title": "Hum Kaun Hai",
+        "score": 0.022999,
+        "release_year": "2004",
+        "genres": "Horror"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M20",
+    "category": "negation",
+    "query": "I want something sad but not hopeless.",
+    "test_purpose": "negated hopelessness",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "sad hopeless",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0091235",
+        "title": "The Last Emperor",
+        "score": 0.036225,
+        "release_year": "1986",
+        "genres": "Drama|History|Romance"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt1331129",
+        "title": "The Tree",
+        "score": 0.028341,
+        "release_year": "2009"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt1731230",
+        "title": "Turquoise",
+        "score": 0.018504,
+        "release_year": "2010",
+        "genres": "Drama|Family|Romance"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt1446208",
+        "title": "Ways to Live Forever",
+        "score": 0.018013,
+        "release_year": "2010",
+        "genres": "Drama|Family"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0100142",
+        "title": "Metropolitan",
+        "score": 0.01703,
+        "release_year": "1990",
+        "genres": "Comedy|Drama|Romance"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M21",
+    "category": "negation",
+    "query": "Suspense without violence or gore.",
+    "test_purpose": "excluded content",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "suspense violence gore",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0085518",
+        "title": "Faces of Death II",
+        "score": 0.047456,
+        "release_year": "1981",
+        "genres": "Horror"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0082000",
+        "title": "Contamination",
+        "score": 0.029727,
+        "release_year": "1980",
+        "genres": "Science Fiction|Horror"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0079385",
+        "title": "Justine and the Whip",
+        "score": 0.022364,
+        "release_year": "1979",
+        "genres": "Drama"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0361959",
+        "title": "Noam Chomsky: Distorted Morality",
+        "score": 0.020646,
+        "release_year": "2003",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0051150",
+        "title": "The Vampire",
+        "score": 0.011732,
+        "release_year": "1957",
+        "genres": "Horror|Science Fiction"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M22",
+    "category": "negation",
+    "query": "A funny movie that is not childish.",
+    "test_purpose": "negated childishness",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "funny movie childish",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0082162",
+        "title": "Chashme Buddoor",
+        "score": 0.034715,
+        "release_year": "1981",
+        "genres": "Comedy|Romance"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt2195498",
+        "title": "The Almost Man",
+        "score": 0.029694,
+        "release_year": "2012",
+        "genres": "Comedy|Drama"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0277106",
+        "title": "Le Loup blanc",
+        "score": 0.029351,
+        "release_year": "1977",
+        "genres": "TV Movie"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt1117983",
+        "title": "My Normal",
+        "score": 0.02603,
+        "release_year": "2010",
+        "genres": "Comedy|Drama|Romance"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt1446208",
+        "title": "Ways to Live Forever",
+        "score": 0.024587,
+        "release_year": "2010",
+        "genres": "Drama|Family"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M23",
+    "category": "negation",
+    "query": "No horror, just tension and psychological mystery.",
+    "test_purpose": "excluded genre",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "horror tension psychological mystery",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt2180016",
+        "title": "Iceberg Slim: Portrait of a Pimp",
+        "score": 0.026561,
+        "release_year": "2012",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0085518",
+        "title": "Faces of Death II",
+        "score": 0.023413,
+        "release_year": "1981",
+        "genres": "Horror"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0075342",
+        "title": "The Town That Dreaded Sundown",
+        "score": 0.022468,
+        "release_year": "1976",
+        "genres": "Horror|Mystery|Thriller|Crime"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt1937090",
+        "title": "All We Ever Wanted",
+        "score": 0.022401,
+        "release_year": "2010",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0488334",
+        "title": "Scared",
+        "score": 0.021516,
+        "release_year": "2005",
+        "genres": "Horror|Thriller"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M24",
+    "category": "negation",
+    "query": "Exciting but without loud action and explosions.",
+    "test_purpose": "negated action",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "exciting loud action explosion",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt0085518",
+        "title": "Faces of Death II",
+        "score": 0.02543,
+        "release_year": "1981",
+        "genres": "Horror"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0079385",
+        "title": "Justine and the Whip",
+        "score": 0.019757,
+        "release_year": "1979",
+        "genres": "Drama"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0044733",
+        "title": "Hôtel des Invalides",
+        "score": 0.016744,
+        "release_year": "1952",
+        "genres": "Documentary"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt0105839",
+        "title": "Once Upon a Time in China II",
+        "score": 0.0149,
+        "release_year": "1992",
+        "genres": "Action|Comedy"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt1117983",
+        "title": "My Normal",
+        "score": 0.014667,
+        "release_year": "2010",
+        "genres": "Comedy|Drama|Romance"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M25",
+    "category": "edge_case",
+    "query": "I feel like watching something.",
+    "test_purpose": "underspecified",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "",
+    "recommendations": [],
+    "status": "no_matches"
+  },
+  {
+    "query_id": "M26",
+    "category": "edge_case",
+    "query": "gloooomy thriling mistree",
+    "test_purpose": "misspellings",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "gloooomy thriling mistree",
+    "recommendations": [],
+    "status": "no_matches"
+  },
+  {
+    "query_id": "M27",
+    "category": "edge_case",
+    "query": "A genre I cannot name, just something different.",
+    "test_purpose": "vague semantics",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "genre different",
+    "recommendations": [
+      {
+        "rank": 1,
+        "movie_id": "tt1985989",
+        "title": "Love, In Between",
+        "score": 0.025254,
+        "release_year": "2010",
+        "genres": "Drama|Romance"
+      },
+      {
+        "rank": 2,
+        "movie_id": "tt0379381",
+        "title": "A Smile",
+        "score": 0.0251,
+        "release_year": "2003",
+        "genres": "Romance|Drama"
+      },
+      {
+        "rank": 3,
+        "movie_id": "tt0057280",
+        "title": "Crypt of the Vampire",
+        "score": 0.024107,
+        "release_year": "1964",
+        "genres": "Horror"
+      },
+      {
+        "rank": 4,
+        "movie_id": "tt1221141",
+        "title": "The Headless Woman",
+        "score": 0.021576,
+        "release_year": "2008",
+        "genres": "Drama|Mystery"
+      },
+      {
+        "rank": 5,
+        "movie_id": "tt0334588",
+        "title": "Flying Saucers Over Istanbul",
+        "score": 0.020413,
+        "release_year": "1955",
+        "genres": "Comedy|Science Fiction|Fantasy"
+      }
+    ],
+    "status": "ok"
+  },
+  {
+    "query_id": "M28",
+    "category": "edge_case",
+    "query": "",
+    "test_purpose": "empty query validation",
+    "method": "tfidf",
+    "text_source": "text_tfidf",
+    "query_mode": "wordnet",
+    "processed_query": "",
+    "recommendations": [],
+    "status": "error",
+    "error": "Query must be a nonempty string."
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "index_version": 1,
+  "config": {
+    "text_column": "text_tfidf",
+    "max_features": 50000,
+    "max_words_per_doc": 4000,
+    "ngram_max": 2,
+    "min_df": 1,
+    "duplicate_policy": "error",
+    "query_mode": "wordnet",
+    "max_total_chars": 350000000
+  },
+  "stats": {
+    "input_rows": 100,
+    "indexed_rows": 100,
+    "dropped_invalid_rows": 0,
+    "truncated_documents": 7,
+    "n_features": 50000,
+    "nonzero_elements": 151241,
+    "text_column": "text_tfidf"
+  }
+}
