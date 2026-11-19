@@ -35,8 +35,13 @@ Our goal is to develop and evaluate a movie recommendation system using natural 
 
 ## Methodology
 
-### Approach 1 — Baseline
-[Describe the implemented baseline.]
+### Approach 1: TF-IDF Baseline and Mood Evaluation
+
+The lexical movie recommendation baseline is implemented in `src/baseline.py`, with consistent query preprocessing in `src/tfidf_text.py`.
+
+The notebook `notebooks/02_mood_query_evaluation.ipynb` runs the shared mood queries, exports ranked recommendations, and supports human relevance judgments and evaluation metrics.
+
+For setup instructions, training and search commands, evaluation procedures, full-dataset execution, and troubleshooting, see the [TF-IDF Pipeline Usage Guide](docs/tfidf_pipeline.md).
 
 ### Approach 2 — Alternative
 [Describe the second approach and how it differs.]
