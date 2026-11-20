@@ -1,0 +1,113 @@
+﻿method,query_id,category,query,status,error,returned
+sem_meta,M01,direct_mood,I feel like watching something gloomy and thrilling.,ok,,5
+sem_meta,M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",ok,,5
+sem_meta,M03,direct_mood,Something eerie and unsettling that slowly builds tension.,ok,,5
+sem_meta,M04,direct_mood,An uplifting and hopeful film that makes me feel better.,ok,,5
+sem_meta,M05,direct_mood,I am in the mood for something melancholic and reflective.,ok,,5
+sem_meta,M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",ok,,5
+sem_meta,M07,mood_theme,A tense mystery set in an isolated place with secrets.,ok,,5
+sem_meta,M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,ok,,5
+sem_meta,M09,mood_theme,A warm romance about two people finding each other unexpectedly.,ok,,5
+sem_meta,M10,mood_theme,"A haunting movie about grief, memory and loss.",ok,,5
+sem_meta,M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",ok,,5
+sem_meta,M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,ok,,5
+sem_meta,M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,ok,,5
+sem_meta,M14,subtle_vibe,Something that feels like a lonely city at midnight.,ok,,5
+sem_meta,M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",ok,,5
+sem_meta,M16,subtle_vibe,I want to feel uneasy and curious at the same time.,ok,,5
+sem_meta,M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,ok,,5
+sem_meta,M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",ok,,5
+sem_meta,M19,negation,"A dark mystery, but not something too scary.",ok,,5
+sem_meta,M20,negation,I want something sad but not hopeless.,ok,,5
+sem_meta,M21,negation,Suspense without violence or gore.,ok,,5
+sem_meta,M22,negation,A funny movie that is not childish.,ok,,5
+sem_meta,M23,negation,"No horror, just tension and psychological mystery.",ok,,5
+sem_meta,M24,negation,Exciting but without loud action and explosions.,ok,,5
+sem_meta,M25,edge_case,I feel like watching something.,ok,,5
+sem_meta,M26,edge_case,gloooomy thriling mistree,ok,,5
+sem_meta,M27,edge_case,"A genre I cannot name, just something different.",ok,,5
+sem_meta,M28,edge_case,,no_matches,,0
+sem_subs_max,M01,direct_mood,I feel like watching something gloomy and thrilling.,ok,,5
+sem_subs_max,M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",ok,,5
+sem_subs_max,M03,direct_mood,Something eerie and unsettling that slowly builds tension.,ok,,5
+sem_subs_max,M04,direct_mood,An uplifting and hopeful film that makes me feel better.,ok,,5
+sem_subs_max,M05,direct_mood,I am in the mood for something melancholic and reflective.,ok,,5
+sem_subs_max,M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",ok,,5
+sem_subs_max,M07,mood_theme,A tense mystery set in an isolated place with secrets.,ok,,5
+sem_subs_max,M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,ok,,5
+sem_subs_max,M09,mood_theme,A warm romance about two people finding each other unexpectedly.,ok,,5
+sem_subs_max,M10,mood_theme,"A haunting movie about grief, memory and loss.",ok,,5
+sem_subs_max,M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",ok,,5
+sem_subs_max,M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,ok,,5
+sem_subs_max,M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,ok,,5
+sem_subs_max,M14,subtle_vibe,Something that feels like a lonely city at midnight.,ok,,5
+sem_subs_max,M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",ok,,5
+sem_subs_max,M16,subtle_vibe,I want to feel uneasy and curious at the same time.,ok,,5
+sem_subs_max,M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,ok,,5
+sem_subs_max,M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",ok,,5
+sem_subs_max,M19,negation,"A dark mystery, but not something too scary.",ok,,5
+sem_subs_max,M20,negation,I want something sad but not hopeless.,ok,,5
+sem_subs_max,M21,negation,Suspense without violence or gore.,ok,,5
+sem_subs_max,M22,negation,A funny movie that is not childish.,ok,,5
+sem_subs_max,M23,negation,"No horror, just tension and psychological mystery.",ok,,5
+sem_subs_max,M24,negation,Exciting but without loud action and explosions.,ok,,5
+sem_subs_max,M25,edge_case,I feel like watching something.,ok,,5
+sem_subs_max,M26,edge_case,gloooomy thriling mistree,ok,,5
+sem_subs_max,M27,edge_case,"A genre I cannot name, just something different.",ok,,5
+sem_subs_max,M28,edge_case,,no_matches,,0
+sem_subs_top3,M01,direct_mood,I feel like watching something gloomy and thrilling.,ok,,5
+sem_subs_top3,M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",ok,,5
+sem_subs_top3,M03,direct_mood,Something eerie and unsettling that slowly builds tension.,ok,,5
+sem_subs_top3,M04,direct_mood,An uplifting and hopeful film that makes me feel better.,ok,,5
+sem_subs_top3,M05,direct_mood,I am in the mood for something melancholic and reflective.,ok,,5
+sem_subs_top3,M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",ok,,5
+sem_subs_top3,M07,mood_theme,A tense mystery set in an isolated place with secrets.,ok,,5
+sem_subs_top3,M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,ok,,5
+sem_subs_top3,M09,mood_theme,A warm romance about two people finding each other unexpectedly.,ok,,5
+sem_subs_top3,M10,mood_theme,"A haunting movie about grief, memory and loss.",ok,,5
+sem_subs_top3,M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",ok,,5
+sem_subs_top3,M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,ok,,5
+sem_subs_top3,M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,ok,,5
+sem_subs_top3,M14,subtle_vibe,Something that feels like a lonely city at midnight.,ok,,5
+sem_subs_top3,M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",ok,,5
+sem_subs_top3,M16,subtle_vibe,I want to feel uneasy and curious at the same time.,ok,,5
+sem_subs_top3,M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,ok,,5
+sem_subs_top3,M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",ok,,5
+sem_subs_top3,M19,negation,"A dark mystery, but not something too scary.",ok,,5
+sem_subs_top3,M20,negation,I want something sad but not hopeless.,ok,,5
+sem_subs_top3,M21,negation,Suspense without violence or gore.,ok,,5
+sem_subs_top3,M22,negation,A funny movie that is not childish.,ok,,5
+sem_subs_top3,M23,negation,"No horror, just tension and psychological mystery.",ok,,5
+sem_subs_top3,M24,negation,Exciting but without loud action and explosions.,ok,,5
+sem_subs_top3,M25,edge_case,I feel like watching something.,ok,,5
+sem_subs_top3,M26,edge_case,gloooomy thriling mistree,ok,,5
+sem_subs_top3,M27,edge_case,"A genre I cannot name, just something different.",ok,,5
+sem_subs_top3,M28,edge_case,,no_matches,,0
+sem_combined,M01,direct_mood,I feel like watching something gloomy and thrilling.,ok,,5
+sem_combined,M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",ok,,5
+sem_combined,M03,direct_mood,Something eerie and unsettling that slowly builds tension.,ok,,5
+sem_combined,M04,direct_mood,An uplifting and hopeful film that makes me feel better.,ok,,5
+sem_combined,M05,direct_mood,I am in the mood for something melancholic and reflective.,ok,,5
+sem_combined,M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",ok,,5
+sem_combined,M07,mood_theme,A tense mystery set in an isolated place with secrets.,ok,,5
+sem_combined,M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,ok,,5
+sem_combined,M09,mood_theme,A warm romance about two people finding each other unexpectedly.,ok,,5
+sem_combined,M10,mood_theme,"A haunting movie about grief, memory and loss.",ok,,5
+sem_combined,M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",ok,,5
+sem_combined,M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,ok,,5
+sem_combined,M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,ok,,5
+sem_combined,M14,subtle_vibe,Something that feels like a lonely city at midnight.,ok,,5
+sem_combined,M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",ok,,5
+sem_combined,M16,subtle_vibe,I want to feel uneasy and curious at the same time.,ok,,5
+sem_combined,M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,ok,,5
+sem_combined,M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",ok,,5
+sem_combined,M19,negation,"A dark mystery, but not something too scary.",ok,,5
+sem_combined,M20,negation,I want something sad but not hopeless.,ok,,5
+sem_combined,M21,negation,Suspense without violence or gore.,ok,,5
+sem_combined,M22,negation,A funny movie that is not childish.,ok,,5
+sem_combined,M23,negation,"No horror, just tension and psychological mystery.",ok,,5
+sem_combined,M24,negation,Exciting but without loud action and explosions.,ok,,5
+sem_combined,M25,edge_case,I feel like watching something.,ok,,5
+sem_combined,M26,edge_case,gloooomy thriling mistree,ok,,5
+sem_combined,M27,edge_case,"A genre I cannot name, just something different.",ok,,5
+sem_combined,M28,edge_case,,no_matches,,0
