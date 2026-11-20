@@ -8,6 +8,10 @@ Two sub-commands (run from the repository root):
     # 2) after humans filled `relevance` (0/1/2) in evaluation/mood_judgments.csv
     python -m src.run_semantic_eval metrics
 
+    # full data: keep everything separate from the sample results that are being judged
+    python -m src.run_semantic_eval run --index models/semantic_full --reference data/processed/clean_movies.parquet \
+        --results-dir evaluation/results/full --judgments evaluation/mood_judgments_full.csv
+
 Variants share one index (no re-encoding); they differ only in how scores are computed:
     sem_meta            metadata + plot vector only
     sem_subs_max        subtitles, movie score = best chunk
@@ -163,7 +167,7 @@ def metrics(top_k: int = 5) -> None:
     pq.to_csv(RESULTS / "comparison_per_query.csv", index=False, encoding="utf-8-sig")
     done = pq.dropna(subset=["precision@5"]) if "precision@5" in pq else pq.iloc[0:0]
     if done.empty:
-        print("No fully judged queries yet. Fill `relevance` in evaluation/mood_judgments.csv first.")
+        print(f"No fully judged queries yet. Fill `relevance` in {JUDGMENTS.relative_to(ROOT) if JUDGMENTS.is_relative_to(ROOT) else JUDGMENTS} first.")
         print(pq.groupby("method")[["judged"]].sum())
         return
     # Compare only on queries judged for EVERY method, otherwise means are not comparable.
@@ -172,6 +176,16 @@ def metrics(top_k: int = 5) -> None:
                .mean().round(3).assign(n_queries=len(common)))
     summary.to_csv(RESULTS / "comparison_metrics.csv", encoding="utf-8-sig")
     print(f"Metrics on {len(common)} queries judged for all methods:\n{summary}")
+
+
+def _set_paths(results_dir: Path | None, judgments: Path | None) -> None:
+    """Redirect outputs (e.g. for the full dataset) so sample results and labels are never overwritten."""
+    global RESULTS, JUDGMENTS, TFIDF_RANKINGS
+    if results_dir is not None:
+        RESULTS = results_dir if results_dir.is_absolute() else ROOT / results_dir
+        TFIDF_RANKINGS = RESULTS / "tfidf_mood_rankings.csv"
+    if judgments is not None:
+        JUDGMENTS = judgments if judgments.is_absolute() else ROOT / judgments
 
 
 def main() -> int:
@@ -184,8 +198,12 @@ def main() -> int:
     r.add_argument("--pool-variants", nargs="+", default=list(VARIANTS), choices=list(VARIANTS),
                    help="Variants whose results are added to the human-judgment sheet")
     r.add_argument("--reference", type=Path, default=REFERENCE, help="CSV with imdb_id;clean_plot for snippets")
-    sub.add_parser("metrics")
+    m = sub.add_parser("metrics")
+    for sp in (r, m):
+        sp.add_argument("--results-dir", type=Path, help="Default evaluation/results (sample). Use a separate folder for full data.")
+        sp.add_argument("--judgments", type=Path, help="Default evaluation/mood_judgments.csv")
     a = p.parse_args()
+    _set_paths(a.results_dir, a.judgments)
     if a.cmd == "run":
         run(a.index, a.top_k, a.variants, a.pool_variants, a.reference)
     else:

@@ -41,7 +41,7 @@ python -m src.run_semantic_eval run --index models/semantic_sample
 python -m src.run_semantic_eval metrics
 ```
 
-Full data: use `notebooks/03_semantic_search_colab.ipynb` on a Colab T4 GPU (~2 million chunks).
+Full data: use `notebooks/03_semantic_search_colab.ipynb` on a Colab T4 GPU (~2 million chunks). Write full-data results to separate files so the judged sample results are never overwritten: `--results-dir evaluation/results/full --judgments evaluation/mood_judgments_full.csv`. What may be rerun and what overwrites what: see `docs/semantic_handover.md`.
 
 ## Outputs (`evaluation/results/`)
 
