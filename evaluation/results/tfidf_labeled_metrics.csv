@@ -1,0 +1,24 @@
+﻿query_id,category,query,precision@5,mrr@5,ndcg@5_judged_pool
+M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",0.4,0.25,0.5012658353418871
+M03,direct_mood,Something eerie and unsettling that slowly builds tension.,0.4,0.5,0.6934264036172708
+M04,direct_mood,An uplifting and hopeful film that makes me feel better.,0.2,0.2,0.38685280723454163
+M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",0.2,0.25,0.43067655807339306
+M07,mood_theme,A tense mystery set in an isolated place with secrets.,0.4,1.0,1.0
+M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,0.4,1.0,1.0
+M09,mood_theme,A warm romance about two people finding each other unexpectedly.,0.0,0.0,0.0
+M10,mood_theme,"A haunting movie about grief, memory and loss.",0.4,1.0,0.8503449055347546
+M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",0.0,0.0,0.0
+M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,0.2,0.2,0.38685280723454163
+M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,0.4,1.0,0.5950427489208391
+M14,subtle_vibe,Something that feels like a lonely city at midnight.,0.4,0.25,0.5012658353418871
+M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",0.0,0.0,0.0
+M16,subtle_vibe,I want to feel uneasy and curious at the same time.,0.8,1.0,0.8926893079768027
+M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,0.0,0.0,0.0
+M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",0.4,0.3333333333333333,0.5437713091520254
+M19,negation,"A dark mystery, but not something too scary.",0.8,1.0,0.9828920819566879
+M20,negation,I want something sad but not hopeless.,0.8,1.0,0.7503846658256149
+M21,negation,Suspense without violence or gore.,0.0,0.0,0.0
+M22,negation,A funny movie that is not childish.,0.6,1.0,0.9832184408687481
+M23,negation,"No horror, just tension and psychological mystery.",0.0,0.0,0.0
+M24,negation,Exciting but without loud action and explosions.,0.0,0.0,0.0
+M27,edge_case,"A genre I cannot name, just something different.",0.6,0.5,0.5717853415779118
