@@ -1,0 +1,459 @@
+[
+  {
+    "query_id": "D01",
+    "tier": "core",
+    "category": "direct_mood",
+    "query": "I need something warm and feel-good after a rough week.",
+    "test_purpose": "comforting feel-good"
+  },
+  {
+    "query_id": "D02",
+    "tier": "core",
+    "category": "direct_mood",
+    "query": "Show me something tense and gripping that keeps me on the edge of my seat.",
+    "test_purpose": "tension suspense",
+    "weak_genre_expect": [
+      "Thriller",
+      "Horror",
+      "Mystery",
+      "Crime",
+      "Action"
+    ]
+  },
+  {
+    "query_id": "D03",
+    "tier": "core",
+    "category": "direct_mood",
+    "query": "I'd like a calm, slow, meditative film.",
+    "test_purpose": "calm contemplative"
+  },
+  {
+    "query_id": "D04",
+    "tier": "core",
+    "category": "direct_mood",
+    "query": "Something dark and brooding with a heavy atmosphere.",
+    "test_purpose": "dark brooding"
+  },
+  {
+    "query_id": "D05",
+    "tier": "core",
+    "category": "direct_mood",
+    "query": "I want to laugh out loud tonight.",
+    "test_purpose": "pure comedy",
+    "weak_genre_expect": [
+      "Comedy"
+    ]
+  },
+  {
+    "query_id": "D06",
+    "tier": "core",
+    "category": "mood_theme",
+    "query": "A sad story about a family drifting apart after a loss.",
+    "test_purpose": "family grief"
+  },
+  {
+    "query_id": "D07",
+    "tier": "core",
+    "category": "mood_theme",
+    "query": "A hopeful story about starting over in a new country.",
+    "test_purpose": "migration hope"
+  },
+  {
+    "query_id": "D08",
+    "tier": "core",
+    "category": "mood_theme",
+    "query": "A creepy story set in an old house with a dark history.",
+    "test_purpose": "haunted house",
+    "weak_genre_expect": [
+      "Horror",
+      "Thriller",
+      "Mystery"
+    ]
+  },
+  {
+    "query_id": "D09",
+    "tier": "core",
+    "category": "mood_theme",
+    "query": "A heartwarming tale of an unlikely friendship.",
+    "test_purpose": "unlikely friendship"
+  },
+  {
+    "query_id": "D10",
+    "tier": "core",
+    "category": "mood_theme",
+    "query": "A bleak drama about poverty and survival.",
+    "test_purpose": "bleak social drama"
+  },
+  {
+    "query_id": "D11",
+    "tier": "core",
+    "category": "subtle_vibe",
+    "query": "A film that feels like a warm summer evening with old friends.",
+    "test_purpose": "figurative warmth"
+  },
+  {
+    "query_id": "D12",
+    "tier": "core",
+    "category": "subtle_vibe",
+    "query": "Something that feels like waking up from a strange dream.",
+    "test_purpose": "dreamlike"
+  },
+  {
+    "query_id": "D13",
+    "tier": "core",
+    "category": "subtle_vibe",
+    "query": "The atmosphere of a quiet village where everyone is hiding something.",
+    "test_purpose": "setting plus secrets"
+  },
+  {
+    "query_id": "D14",
+    "tier": "core",
+    "category": "subtle_vibe",
+    "query": "A nostalgic, sun-faded movie about a childhood summer.",
+    "test_purpose": "nostalgia"
+  },
+  {
+    "query_id": "D15",
+    "tier": "core",
+    "category": "subtle_vibe",
+    "query": "Cold, grey and lonely, like a winter morning in an empty town.",
+    "test_purpose": "cold loneliness"
+  },
+  {
+    "query_id": "D16",
+    "tier": "core",
+    "category": "negation",
+    "query": "I want a romantic movie that isn't cheesy.",
+    "test_purpose": "negated style",
+    "gold_pos": [
+      "romantic movie"
+    ],
+    "gold_neg": [
+      "cheesy"
+    ]
+  },
+  {
+    "query_id": "D17",
+    "tier": "core",
+    "category": "negation",
+    "query": "Something scary but without any gore.",
+    "test_purpose": "negated content",
+    "gold_pos": [
+      "scary"
+    ],
+    "gold_neg": [
+      "gore"
+    ],
+    "weak_genre_expect": [
+      "Horror",
+      "Thriller",
+      "Mystery"
+    ]
+  },
+  {
+    "query_id": "D18",
+    "tier": "core",
+    "category": "negation",
+    "query": "A comedy, but nothing silly or slapstick.",
+    "test_purpose": "negated sub-style, two negated terms",
+    "gold_pos": [
+      "comedy"
+    ],
+    "gold_neg": [
+      "silly",
+      "slapstick"
+    ],
+    "weak_genre_expect": [
+      "Comedy"
+    ]
+  },
+  {
+    "query_id": "D19",
+    "tier": "core",
+    "category": "negation",
+    "query": "Dramatic and emotional, but not a tearjerker.",
+    "test_purpose": "negation plus two positive clauses",
+    "gold_pos": [
+      "dramatic",
+      "emotional"
+    ],
+    "gold_neg": [
+      "tearjerker"
+    ]
+  },
+  {
+    "query_id": "D20",
+    "tier": "core",
+    "category": "negation",
+    "query": "An action movie that is not mindless.",
+    "test_purpose": "negated quality",
+    "gold_pos": [
+      "action movie"
+    ],
+    "gold_neg": [
+      "mindless"
+    ],
+    "weak_genre_expect": [
+      "Action"
+    ]
+  },
+  {
+    "query_id": "D21",
+    "tier": "core",
+    "category": "negation",
+    "query": "I want to be moved, but please avoid anything depressing.",
+    "test_purpose": "'avoid' cue",
+    "gold_pos": [
+      "moved"
+    ],
+    "gold_neg": [
+      "depressing"
+    ]
+  },
+  {
+    "query_id": "D22",
+    "tier": "core",
+    "category": "negation",
+    "query": "Something gentle and slow that is never boring.",
+    "test_purpose": "'never' cue",
+    "gold_pos": [
+      "gentle",
+      "slow"
+    ],
+    "gold_neg": [
+      "boring"
+    ]
+  },
+  {
+    "query_id": "D23",
+    "tier": "core",
+    "category": "multi_aspect",
+    "query": "Cozy and a little bit grim.",
+    "test_purpose": "soft-AND of contrasting moods (from proposal slide)",
+    "gold_clauses": [
+      "cozy",
+      "a little bit grim"
+    ]
+  },
+  {
+    "query_id": "D24",
+    "tier": "core",
+    "category": "multi_aspect",
+    "query": "Funny but also deeply touching.",
+    "test_purpose": "comedy plus emotion",
+    "gold_clauses": [
+      "funny",
+      "deeply touching"
+    ]
+  },
+  {
+    "query_id": "D25",
+    "tier": "core",
+    "category": "multi_aspect",
+    "query": "Romantic and tense at the same time.",
+    "test_purpose": "genre-crossing mood",
+    "gold_clauses": [
+      "romantic",
+      "tense"
+    ]
+  },
+  {
+    "query_id": "D26",
+    "tier": "core",
+    "category": "multi_aspect",
+    "query": "A slow, beautiful and sad film.",
+    "test_purpose": "three adjectives",
+    "gold_clauses": [
+      "slow",
+      "beautiful",
+      "sad"
+    ]
+  },
+  {
+    "query_id": "D27",
+    "tier": "core",
+    "category": "multi_aspect",
+    "query": "Dark humor with a hopeful ending.",
+    "test_purpose": "tone plus ending",
+    "gold_clauses": [
+      "dark humor",
+      "hopeful ending"
+    ]
+  },
+  {
+    "query_id": "D28",
+    "tier": "core",
+    "category": "multi_aspect",
+    "query": "Eerie, nostalgic and a little bit funny.",
+    "test_purpose": "three moods, one mild",
+    "gold_clauses": [
+      "eerie",
+      "nostalgic",
+      "a little bit funny"
+    ]
+  },
+  {
+    "query_id": "D29",
+    "tier": "core",
+    "category": "plot_like",
+    "query": "A funny romance where two people dislike each other at first but end up together.",
+    "test_purpose": "narrative query from proposal slide; must NOT be split or parsed as negation ('dislike')",
+    "split": false,
+    "weak_genre_expect": [
+      "Romance",
+      "Comedy"
+    ]
+  },
+  {
+    "query_id": "D30",
+    "tier": "core",
+    "category": "plot_like",
+    "query": "A detective investigates a murder in a small snowed-in town.",
+    "test_purpose": "narrative crime plot",
+    "split": false,
+    "weak_genre_expect": [
+      "Crime",
+      "Mystery",
+      "Thriller"
+    ]
+  },
+  {
+    "query_id": "D31",
+    "tier": "core",
+    "category": "plot_like",
+    "query": "A woman returns to her hometown after her mother's death and uncovers old family secrets.",
+    "test_purpose": "narrative family drama",
+    "split": false
+  },
+  {
+    "query_id": "D32",
+    "tier": "core",
+    "category": "plot_like",
+    "query": "An old man and a young boy travel across the country together.",
+    "test_purpose": "narrative road story",
+    "split": false
+  },
+  {
+    "query_id": "D33",
+    "tier": "core",
+    "category": "plot_like",
+    "query": "A group of old friends reunite and long-buried tensions come out.",
+    "test_purpose": "narrative reunion",
+    "split": false
+  },
+  {
+    "query_id": "D34",
+    "tier": "robustness",
+    "category": "typo",
+    "query": "somthing tense and griping that keeps me on the egde of my seat",
+    "test_purpose": "typos; compare with D02",
+    "typo_of": "D02",
+    "expected_status": "ok"
+  },
+  {
+    "query_id": "D35",
+    "tier": "robustness",
+    "category": "typo",
+    "query": "cozzy and a litle bit grimm",
+    "test_purpose": "typos; compare with D23",
+    "typo_of": "D23",
+    "expected_status": "ok"
+  },
+  {
+    "query_id": "D36",
+    "tier": "robustness",
+    "category": "edge_case",
+    "query": "SOMETHING SCARY!!!",
+    "test_purpose": "caps and punctuation",
+    "expected_status": "ok"
+  },
+  {
+    "query_id": "D37",
+    "tier": "robustness",
+    "category": "edge_case",
+    "query": "   ",
+    "test_purpose": "whitespace only (variant of M28 empty query)",
+    "expected_status": "empty"
+  },
+  {
+    "query_id": "D38",
+    "tier": "robustness",
+    "category": "edge_case",
+    "query": "asdfgh qwerty zxcv",
+    "test_purpose": "gibberish",
+    "expected_status": "low_confidence"
+  },
+  {
+    "query_id": "D39",
+    "tier": "robustness",
+    "category": "edge_case",
+    "query": "I have had a really long week at work and my partner and I finally have a free evening, and we cannot agree on anything. She likes quiet emotional dramas about family and relationships and I mostly like fast thrillers with twists, but we both hate anything too violent or gory, and we do not want anything too long either, so ideally something atmospheric and a bit mysterious but still warm in the end, with good characters, maybe set somewhere unusual like a small island or a remote village, and not too modern looking.",
+    "test_purpose": "too-long query: must emit a warning (spec: > 60 words)",
+    "expected_status": "ok_with_warning",
+    "words": 94
+  },
+  {
+    "query_id": "D40",
+    "tier": "robustness",
+    "category": "edge_case",
+    "query": "Nothing too scary and nothing too sad.",
+    "test_purpose": "negation-only: no positive clause",
+    "expected_status": "negation_only"
+  },
+  {
+    "query_id": "D41",
+    "tier": "robustness",
+    "category": "edge_case",
+    "query": "melancholy",
+    "test_purpose": "single word",
+    "expected_status": "ok"
+  },
+  {
+    "query_id": "D42",
+    "tier": "robustness",
+    "category": "edge_case",
+    "query": "romantic comedy",
+    "test_purpose": "two-word genre query",
+    "expected_status": "ok",
+    "weak_genre_expect": [
+      "Romance",
+      "Comedy"
+    ]
+  },
+  {
+    "query_id": "D43",
+    "tier": "robustness",
+    "category": "paraphrase",
+    "query": "A frightening film that will keep me awake at night.",
+    "test_purpose": "paraphrase pair P1",
+    "paraphrase_group": "P1",
+    "expected_status": "ok"
+  },
+  {
+    "query_id": "D44",
+    "tier": "robustness",
+    "category": "paraphrase",
+    "query": "A really terrifying movie that stays with you for days.",
+    "test_purpose": "paraphrase pair P1",
+    "paraphrase_group": "P1",
+    "expected_status": "ok"
+  },
+  {
+    "query_id": "D45",
+    "tier": "robustness",
+    "category": "paraphrase",
+    "query": "Something light and funny for a family evening.",
+    "test_purpose": "paraphrase pair P2",
+    "paraphrase_group": "P2",
+    "expected_status": "ok"
+  },
+  {
+    "query_id": "D46",
+    "tier": "robustness",
+    "category": "paraphrase",
+    "query": "A cheerful comedy that the whole family can enjoy.",
+    "test_purpose": "paraphrase pair P2",
+    "paraphrase_group": "P2",
+    "expected_status": "ok"
+  }
+]
