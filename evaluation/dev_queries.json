@@ -348,7 +348,7 @@
     "query": "somthing tense and griping that keeps me on the egde of my seat",
     "test_purpose": "typos; compare with D02",
     "typo_of": "D02",
-    "expected_status": "ok"
+    "expected_status": "ok_with_warning"
   },
   {
     "query_id": "D35",
@@ -357,7 +357,7 @@
     "query": "cozzy and a litle bit grimm",
     "test_purpose": "typos; compare with D23",
     "typo_of": "D23",
-    "expected_status": "ok"
+    "expected_status": "ok_with_warning"
   },
   {
     "query_id": "D36",
@@ -455,5 +455,37 @@
     "test_purpose": "paraphrase pair P2",
     "paraphrase_group": "P2",
     "expected_status": "ok"
+  },
+  {
+    "query_id": "D47",
+    "tier": "robustness",
+    "category": "vague",
+    "query": "Anything, really.",
+    "test_purpose": "underspecified: should abstain",
+    "expected_status": "low_confidence"
+  },
+  {
+    "query_id": "D48",
+    "tier": "robustness",
+    "category": "vague",
+    "query": "Surprise me.",
+    "test_purpose": "underspecified: should abstain",
+    "expected_status": "low_confidence"
+  },
+  {
+    "query_id": "D49",
+    "tier": "robustness",
+    "category": "vague",
+    "query": "I don't know what I want.",
+    "test_purpose": "underspecified; must NOT be parsed as negation",
+    "expected_status": "low_confidence"
+  },
+  {
+    "query_id": "D50",
+    "tier": "robustness",
+    "category": "vague",
+    "query": "A good movie.",
+    "test_purpose": "underspecified: should abstain",
+    "expected_status": "low_confidence"
   }
 ]

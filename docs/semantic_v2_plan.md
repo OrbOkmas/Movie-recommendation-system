@@ -1,6 +1,6 @@
 # Semantic Search v2 — design & experiment plan (pre-code)
 
-Status: draft before implementation · branch: `semantic-v2` (from `semantic-search`) · owner: Matyáš
+Status: implemented except tuning, real-model runs and rerank (D10 = backup only) · branch: `semantic-v2` (from `semantic-search`) · owner: Matyáš
 
 ## 1. Goal and scope
 
@@ -17,13 +17,15 @@ Fixed constraints
 
 | Fact | Value | Consequence |
 |---|---|---|
-| Rows with neither plot nor usable subtitles | 13 / 100 (2 also lack genres) | Only title + genres exist. v1 still embeds them; they match by chance. v2 excludes them from ranking and logs the count. |
-| Plot length | mean 51, median 39, min 16 words | Plot is a short text: a strong encoder helps here and is cheap to run. |
+| Rows with neither plot nor usable subtitles | **unverified** (13 / 100 in the shared export, but that export is damaged, see note below) | Design stays: a movie with no plot, keywords or dialogue is not rankable; the real rate comes from `profile`. |
+| Plot length | mean 51, median 39, min 16 words (`plot_word_count` column) | Plot is a short text: a strong encoder helps here and is cheap to run. |
 | Keywords | 30% missing; median 3, max 28; contain places and noise (`paris`, `lost film`, `woman director`) | Missing-field handling is mandatory; cap/clean keyword lists. |
 | Genres | 6% missing; Drama 54%, Comedy 32%, Horror 17% | Genre prior is skewed; horror is over-represented relative to what "mood" queries ask for. |
 | Years | 1917–2016, median 1997 | Corpus ends in 2016 (OPUS vintage); no recent films. Document as a limitation. |
 | Subtitle length | mean 6,267 words | ~42 chunks/movie at 150 words, as in v1. |
 | Popularity columns | none in the clean data | No popularity prior is possible; do not plan one. |
+
+**Data caveat:** the `sample_clean_movies.csv` shared in chat is a lossy re-export (comma-separated, ~315 empty trailing columns, plot text cut at its first comma, some rows blank after `keywords`). Only genres, keywords, years and `plot_word_count` are trustworthy there. Statistics marked unverified must be re-checked with `python -m src.semantic_v2 profile` on the original file.
 
 The sample is not skewed to the oldest films (OPUS ids scattered, years span a century). Full-corpus numbers (missing rates, plot-length distribution) are to be confirmed with a small profile script once the full parquet is available.
 
@@ -84,7 +86,7 @@ For query q and movie m, with source set S = {plot, keywords, genres, subtitles}
 
 ## 7. Evaluation protocol
 
-- **Dev set:** `evaluation/dev_queries.json` (46 queries; 33 `core` need human labels, 13 `robustness` are mostly label-free). **Test set:** M01–M28, locked; run once at the end.
+- **Dev set:** `evaluation/dev_queries.json` (50 queries; 33 `core` need human labels, 17 `robustness` are mostly label-free). **Test set:** M01–M28, locked; run once at the end.
 - **Leakage disclosure:** M01–M28 failures are documented in the journal and motivated the design (negation, typos, hubs). Tuning uses dev only; the report states that the *design* was informed by the test-set failure categories. Optional strengthening: a teammate who has not seen the system writes ~15 fresh queries as a final holdout.
 - **Labeled metrics:** P@5, MRR@5, nDCG@5 as in the team notebook, plus nDCG with the ideal ranking taken from the whole judged pool for the query, plus per-query bootstrap 95% CI.
 - **Label-free metrics:** hub concentration (max appearances of one movie, distinct movies over all queries, Gini of appearances); typo stability (overlap@5 of D34/D35 vs D02/D23); paraphrase stability (P1, P2); status accuracy on edge cases; weak-genre hit rate (`weak_genre_expect`, a sanity check only, with known false negatives); latency per query; index size.
