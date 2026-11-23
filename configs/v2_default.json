@@ -1,0 +1,21 @@
+{
+  "weights": {
+    "plot": 1.0,
+    "keywords": 0.4,
+    "genres": 0.2,
+    "subtitles": 0.5
+  },
+  "hub_fields": [
+    "subtitles"
+  ],
+  "hub_gamma": 1.0,
+  "alpha": 0.5,
+  "softmin_T": 1.0,
+  "lam": 1.0,
+  "tau": 0.5,
+  "neg_template": "{term}",
+  "meta_negation": false,
+  "meta_neg_penalty": 2.0,
+  "use_clauses": true,
+  "min_confidence": 0.0
+}

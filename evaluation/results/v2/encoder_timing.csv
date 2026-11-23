@@ -1,0 +1,4 @@
+chunk_model,field_model,rows,chunks,seconds,relative_to_minilm_l6,full_corpus_rows,extrapolated_minutes
+minilm-l6,minilm-l6,500,21748,18.6,1.00,51616,32
+bge-small,minilm-l6,500,21748,32.0,1.72,51616,55
+bge-base,minilm-l6,500,21748,74.3,3.99,51616,127
