@@ -49,7 +49,8 @@ class TextEncoder:
         self._model.max_seq_length = min(self.spec.max_tokens, self._model.max_seq_length or self.spec.max_tokens)
         if device == "cuda" and fp16:
             self._model.half()
-        self.dim = int(self._model.get_sentence_embedding_dimension())
+        get_dim = getattr(self._model, "get_embedding_dimension", None) or self._model.get_sentence_embedding_dimension
+        self.dim = int(get_dim())
 
     def _encode(self, texts: list[str]) -> np.ndarray:
         if not texts:
