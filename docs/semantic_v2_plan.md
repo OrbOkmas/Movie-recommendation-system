@@ -13,21 +13,20 @@ Fixed constraints
 - Never overwrite v1 results or the team's `mood_judgments.csv`; v2 writes to `evaluation/results/v2/` and its own judgments file.
 - Hardware: RTX 2060 laptop (6 GB, fp16). Possible second machine (RTX 5060) for the final run — not to be relied on.
 
-## 2. What the 100-movie sample shows (profile of `sample_clean_movies.csv`)
+## 2. What the data shows
+
+Full corpus profile (`evaluation/results/v2/data_profile.json`, 51,616 movies, no duplicate ids, none unrankable):
 
 | Fact | Value | Consequence |
 |---|---|---|
-| Rows with neither plot nor usable subtitles | **unverified** (13 / 100 in the shared export, but that export is damaged, see note below) | Design stays: a movie with no plot, keywords or dialogue is not rankable; the real rate comes from `profile`. |
-| Plot length | mean 51, median 39, min 16 words (`plot_word_count` column) | Plot is a short text: a strong encoder helps here and is cheap to run. |
-| Keywords | 30% missing; median 3, max 28; contain places and noise (`paris`, `lost film`, `woman director`) | Missing-field handling is mandatory; cap/clean keyword lists. |
-| Genres | 6% missing; Drama 54%, Comedy 32%, Horror 17% | Genre prior is skewed; horror is over-represented relative to what "mood" queries ask for. |
-| Years | 1917–2016, median 1997 | Corpus ends in 2016 (OPUS vintage); no recent films. Document as a limitation. |
-| Subtitle length | mean 6,267 words | ~42 chunks/movie at 150 words, as in v1. |
-| Popularity columns | none in the clean data | No popularity prior is possible; do not plan one. |
+| Missing fields | plot 0.5%, keywords 27.6%, genres 1.3%, dialogue 0.2% | Missing-field handling (D2) is needed mainly for keywords; the "no text at all" exclusion (D3) never triggers on this corpus but stays as a safety rule. |
+| Plot length | median 43 words (5th pct 16, 95th pct 115) | Short texts: a stronger encoder is cheap here (3 x 51k short texts). |
+| Keywords per movie | median 3, 95th pct 17, max 70 | Capped at 15 in the field text; long lists are noisy (places, "lost film", ...). |
+| Dialogue | median 6,205 words per movie | about 2.25M chunks of 150 words (43.5 per movie) |
+| Genres | Drama 50%, Comedy 29%, Romance 17%, Thriller 17%, Action 15%, Horror 11% | Skewed prior: drama-heavy corpus. |
+| Years | 1895-2026, median 2003 | Spans the whole century including recent films. (An earlier statement that the corpus ends in 2016 came from the 100-movie sample and was wrong for the full corpus.) |
 
-**Data caveat:** the `sample_clean_movies.csv` shared in chat is a lossy re-export (comma-separated, ~315 empty trailing columns, plot text cut at its first comma, some rows blank after `keywords`). Only genres, keywords, years and `plot_word_count` are trustworthy there. Statistics marked unverified must be re-checked with `python -m src.semantic_v2 profile` on the original file.
-
-The sample is not skewed to the oldest films (OPUS ids scattered, years span a century). Full-corpus numbers (missing rates, plot-length distribution) are to be confirmed with a small profile script once the full parquet is available.
+Data caveat: the `sample_clean_movies.csv` shared in chat was a lossy re-export (comma-separated, trailing empty columns, plots cut at the first comma). Its "13% of movies without plot" was an export artifact; the real rate is 0.5%.
 
 ## 3. Design decisions (with alternatives, for the defense)
 
@@ -77,8 +76,8 @@ For query q and movie m, with source set S = {plot, keywords, genres, subtitles}
 | small-12L | bge-small-en-v1.5, e5-small-v2, gte-small, all-MiniLM-L12-v2 | 33M | 512 (bge/e5/gte); **128 for MiniLM-L12** | ~2× |
 | base | bge-base-en-v1.5, e5-base-v2, gte-base, all-mpnet-base-v2 | 110M | 512 (mpnet 384) | ~6–8× |
 
-- GPU memory is not the limit (110M params in fp16 ≈ 0.2 GB); **time on ~2M chunks is**. My rough estimates, to be replaced by the 500-movie timing test: L6 ≈ 15–30 min, small-12L ≈ 30–60 min, base ≈ 2–4 h.
-- Allocation: **base-size model for the short fields** (~150k short texts, minutes); **small-12L or v1 model for the subtitle chunks** (2M texts). Whether the larger model actually helps mood retrieval is an empirical question, so it is an ablation, not an assumption.
+- GPU memory is not the limit; **time on ~2.25M chunks is**. Measured on the RTX 2060 (500 movies = 21,748 chunks, `evaluation/results/v2/encoder_timing.csv`): minilm-l6 18.6 s, bge-small 32.0 s, bge-base 74.3 s, i.e. about 32 min, 55 min and 2.1 h for the full corpus (upper bounds: they include model loading).
+- Allocation (main run A): **bge-base for the short fields** (~150k short texts, minutes); **small-12L or v1 model for the subtitle chunks** (2.25M texts: bge-small for the main run, bge-base and minilm-l6 as ablation runs). Whether the larger model actually helps mood retrieval is an empirical question, so it is an ablation, not an assumption.
 - MiniLM-L12's 128-token window would force ~90-word chunks (more chunks) and cancel its benefit — a trap to document.
 - Encoding must be **sharded and resumable** (manifest + shard files per movie range): the run can survive sleep/crash and be split with the second machine.
 - Fallback decided in advance: `--max-chunks-per-movie 20` for the full run, recorded as a trade-off in the failure journal.

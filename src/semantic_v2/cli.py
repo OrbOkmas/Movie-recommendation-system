@@ -23,6 +23,7 @@ LABEL_COLUMNS = ["query_id", "movie_id", "query", "title", "genres", "plot_snipp
 # ------------------------------------------------------------------------------------------- arg helpers
 def add_search_args(p: argparse.ArgumentParser) -> None:
     d = SearchConfig()
+    p.add_argument("--config", help="SearchConfig JSON (e.g. configs/v2_default.json); overrides the flags below")
     for s in SOURCES:
         p.add_argument(f"--w-{s}", type=float, default=d.weights[s], help=f"weight of the {s} source")
     p.add_argument("--hub-fields", nargs="*", default=list(d.hub_fields), choices=SOURCES,
@@ -39,13 +40,16 @@ def add_search_args(p: argparse.ArgumentParser) -> None:
 
 
 def search_cfg(a) -> SearchConfig:
+    if getattr(a, "config", None):
+        return SearchConfig.from_json(a.config)
     return SearchConfig(weights={s: getattr(a, f"w_{s}") for s in SOURCES}, hub_fields=tuple(a.hub_fields),
                         hub_gamma=a.hub_gamma, alpha=a.alpha, softmin_T=a.softmin_t, lam=a.lam, tau=a.tau,
                         use_clauses=not a.no_clauses, meta_negation=a.meta_negation, min_confidence=a.min_confidence)
 
 
 def query_cfg(a) -> QueryConfig:
-    return QueryConfig(spell=not a.no_spell, clauses=not a.no_clauses)
+    clauses = search_cfg(a).use_clauses if getattr(a, "config", None) else not a.no_clauses
+    return QueryConfig(spell=not a.no_spell, clauses=clauses)
 
 
 def _searcher(a):

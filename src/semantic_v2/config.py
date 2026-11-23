@@ -8,7 +8,8 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, fields
+from pathlib import Path
 
 
 class SemanticV2Error(Exception):
@@ -98,6 +99,37 @@ class SearchConfig:
     meta_neg_penalty: float = 2.0
     use_clauses: bool = True
     min_confidence: float = 0.0                    # abstain below this raw weighted cosine (0 = off; calibrate on dev)
+
+    # ---- JSON round trip: the webapp loads one settings file instead of a dozen flags
+    def to_dict(self) -> dict:
+        d = asdict(self)
+        d["hub_fields"] = list(self.hub_fields)
+        return d
+
+    def to_json(self, path: str | Path) -> None:
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        Path(path).write_text(json.dumps(self.to_dict(), indent=2), encoding="utf-8")
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "SearchConfig":
+        d = {k: v for k, v in d.items() if not k.startswith("_")}          # "_comment" keys are allowed
+        unknown = set(d) - {f.name for f in fields(cls)}
+        if unknown:
+            raise SemanticV2Error(f"Unknown SearchConfig keys {sorted(unknown)}.")
+        if "hub_fields" in d:
+            d["hub_fields"] = tuple(d["hub_fields"])
+        if "weights" in d:
+            d["weights"] = {**cls().weights, **d["weights"]}
+        cfg = cls(**d)
+        cfg.validate()
+        return cfg
+
+    @classmethod
+    def from_json(cls, path: str | Path) -> "SearchConfig":
+        try:
+            return cls.from_dict(json.loads(Path(path).read_text(encoding="utf-8-sig")))
+        except json.JSONDecodeError as exc:
+            raise SemanticV2Error(f"{path} is not valid JSON: {exc}") from exc
 
     def validate(self) -> None:
         bad = set(self.weights) - set(SOURCES)

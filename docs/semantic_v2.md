@@ -41,3 +41,13 @@ negation, clauses, statuses), abstention + calibration, evaluation (team metrics
 diagnostics), data profile.
 Not yet: weight/lambda tuning script (needs dev labels), real-model runs (encoder comparison), cross-encoder rerank (backup plan D10).
 Not verified here: anything with real sentence-transformer models or a GPU (all 53 tests use the offline hashing encoder).
+
+## Settings file for the app
+`configs/v2_default.json` holds every runtime setting (`SearchConfig`). Use it from the CLI with `--config configs/v2_default.json`,
+or in Python: `SemanticSearcher.from_dir(index_dir, SearchConfig.from_json("configs/v2_default.json"))`.
+After tuning, the tuned file replaces the default; the app only needs the new JSON, not new code.
+
+## Full-corpus builds
+`scripts/build_full_indexes.ps1` builds three indexes in sequence (A: bge-base fields + bge-small chunks = main,
+B: bge-base + bge-base, C: minilm-l6 + minilm-l6), resumable, with logs in `logs/`. Indexes are large (GBs):
+do not commit them (see .gitignore lines in the README of this branch); share them via the team drive.
