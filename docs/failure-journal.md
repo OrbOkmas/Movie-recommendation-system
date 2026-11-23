@@ -131,3 +131,42 @@ TF-IDF provides a useful and interpretable baseline, but it relies on vocabulary
 **What looks promising:** subtitles sometimes catch atmosphere that the plot cannot: for "a lonely city at midnight" (M14) the best chunk of *Love, In Between* is a song lyric about "lonely streets and a man standing there alone". Vague and misspelled queries get lower top-1 plot similarity (M25: 0.197, M26: 0.229, median of all queries 0.367), so a minimum-score threshold for "no confident match" may be feasible.
 
 **What we changed / plan:** (1) human relevance labels for the pooled results before claiming which method is better; (2) test a hub correction — normalise each movie's subtitle scores (e.g. subtract the movie's average similarity to generic queries) so movies whose dialogue is "about everything" stop dominating; (3) report negation as an unsolved limitation of both approaches rather than as an advantage of embeddings.
+
+### Experiment 7 — 2026-11-23 — Human evaluation of semantic search: better than TF-IDF, but subtitles help less than expected
+
+**Team member:** Tomáš
+
+**What we tried:** Human relevance labels (0/1/2) for all 275 query/movie pairs recommended only by semantic search, plus the existing 119 TF-IDF labels, and the same metric code as for TF-IDF (`notebooks/04_semantic_mood_evaluation.ipynb`). To avoid favouring the semantic side (four variants against one TF-IDF), we fixed the main comparison **before** labelling: TF-IDF vs `sem_combined` (both use plot + subtitles). The other three variants are reported as an ablation. The labelling sheet was pooled and blind: it did not say which method recommended a movie, and the 33 pairs already judged for TF-IDF were reused, not judged again.
+
+**Why we tried it:** Experiment 6 was only qualitative; we needed numbers to compare the two approaches.
+
+**What went wrong / what we found:**
+1. **Main result (23 queries):** `sem_combined` P@5 0.461, MRR@5 0.638, nDCG@5 0.631 vs TF-IDF 0.322 / 0.456 / 0.481. Semantic search is better on 14 queries, TF-IDF on 6, 3 ties. P@5 difference +0.14 (bootstrap 95 % CI 0.03–0.25, Wilcoxon p = 0.045); nDCG@5 difference +0.15 (CI 0.03–0.28, p = 0.07). A consistent improvement, but 23 queries are too few for a strong claim.
+2. **Subtitles alone are weaker than the plot alone** (27 queries): plot-only `sem_meta` nDCG@5 0.657, subtitles-only 0.587–0.590, combined 0.641 (best P@5: 0.467). The hypothesis that dialogue carries the mood of a film is only partly supported.
+3. **The hub problem from Experiment 6 is confirmed by the labels:** *Ways to Live Forever* is in 14 of 27 `sem_combined` top-5 lists and was graded 0 in 10 of them.
+4. **Negation is still unsolved:** "No horror, just tension and psychological mystery" (M23) has 0 relevant movies for every method.
+5. **Subtitle files contain non-dialogue text:** for M23 the best chunk of *Scared* is translator credits ("German subtitles translated by …"). Our preprocessing does not remove subtitle credits, so they become searchable text.
+6. **The vague query M25** ("I feel like watching something") got grade 1 for all five semantic results, i.e. the judge treated any movie as partly fitting. TF-IDF returned nothing for M25, so it is excluded from the main comparison, but it shows that "always returning something" is hard to evaluate.
+
+**Evidence / Example:** `evaluation/results/comparison_metrics.csv`, `comparison_per_query.csv`, `semantic_failure_candidates.csv`; M09 "A warm romance…": semantic grades 2,1,0,0,0 vs TF-IDF 0,0,0,0,0 (TF-IDF ranked the horror film *Bhoot* second).
+
+**Threat to validity:** all pairs were judged by the same team member, so both methods are measured on the same scale, but by one subjective judge. The TF-IDF and semantic sheets were labelled in separate sessions and the semantic sheet contained only semantic results, so blinding between the methods was only partial. A second judge re-labelling a sample of pairs would let us measure agreement.
+
+**What we changed / plan:** report `sem_combined` as Semantic Search 1 with all variants and the judge caveat; next steps are a hub correction (normalise each movie's scores by its average similarity to generic queries), removing subtitle credits in preprocessing, and the full-data run.
+
+### Experiment 8 — 2026-11-23 — Spelling correction for misspelled queries (tested, not adopted)
+
+**Team member:** Tomáš
+
+**What we tried:** Correct misspelled query words before encoding, with `pyspellchecker` (edit distance ≤ 2) after collapsing repeated letters ("gloooomy" → "gloomy"). Three versions on the 28 test queries and a few extra typos.
+
+**Why we tried it:** Neither method handles M26 "gloooomy thriling mistree": it shares no movie with the correctly spelled M01 in three of four semantic variants, and TF-IDF returns nothing.
+
+**What went wrong:**
+1. **General English dictionary:** fixes "gloomy" and "thrilling" but breaks film vocabulary: "horor" → "honor", "scarry" → "carry", "noir" → "nor", "romcom" → "room".
+2. **Dictionary boosted with all words from our plots and keywords:** fixes "scary" and keeps "noir", but introduces new errors: "thriling" → "thriving", "mistree" → "mistress" (words from the plots).
+3. **Dictionary boosted with a small hand-made list of genres and ~80 mood words:** works ("horor comedy" → "horror comedy", "suspensfull" → "suspenseful", "creppy" → "creepy"), changes none of the 27 correctly spelled queries, but still turns "mistree" into "mistake" (too far from "mystery" for edit distance 2) and would damage short words and names ("neo" → "no", "Amelie" → "amelia").
+
+**What we changed:** Not adopted for now. Only one of 28 test queries contains typos, so the effect on the metrics would be negligible, and a lexicon written with knowledge of our test queries risks tuning to the test set. Documented as a limitation; the better next step is a context-aware spelling model (e.g. a seq2seq spelling-correction model from Hugging Face) evaluated on new typo queries that were not used during development.
+
+**What we learned:** a general-purpose tool can be worse than doing nothing in a specialised domain; any domain fix must be checked for false corrections on correctly spelled input.

@@ -2,13 +2,17 @@
 
 Two sub-commands (run from the repository root):
 
-    # 1) retrieve: write rankings for every variant, add new query/movie pairs to mood_judgments.csv
+    # 1) retrieve: write rankings for every variant (does not touch any judgment file)
     python -m src.run_semantic_eval run --index models/semantic_sample
 
-    # 2) after humans filled `relevance` (0/1/2) in evaluation/mood_judgments.csv
+    # 2) metrics from evaluation/mood_judgment_tfidf.csv + evaluation/mood_judgment_semantic.csv
     python -m src.run_semantic_eval metrics
 
-    # full data: keep everything separate from the sample results that are being judged
+The main, interactive evaluation is notebooks/04_semantic_mood_evaluation.ipynb (same metric code); it also
+creates the labeling sheet mood_judgment_semantic.csv. This CLI is the scripted equivalent.
+
+    # full data: keep everything separate from the judged sample results; --judgments also adds the new
+    # unjudged pairs to that (separate) labeling sheet
     python -m src.run_semantic_eval run --index models/semantic_full --reference data/processed/clean_movies.parquet \
         --results-dir evaluation/results/full --judgments evaluation/mood_judgments_full.csv
 
@@ -33,7 +37,8 @@ from src.semantic import SemanticMovieRecommender, SemanticError
 ROOT = Path(__file__).resolve().parents[1]
 QUERY_FILE = ROOT / "evaluation" / "mood_queries.json"
 RESULTS = ROOT / "evaluation" / "results"
-JUDGMENTS = ROOT / "evaluation" / "mood_judgments.csv"
+TFIDF_JUDGMENTS = ROOT / "evaluation" / "mood_judgment_tfidf.csv"      # human labels for TF-IDF (read only)
+JUDGMENTS = ROOT / "evaluation" / "mood_judgment_semantic.csv"         # human labels for semantic-only pairs
 REFERENCE = ROOT / "data" / "processed" / "sample_clean_movies.csv"
 TFIDF_RANKINGS = RESULTS / "tfidf_mood_rankings.csv"
 
@@ -48,7 +53,8 @@ LABEL_COLUMNS = ["query_id", "movie_id", "query", "title", "genres", "plot_snipp
 
 # --------------------------------------------------------------------------- retrieval
 
-def run(index: Path, top_k: int, variants: list[str], pool_variants: list[str], reference: Path) -> None:
+def run(index: Path, top_k: int, variants: list[str], pool_variants: list[str], reference: Path,
+        extend_sheet: bool = False) -> None:
     model = SemanticMovieRecommender.load(index)
     queries = json.loads(QUERY_FILE.read_text(encoding="utf-8"))
     RESULTS.mkdir(parents=True, exist_ok=True)
@@ -87,8 +93,11 @@ def run(index: Path, top_k: int, variants: list[str], pool_variants: list[str], 
         print("\nMean overlap of top-k lists with TF-IDF (share of shared movies):")
         print(overlap.drop(columns="query_id").mean(numeric_only=True).round(3).to_string())
 
-    added = extend_judgments(rankings[rankings.method.isin(pool_variants)], queries, reference)
-    print(f"\nAdded {added} new query/movie pairs to {JUDGMENTS.relative_to(ROOT)} (existing labels kept).")
+    if extend_sheet:
+        added = extend_judgments(rankings[rankings.method.isin(pool_variants)], queries, reference)
+        print(f"\nAdded {added} new query/movie pairs to {JUDGMENTS} (existing labels kept).")
+    else:
+        print("\nJudgment files not touched (pass --judgments <file> to write a labeling sheet).")
 
 
 def overlap_table(rankings: pd.DataFrame, top_k: int) -> pd.DataFrame | None:
@@ -145,10 +154,34 @@ def metrics_at_k(grades, k=5) -> dict[str, float]:
             "ndcg@5": dcg / idcg if idcg else 0.0}
 
 
+def read_judgments(path: Path) -> pd.DataFrame:
+    """Read a judgment sheet saved with ',' or ';' (Excel), in UTF-8 or cp1250 (Czech Excel)."""
+    if not path.is_file():
+        return pd.DataFrame(columns=LABEL_COLUMNS)
+    raw = path.read_bytes()
+    try:
+        text, enc = raw.decode("utf-8-sig"), "utf-8-sig"
+    except UnicodeDecodeError:
+        text, enc = raw.decode("cp1250"), "cp1250"
+    header = text.splitlines()[0]
+    sep = ";" if header.count(";") > header.count(",") else ","
+    return pd.read_csv(path, sep=sep, dtype=str, keep_default_na=False, encoding=enc)
+
+
+def load_grades(*paths: Path) -> dict:
+    """(query_id, movie_id) -> grade 0/1/2 from several sheets; earlier paths win on overlap."""
+    grade: dict = {}
+    for path in reversed(paths):
+        df = read_judgments(path)
+        r = df.get("relevance", pd.Series(dtype=str)).astype(str).str.strip().str.replace(r"\.0$", "", regex=True)
+        ok = r.isin(["0", "1", "2"])
+        grade.update({(q, str(m)): int(g) for q, m, g in zip(df.loc[ok, "query_id"], df.loc[ok, "movie_id"], r[ok])})
+    return grade
+
+
 def metrics(top_k: int = 5) -> None:
-    labels = pd.read_csv(JUDGMENTS, encoding="utf-8-sig", dtype={"movie_id": str})
-    labels["relevance"] = pd.to_numeric(labels["relevance"], errors="coerce")
-    grade = {(q, m): r for q, m, r in zip(labels.query_id, labels.movie_id, labels.relevance) if not np.isnan(r)}
+    grade = load_grades(TFIDF_JUDGMENTS, JUDGMENTS)
+    print(f"Loaded {len(grade)} graded query/movie pairs from {TFIDF_JUDGMENTS.name} + {JUDGMENTS.name}")
 
     files = {"tfidf": TFIDF_RANKINGS, **{n: RESULTS / f"{n}_mood_rankings.csv" for n in VARIANTS}}
     per_query = []
@@ -167,7 +200,7 @@ def metrics(top_k: int = 5) -> None:
     pq.to_csv(RESULTS / "comparison_per_query.csv", index=False, encoding="utf-8-sig")
     done = pq.dropna(subset=["precision@5"]) if "precision@5" in pq else pq.iloc[0:0]
     if done.empty:
-        print(f"No fully judged queries yet. Fill `relevance` in {JUDGMENTS.relative_to(ROOT) if JUDGMENTS.is_relative_to(ROOT) else JUDGMENTS} first.")
+        print(f"No fully judged queries yet. Fill `relevance` in {JUDGMENTS.name} first.")
         print(pq.groupby("method")[["judged"]].sum())
         return
     # Compare only on queries judged for EVERY method, otherwise means are not comparable.
@@ -201,11 +234,11 @@ def main() -> int:
     m = sub.add_parser("metrics")
     for sp in (r, m):
         sp.add_argument("--results-dir", type=Path, help="Default evaluation/results (sample). Use a separate folder for full data.")
-        sp.add_argument("--judgments", type=Path, help="Default evaluation/mood_judgments.csv")
+        sp.add_argument("--judgments", type=Path, help="Semantic labeling sheet. Default evaluation/mood_judgment_semantic.csv; with `run` only used (and extended) when given explicitly.")
     a = p.parse_args()
     _set_paths(a.results_dir, a.judgments)
     if a.cmd == "run":
-        run(a.index, a.top_k, a.variants, a.pool_variants, a.reference)
+        run(a.index, a.top_k, a.variants, a.pool_variants, a.reference, extend_sheet=a.judgments is not None)
     else:
         metrics()
     return 0

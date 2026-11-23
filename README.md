@@ -43,15 +43,25 @@ The notebook `notebooks/02_mood_query_evaluation.ipynb` runs the shared mood que
 
 For setup instructions, training and search commands, evaluation procedures, full-dataset execution, and troubleshooting, see the [TF-IDF Pipeline Usage Guide](docs/tfidf_pipeline.md).
 
-### Approach 2 — Alternative
-[Describe the second approach and how it differs.]
+### Approach 2: Semantic Search 1 (sentence embeddings with subtitle chunking)
+
+Implemented in `src/semantic.py`, evaluated in `notebooks/04_semantic_mood_evaluation.ipynb`.
+
+Movies and queries are encoded with the pre-trained sentence-embedding model `all-MiniLM-L6-v2`, so a query can match a movie by meaning even without shared words. Because the model reads only ~200 words, each movie gets one vector for its metadata + plot and one vector per 150-word subtitle chunk (≈ 42 chunks per movie). A movie's score combines the plot similarity and its best-matching subtitle chunks (0.5 / 0.5); every recommendation comes with the dialogue passage that matched the query, which makes the results explainable. Unlike TF-IDF, the query is not stop-word filtered or lemmatised.
+
+Details, results and how to run it: [Semantic Search 1 documentation](docs/semantic_pipeline.md).
 
 ## Results
 
-| Metric | Baseline | Alternative |
-|---|---|---|
-| [Metric 1] | TBD | TBD |
-| [Metric 2] | TBD | TBD |
+Human relevance judgments (0/1/2) on the 100-movie sample, 23 mood queries judged for both methods:
+
+| Metric | TF-IDF baseline | Semantic Search 1 |
+|---|---:|---:|
+| Precision@5 | 0.322 | **0.461** |
+| MRR@5 | 0.456 | **0.638** |
+| nDCG@5 (judged pool) | 0.481 | **0.631** |
+
+All results were judged by the same team member; see the documentation for limitations.
 
 ### Example recommendation
 
