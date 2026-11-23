@@ -1,0 +1,136 @@
+method,query_id,category,query,status,rank,movie_id,title,year,genres,score,plot_score,keywords_score,genres_score,subtitle_score,neg_penalty
+v2_default_sample,M01,direct_mood,I feel like watching something gloomy and thrilling.,ok,1,tt1331129,The Tree,2009,,1.68382,0.29595,,,0.16592,0.0
+v2_default_sample,M01,direct_mood,I feel like watching something gloomy and thrilling.,ok,2,tt1937090,All We Ever Wanted,2010,Documentary,1.48613,0.29268,,0.26454,0.39665,0.0
+v2_default_sample,M01,direct_mood,I feel like watching something gloomy and thrilling.,ok,3,tt0379381,A Smile,2003,Romance|Drama,1.19751,0.21842,,0.29899,0.27371,0.0
+v2_default_sample,M01,direct_mood,I feel like watching something gloomy and thrilling.,ok,4,tt0085518,Faces of Death II,1981,Horror,1.0126,0.2562,0.3198,0.41277,0.27759,0.0
+v2_default_sample,M01,direct_mood,I feel like watching something gloomy and thrilling.,ok,5,tt4147210,Even Lambs Have Teeth,2015,Thriller|Horror,1.00671,0.21353,0.22804,0.37946,0.2398,0.0
+v2_default_sample,M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",ok,1,tt0309578,Extreme Dating,2004,Action|Comedy|Romance,1.51121,0.3442,0.15253,0.42088,0.25395,0.0
+v2_default_sample,M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",ok,2,tt1937090,All We Ever Wanted,2010,Documentary,1.20268,0.33842,,0.33956,0.18668,0.0
+v2_default_sample,M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",ok,3,tt0217862,"Fireworks, Should We See It from the Side or the Bottom?",1993,Drama|Romance,1.1648,0.23736,0.32773,0.4039,0.1582,0.0
+v2_default_sample,M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",ok,4,tt0057280,Crypt of the Vampire,1964,Horror,1.15852,0.2189,0.27264,0.40434,0.30826,0.0
+v2_default_sample,M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",ok,5,tt0379381,A Smile,2003,Romance|Drama,1.10946,0.21889,,0.40713,0.23968,0.0
+v2_default_sample,M03,direct_mood,Something eerie and unsettling that slowly builds tension.,ok,1,tt0057280,Crypt of the Vampire,1964,Horror,2.29123,0.34491,0.29454,0.40347,0.37423,0.0
+v2_default_sample,M03,direct_mood,Something eerie and unsettling that slowly builds tension.,ok,2,tt0097100,Communion,1989,Drama|Horror|Science Fiction|Thriller,1.83405,0.28563,0.31214,0.34172,0.39514,0.0
+v2_default_sample,M03,direct_mood,Something eerie and unsettling that slowly builds tension.,ok,3,tt0405024,Hum Kaun Hai,2004,Horror,1.51841,0.25441,,0.40347,0.35862,0.0
+v2_default_sample,M03,direct_mood,Something eerie and unsettling that slowly builds tension.,ok,4,tt0379381,A Smile,2003,Romance|Drama,1.43565,0.29291,,0.24572,0.28511,0.0
+v2_default_sample,M03,direct_mood,Something eerie and unsettling that slowly builds tension.,ok,5,tt0051150,The Vampire,1957,Horror|Science Fiction,1.38202,0.26538,0.24978,0.37695,0.29796,0.0
+v2_default_sample,M04,direct_mood,An uplifting and hopeful film that makes me feel better.,ok,1,tt1937090,All We Ever Wanted,2010,Documentary,2.48185,0.38493,,0.34332,0.37504,0.0
+v2_default_sample,M04,direct_mood,An uplifting and hopeful film that makes me feel better.,ok,2,tt0309578,Extreme Dating,2004,Action|Comedy|Romance,1.49233,0.32985,0.2336,0.30207,0.30647,0.0
+v2_default_sample,M04,direct_mood,An uplifting and hopeful film that makes me feel better.,ok,3,tt0379381,A Smile,2003,Romance|Drama,1.48137,0.31578,,0.28007,0.28913,0.0
+v2_default_sample,M04,direct_mood,An uplifting and hopeful film that makes me feel better.,ok,4,tt1331129,The Tree,2009,,1.1903,0.26158,,,0.21625,0.0
+v2_default_sample,M04,direct_mood,An uplifting and hopeful film that makes me feel better.,ok,5,tt1117983,My Normal,2010,Comedy|Drama|Romance,1.05387,0.28512,0.10632,0.28344,0.38943,0.0
+v2_default_sample,M05,direct_mood,I am in the mood for something melancholic and reflective.,ok,1,tt0043018,Susana,1951,Drama,1.45161,0.27562,0.22471,0.33877,0.29041,0.0
+v2_default_sample,M05,direct_mood,I am in the mood for something melancholic and reflective.,ok,2,tt0100142,Metropolitan,1990,Comedy|Drama|Romance,1.36743,0.30077,0.16285,0.36829,0.31858,0.0
+v2_default_sample,M05,direct_mood,I am in the mood for something melancholic and reflective.,ok,3,tt0379381,A Smile,2003,Romance|Drama,1.27833,0.17328,,0.35969,0.35208,0.0
+v2_default_sample,M05,direct_mood,I am in the mood for something melancholic and reflective.,ok,4,tt0057490,The Servant,1963,Drama,0.94943,0.15839,0.23203,0.33877,0.38348,0.0
+v2_default_sample,M05,direct_mood,I am in the mood for something melancholic and reflective.,ok,5,tt0217862,"Fireworks, Should We See It from the Side or the Bottom?",1993,Drama|Romance,0.92163,0.20163,0.26354,0.35709,0.22531,0.0
+v2_default_sample,M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",ok,1,tt0309578,Extreme Dating,2004,Action|Comedy|Romance,1.57681,0.36006,0.21885,0.3896,0.28956,0.0
+v2_default_sample,M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",ok,2,tt0334588,Flying Saucers Over Istanbul,1955,Comedy|Science Fiction|Fantasy,1.4505,0.34963,0.16083,0.43487,0.24941,0.0
+v2_default_sample,M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",ok,3,tt0074427,Under the Sheets,1976,Comedy,1.14803,0.22594,0.35327,0.43435,0.2643,0.0
+v2_default_sample,M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",ok,4,tt2195498,The Almost Man,2012,Comedy|Drama,1.08596,0.20755,,0.43042,0.26295,0.0
+v2_default_sample,M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",ok,5,tt0145929,The Idiot Returns,1999,Romance|Comedy|Drama,1.06918,0.25517,0.22171,0.38735,0.2763,0.0
+v2_default_sample,M07,mood_theme,A tense mystery set in an isolated place with secrets.,ok,1,tt0222368,The Nameless,1999,Thriller|Mystery|Horror|Drama,1.75551,0.33346,0.2867,0.35516,0.32351,0.0
+v2_default_sample,M07,mood_theme,A tense mystery set in an isolated place with secrets.,ok,2,tt0064492,The Uninvited,1969,Drama,1.36933,0.3565,,0.24982,0.30946,0.0
+v2_default_sample,M07,mood_theme,A tense mystery set in an isolated place with secrets.,ok,3,tt0057280,Crypt of the Vampire,1964,Horror,1.30487,0.30307,0.21445,0.28267,0.37543,0.0
+v2_default_sample,M07,mood_theme,A tense mystery set in an isolated place with secrets.,ok,4,tt0493849,Pray,2005,Horror|Thriller,1.27469,0.2972,,0.29733,0.28073,0.0
+v2_default_sample,M07,mood_theme,A tense mystery set in an isolated place with secrets.,ok,5,tt0043018,Susana,1951,Drama,1.26912,0.34254,0.22823,0.24982,0.25837,0.0
+v2_default_sample,M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,ok,1,tt2319760,Girlfriend Boyfriend,2012,Drama|Comedy|Romance,2.36515,0.49625,0.35819,0.29278,0.36131,0.0
+v2_default_sample,M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,ok,2,tt0309578,Extreme Dating,2004,Action|Comedy|Romance,1.93307,0.49246,0.15676,0.25761,0.39712,0.0
+v2_default_sample,M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,ok,3,tt0100142,Metropolitan,1990,Comedy|Drama|Romance,1.83104,0.4159,0.21797,0.29566,0.41019,0.0
+v2_default_sample,M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,ok,4,tt0026056,Alice Adams,1935,Romance|Drama,1.47133,0.31355,0.31963,0.29063,0.42043,0.0
+v2_default_sample,M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,ok,5,tt3129916,High Society,2014,Drama|Comedy,1.38924,0.4384,0.09459,0.2589,0.36729,0.0
+v2_default_sample,M09,mood_theme,A warm romance about two people finding each other unexpectedly.,ok,1,tt0309578,Extreme Dating,2004,Action|Comedy|Romance,2.12493,0.54922,0.17782,0.34348,0.34321,0.0
+v2_default_sample,M09,mood_theme,A warm romance about two people finding each other unexpectedly.,ok,2,tt0032961,Quiet Wedding,1941,Comedy|Romance,1.71041,0.398,,0.37044,0.39559,0.0
+v2_default_sample,M09,mood_theme,A warm romance about two people finding each other unexpectedly.,ok,3,tt0379381,A Smile,2003,Romance|Drama,1.69905,0.35136,,0.40459,0.33622,0.0
+v2_default_sample,M09,mood_theme,A warm romance about two people finding each other unexpectedly.,ok,4,tt0064492,The Uninvited,1969,Drama,1.58222,0.43225,,0.23121,0.33257,0.0
+v2_default_sample,M09,mood_theme,A warm romance about two people finding each other unexpectedly.,ok,5,tt0053002,Dangerous Love Affairs,1959,Drama|Romance,1.41896,0.35857,0.25063,0.38847,0.3738,0.0
+v2_default_sample,M10,mood_theme,"A haunting movie about grief, memory and loss.",ok,1,tt0057280,Crypt of the Vampire,1964,Horror,2.58588,0.47647,0.31978,0.52085,0.45869,0.0
+v2_default_sample,M10,mood_theme,"A haunting movie about grief, memory and loss.",ok,2,tt0405024,Hum Kaun Hai,2004,Horror,1.94617,0.37429,,0.52085,0.40791,0.0
+v2_default_sample,M10,mood_theme,"A haunting movie about grief, memory and loss.",ok,3,tt0085518,Faces of Death II,1981,Horror,1.46805,0.36708,0.2938,0.52085,0.37733,0.0
+v2_default_sample,M10,mood_theme,"A haunting movie about grief, memory and loss.",ok,4,tt0493849,Pray,2005,Horror|Thriller,1.35355,0.30196,,0.52672,0.31464,0.0
+v2_default_sample,M10,mood_theme,"A haunting movie about grief, memory and loss.",ok,5,tt0075342,The Town That Dreaded Sundown,1976,Horror|Mystery|Thriller|Crime,1.34202,0.38043,0.29579,0.45892,0.30953,0.0
+v2_default_sample,M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",ok,1,tt0379381,A Smile,2003,Romance|Drama,1.82064,0.32888,,0.28862,0.31459,0.0
+v2_default_sample,M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",ok,2,tt1331129,The Tree,2009,,1.67788,0.33801,,,0.19844,0.0
+v2_default_sample,M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",ok,3,tt0059855,The Monkey King: Uproar in Heaven,1961,Animation|Adventure|Fantasy|Action,1.43365,0.25153,0.36628,0.3456,0.28275,0.0
+v2_default_sample,M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",ok,4,tt0311972,Guardian of the Frontier,2002,Drama|Thriller|Horror|Mystery,1.42997,0.38518,0.12473,0.33798,0.25404,0.0
+v2_default_sample,M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",ok,5,tt0309578,Extreme Dating,2004,Action|Comedy|Romance,1.36333,0.33391,0.34804,0.2687,0.25134,0.0
+v2_default_sample,M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,ok,1,tt0075342,The Town That Dreaded Sundown,1976,Horror|Mystery|Thriller|Crime,1.73401,0.40547,0.47513,0.54973,0.30879,0.0
+v2_default_sample,M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,ok,2,tt0043018,Susana,1951,Drama,1.72478,0.4194,0.43991,0.42209,0.25567,0.0
+v2_default_sample,M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,ok,3,tt0222368,The Nameless,1999,Thriller|Mystery|Horror|Drama,1.5862,0.32752,0.41462,0.53944,0.33231,0.0
+v2_default_sample,M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,ok,4,tt0493849,Pray,2005,Horror|Thriller,1.51475,0.3475,,0.55213,0.28567,0.0
+v2_default_sample,M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,ok,5,tt0097100,Communion,1989,Drama|Horror|Science Fiction|Thriller,1.48007,0.35538,0.4626,0.50011,0.349,0.0
+v2_default_sample,M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,ok,1,tt0016847,Faust,1926,Fantasy|Drama|Horror,1.67058,0.33543,0.28628,0.48558,0.2791,0.0
+v2_default_sample,M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,ok,2,tt1937090,All We Ever Wanted,2010,Documentary,1.65826,0.33555,,0.38642,0.24759,0.0
+v2_default_sample,M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,ok,3,tt0057280,Crypt of the Vampire,1964,Horror,1.32717,0.23957,0.31675,0.50249,0.27532,0.0
+v2_default_sample,M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,ok,4,tt0405024,Hum Kaun Hai,2004,Horror,1.18531,0.26944,,0.50249,0.21805,0.0
+v2_default_sample,M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,ok,5,tt0085518,Faces of Death II,1981,Horror,1.1845,0.29656,0.40803,0.50249,0.19471,0.0
+v2_default_sample,M14,subtle_vibe,Something that feels like a lonely city at midnight.,ok,1,tt0384566,Suite Habana,2003,Documentary,1.79249,0.40031,0.28135,0.23698,0.27028,0.0
+v2_default_sample,M14,subtle_vibe,Something that feels like a lonely city at midnight.,ok,2,tt0100142,Metropolitan,1990,Comedy|Drama|Romance,1.69928,0.30531,0.30688,0.30286,0.32908,0.0
+v2_default_sample,M14,subtle_vibe,Something that feels like a lonely city at midnight.,ok,3,tt1331129,The Tree,2009,,1.64462,0.29657,,,0.22697,0.0
+v2_default_sample,M14,subtle_vibe,Something that feels like a lonely city at midnight.,ok,4,tt0217862,"Fireworks, Should We See It from the Side or the Bottom?",1993,Drama|Romance,1.59755,0.26014,0.40816,0.29375,0.24989,0.0
+v2_default_sample,M14,subtle_vibe,Something that feels like a lonely city at midnight.,ok,5,tt1937090,All We Ever Wanted,2010,Documentary,1.23674,0.31489,,0.23698,0.30123,0.0
+v2_default_sample,M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",ok,1,tt1937090,All We Ever Wanted,2010,Documentary,1.70117,0.39032,,0.32802,0.25521,0.0
+v2_default_sample,M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",ok,2,tt0379381,A Smile,2003,Romance|Drama,1.16914,0.2714,,0.28009,0.26627,0.0
+v2_default_sample,M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",ok,3,tt0493849,Pray,2005,Horror|Thriller,1.16666,0.29115,,0.36448,0.20185,0.0
+v2_default_sample,M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",ok,4,tt0057280,Crypt of the Vampire,1964,Horror,1.15082,0.30895,0.24321,0.32851,0.27147,0.0
+v2_default_sample,M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",ok,5,tt1331129,The Tree,2009,,1.08561,0.2767,,,0.16528,0.0
+v2_default_sample,M16,subtle_vibe,I want to feel uneasy and curious at the same time.,ok,1,tt0105342,A Shadow of a Doubt,1993,Drama,1.18296,0.17492,0.22,0.08253,0.20423,0.0
+v2_default_sample,M16,subtle_vibe,I want to feel uneasy and curious at the same time.,ok,2,tt0097100,Communion,1989,Drama|Horror|Science Fiction|Thriller,1.11728,0.19182,0.19854,0.17355,0.28888,0.0
+v2_default_sample,M16,subtle_vibe,I want to feel uneasy and curious at the same time.,ok,3,tt0379381,A Smile,2003,Romance|Drama,1.03519,0.11629,,0.13914,0.22927,0.0
+v2_default_sample,M16,subtle_vibe,I want to feel uneasy and curious at the same time.,ok,4,tt0074427,Under the Sheets,1976,Comedy,0.89538,0.1894,0.07254,0.05967,0.28228,0.0
+v2_default_sample,M16,subtle_vibe,I want to feel uneasy and curious at the same time.,ok,5,tt1985989,"Love, In Between",2010,Drama|Romance,0.87301,0.13771,,0.13443,0.20962,0.0
+v2_default_sample,M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,ok,1,tt1937090,All We Ever Wanted,2010,Documentary,2.19275,0.39418,,0.40312,0.34928,0.0
+v2_default_sample,M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,ok,2,tt0405024,Hum Kaun Hai,2004,Horror,1.70083,0.32853,,0.50617,0.31424,0.0
+v2_default_sample,M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,ok,3,tt0057280,Crypt of the Vampire,1964,Horror,1.69577,0.32098,0.29691,0.50617,0.33694,0.0
+v2_default_sample,M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,ok,4,tt0379381,A Smile,2003,Romance|Drama,1.66564,0.33758,,0.34181,0.29922,0.0
+v2_default_sample,M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,ok,5,tt0097100,Communion,1989,Drama|Horror|Science Fiction|Thriller,1.61202,0.30953,0.34497,0.45934,0.35046,0.0
+v2_default_sample,M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",ok,1,tt0379381,A Smile,2003,Romance|Drama,1.249,0.32973,,0.42496,0.25343,0.0
+v2_default_sample,M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",ok,2,tt1117983,My Normal,2010,Comedy|Drama|Romance,1.18594,0.3515,0.27644,0.39757,0.37849,0.0
+v2_default_sample,M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",ok,3,tt1937090,All We Ever Wanted,2010,Documentary,1.14176,0.37767,,0.41074,0.29782,0.0
+v2_default_sample,M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",ok,4,tt0145929,The Idiot Returns,1999,Romance|Comedy|Drama,1.05205,0.25865,0.19852,0.40443,0.26223,0.0
+v2_default_sample,M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",ok,5,tt1513713,Love in Another Language,2009,,1.00343,0.20956,0.33544,,0.22893,0.0
+v2_default_sample,M19,negation,"A dark mystery, but not something too scary.",ok,1,tt0105342,A Shadow of a Doubt,1993,Drama,1.52189,0.34807,0.2933,0.26277,0.33459,0.0
+v2_default_sample,M19,negation,"A dark mystery, but not something too scary.",ok,2,tt0405024,Hum Kaun Hai,2004,Horror,1.52106,0.33848,,0.38668,0.35017,0.19542
+v2_default_sample,M19,negation,"A dark mystery, but not something too scary.",ok,3,tt0222368,The Nameless,1999,Thriller|Mystery|Horror|Drama,1.34777,0.31051,0.26485,0.38417,0.29674,0.00893
+v2_default_sample,M19,negation,"A dark mystery, but not something too scary.",ok,4,tt0124008,Miss Morison's Ghosts,1981,Horror|Thriller|TV Movie,1.33922,0.30009,0.34457,0.3174,0.32823,0.0
+v2_default_sample,M19,negation,"A dark mystery, but not something too scary.",ok,5,tt0097100,Communion,1989,Drama|Horror|Science Fiction|Thriller,1.15012,0.31514,0.27312,0.30062,0.34695,0.0
+v2_default_sample,M20,negation,I want something sad but not hopeless.,ok,1,tt1937090,All We Ever Wanted,2010,Documentary,1.60735,0.34041,,0.09648,0.30112,0.42733
+v2_default_sample,M20,negation,I want something sad but not hopeless.,ok,2,tt1986788,Chal Chalein,2009,Drama,1.15676,0.22415,,0.17316,0.31742,0.28369
+v2_default_sample,M20,negation,I want something sad but not hopeless.,ok,3,tt1446208,Ways to Live Forever,2010,Drama|Family,1.00866,0.17661,0.25758,0.13559,0.41928,0.0
+v2_default_sample,M20,negation,I want something sad but not hopeless.,ok,4,tt0493849,Pray,2005,Horror|Thriller,0.97341,0.24678,,0.14789,0.24048,0.29155
+v2_default_sample,M20,negation,I want something sad but not hopeless.,ok,5,tt0245192,Perfidious Byzantine,2000,Comedy|History,0.95184,0.22522,,0.15909,0.24025,0.0
+v2_default_sample,M21,negation,Suspense without violence or gore.,ok,1,tt0309578,Extreme Dating,2004,Action|Comedy|Romance,1.22985,0.26092,0.27358,0.34283,0.26629,0.0
+v2_default_sample,M21,negation,Suspense without violence or gore.,ok,2,tt0057280,Crypt of the Vampire,1964,Horror,1.0476,0.2552,0.25463,0.44639,0.25361,0.0
+v2_default_sample,M21,negation,Suspense without violence or gore.,ok,3,tt0064492,The Uninvited,1969,Drama,1.02018,0.28836,,0.39779,0.2081,0.0
+v2_default_sample,M21,negation,Suspense without violence or gore.,ok,4,tt0075342,The Town That Dreaded Sundown,1976,Horror|Mystery|Thriller|Crime,0.96688,0.28592,0.32726,0.45831,0.31366,0.87147
+v2_default_sample,M21,negation,Suspense without violence or gore.,ok,5,tt0379381,A Smile,2003,Romance|Drama,0.87424,0.20232,,0.36645,0.23788,0.0
+v2_default_sample,M22,negation,A funny movie that is not childish.,ok,1,tt0064492,The Uninvited,1969,Drama,1.23217,0.35314,,0.2957,0.2399,0.0
+v2_default_sample,M22,negation,A funny movie that is not childish.,ok,2,tt1483421,Turning Point,2009,Crime|Thriller,1.21083,0.33711,,0.31373,0.22587,0.0
+v2_default_sample,M22,negation,A funny movie that is not childish.,ok,3,tt0379381,A Smile,2003,Romance|Drama,1.18972,0.33804,,0.25567,0.20612,0.0
+v2_default_sample,M22,negation,A funny movie that is not childish.,ok,4,tt0245192,Perfidious Byzantine,2000,Comedy|History,1.15814,0.27394,,0.41755,0.2469,0.0
+v2_default_sample,M22,negation,A funny movie that is not childish.,ok,5,tt0309578,Extreme Dating,2004,Action|Comedy|Romance,1.1142,0.3811,0.16413,0.35394,0.29476,0.6368
+v2_default_sample,M23,negation,"No horror, just tension and psychological mystery.",ok,1,tt1914302,Lie Detector,2011,Comedy,1.53819,0.35224,0.18933,0.18161,0.14774,0.0
+v2_default_sample,M23,negation,"No horror, just tension and psychological mystery.",ok,2,tt0043018,Susana,1951,Drama,1.42321,0.30572,0.25939,0.27343,0.24976,0.0
+v2_default_sample,M23,negation,"No horror, just tension and psychological mystery.",ok,3,tt0100142,Metropolitan,1990,Comedy|Drama|Romance,1.05662,0.30446,0.08789,0.2026,0.28404,0.0
+v2_default_sample,M23,negation,"No horror, just tension and psychological mystery.",ok,4,tt0145929,The Idiot Returns,1999,Romance|Comedy|Drama,1.04188,0.32168,0.11883,0.19839,0.25588,0.0
+v2_default_sample,M23,negation,"No horror, just tension and psychological mystery.",ok,5,tt0079385,Justine and the Whip,1979,Drama,1.02835,0.23692,,0.27343,0.28101,0.0
+v2_default_sample,M24,negation,Exciting but without loud action and explosions.,ok,1,tt1331129,The Tree,2009,,2.05562,0.22768,,,0.17976,0.0
+v2_default_sample,M24,negation,Exciting but without loud action and explosions.,ok,2,tt0100142,Metropolitan,1990,Comedy|Drama|Romance,0.96755,0.235,0.07153,0.11652,0.21175,0.14335
+v2_default_sample,M24,negation,Exciting but without loud action and explosions.,ok,3,tt0152930,Taxi,1998,Action|Comedy|Crime|Adventure,0.9072,0.20006,0.11782,0.12938,0.24831,0.0
+v2_default_sample,M24,negation,Exciting but without loud action and explosions.,ok,4,tt0384566,Suite Habana,2003,Documentary,0.88341,0.20607,0.10797,0.13251,0.16686,0.0
+v2_default_sample,M24,negation,Exciting but without loud action and explosions.,ok,5,tt0341266,Bhoot,2003,Horror,0.83699,0.21954,,0.18222,0.20678,0.0
+v2_default_sample,M25,edge_case,I feel like watching something.,ok,1,tt1937090,All We Ever Wanted,2010,Documentary,1.77826,0.22042,,0.18686,0.32267,0.0
+v2_default_sample,M25,edge_case,I feel like watching something.,ok,2,tt0082000,Contamination,1980,Science Fiction|Horror,1.29406,0.17711,0.21865,0.17781,0.23529,0.0
+v2_default_sample,M25,edge_case,I feel like watching something.,ok,3,tt0097100,Communion,1989,Drama|Horror|Science Fiction|Thriller,1.23504,0.1792,0.09389,0.18149,0.36872,0.0
+v2_default_sample,M25,edge_case,I feel like watching something.,ok,4,tt0057280,Crypt of the Vampire,1964,Horror,1.22086,0.24735,0.01651,0.18889,0.26493,0.0
+v2_default_sample,M25,edge_case,I feel like watching something.,ok,5,tt1221141,The Headless Woman,2008,Drama|Mystery,1.14218,0.21713,0.09069,0.19474,0.19178,0.0
+v2_default_sample,M26,edge_case,gloooomy thriling mistree,ok_with_warning,1,tt0064492,The Uninvited,1969,Drama,1.49057,0.46676,,0.36041,0.34615,0.0
+v2_default_sample,M26,edge_case,gloooomy thriling mistree,ok_with_warning,2,tt0043018,Susana,1951,Drama,1.31256,0.36731,0.40587,0.36041,0.33873,0.0
+v2_default_sample,M26,edge_case,gloooomy thriling mistree,ok_with_warning,3,tt0105342,A Shadow of a Doubt,1993,Drama,1.28893,0.34751,0.43532,0.36041,0.39713,0.0
+v2_default_sample,M26,edge_case,gloooomy thriling mistree,ok_with_warning,4,tt1985989,"Love, In Between",2010,Drama|Romance,1.22084,0.36927,,0.41068,0.31447,0.0
+v2_default_sample,M26,edge_case,gloooomy thriling mistree,ok_with_warning,5,tt0057280,Crypt of the Vampire,1964,Horror,1.20495,0.36641,0.36029,0.4261,0.38494,0.0
+v2_default_sample,M27,edge_case,"A genre I cannot name, just something different.",ok,1,tt0043018,Susana,1951,Drama,1.46607,0.31303,0.39781,0.62931,0.16748,0.0
+v2_default_sample,M27,edge_case,"A genre I cannot name, just something different.",ok,2,tt0016847,Faust,1926,Fantasy|Drama|Horror,1.2706,0.21952,0.48931,0.67745,0.25201,0.0
+v2_default_sample,M27,edge_case,"A genre I cannot name, just something different.",ok,3,tt0384566,Suite Habana,2003,Documentary,1.26003,0.29669,0.35693,0.61392,0.20119,0.0
+v2_default_sample,M27,edge_case,"A genre I cannot name, just something different.",ok,4,tt0334588,Flying Saucers Over Istanbul,1955,Comedy|Science Fiction|Fantasy,1.21634,0.38303,0.26368,0.58278,0.14299,0.0
+v2_default_sample,M27,edge_case,"A genre I cannot name, just something different.",ok,5,tt2180016,Iceberg Slim: Portrait of a Pimp,2012,Documentary,1.1259,0.247,,0.61392,0.33275,0.0
