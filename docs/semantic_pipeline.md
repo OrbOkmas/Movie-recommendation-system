@@ -76,11 +76,11 @@ Semantic: *Perfect Match* (grade 2; best chunk is a love-song lyric), *Extreme D
 |---|---|---|
 | One vector per movie would see < 2 % of the dialogue (256-token limit). | Separate plot vector + 150-word dialogue chunks with score aggregation. | Exp. 3 |
 | Tiny trailing chunks could win under max-aggregation; first fix had an off-by-one bug. | Tail < 50 words merged into the previous chunk; covered by a unit test; aggregation verified against a pandas reference. | Exp. 4 |
-| No model download / GPU in the development environment; ~21 h estimated on CPU for the full data. | Pipeline tested offline with a stand-in encoder; real runs on a laptop (sample, 152 s) and Colab GPU (full data). | Exp. 5 |
-| Comparing four semantic variants with one TF-IDF favours "semantic" if the best variant is picked afterwards. | Main comparison (`sem_combined` vs TF-IDF) fixed before labelling; other variants reported as ablation; all variants reported. | Exp. 7 |
-| Judging the same movie twice / judge knowing the method. | Pooled, blind labelling sheet; pairs already judged for TF-IDF are reused, not re-judged. | Exp. 7 |
-| Misspelled queries. | Spelling correction tested (3 variants); not adopted yet — only one test query is affected and a hand-made lexicon risks tuning to the test set. | Exp. 8 |
-| Hub movies, negation. | **Not solved** — documented as limitations; hub correction (score normalisation per movie) is the next step. | Exp. 6–7 |
+| Full data (~2 million chunks) would take ~21 h on a laptop CPU. | Sample encoded on a laptop (152 s); full data on a Colab GPU. | — |
+| Comparing four semantic variants with one TF-IDF favours "semantic" if the best variant is picked afterwards. | Main comparison (`sem_combined` vs TF-IDF) fixed before labelling; other variants reported as ablation; all variants reported. | Exp. 6 |
+| Judging the same movie twice / judge knowing the method. | Pooled labelling sheet without method information; pairs already judged for TF-IDF are reused, not re-judged. | Exp. 6 |
+| Misspelled queries. | Spelling correction tested (3 variants); not adopted yet — only one test query is affected and a hand-made lexicon risks tuning to the test set. | Exp. 7 |
+| Hub movies, negation. | **Not solved** — documented as limitations; hub correction (score normalisation per movie) is the next step. | Exp. 5–6 |
 
 ## 5. Limitations
 

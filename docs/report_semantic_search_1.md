@@ -79,7 +79,7 @@ Ranking by meaning improves retrieval over word overlap on our sample, mainly fo
 
 - **Single judge, two sessions:** all labels come from one person, so they are consistent but subjective; a second judge on a sample of pairs would quantify agreement. The semantic sheet was labelled later and contained only semantic results, so blinding between methods was only partial.
 - **Hub movies:** a few movies with emotionally varied dialogue dominate the rankings; a per-movie score normalisation is planned.
-- **Negation and misspellings** remain unsolved; a spelling-correction pre-processing step was tested and not adopted (journal, Experiment 8).
+- **Negation and misspellings** remain unsolved; a spelling-correction pre-processing step was tested and not adopted (journal, Experiment 7).
 - **Noisy subtitles:** translator credits and song lyrics are encoded as dialogue.
 - **Always returns results:** dense retrieval returns five movies even for meaningless input; a minimum-similarity threshold would be needed for a "no good match" answer.
 - **Scale:** the full dataset (~50,000 movies, ~2 million chunks) needs a GPU (≈ 21 h estimated on a laptop CPU); all results above are from the 100-movie sample.

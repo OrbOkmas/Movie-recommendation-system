@@ -97,21 +97,8 @@ TF-IDF provides a useful and interpretable baseline, but it relies on vocabulary
 
 **What we learned:** Test small helper functions on hand-made inputs before running them on hours of data.
 
-### Experiment 5 — 2026-11-20 — Development environment without model access
 
-**Team member:** Tomáš
-
-**What we tried:** Develop and run the semantic pipeline in the same environment where the code was written.
-
-**What went wrong:** The environment had no access to the Hugging Face model hub (download blocked, HTTP 403) and no GPU. Measured on a team laptop (CPU only): encoding the 100-movie sample (4,155 chunks) took 152 s, i.e. ~27 chunks/s. The full data (~50,000 movies × ~42 chunks ≈ 2 million chunks) would take roughly 21 hours on CPU.
-
-**What we changed:** The pipeline was tested end-to-end with an offline stand-in encoder (`--model debug-hashing`, hashing bag-of-words — explicitly not semantic, never used for results). Real encoding runs in Google Colab with a T4 GPU (`notebooks/03_semantic_search_colab.ipynb`), with a 500-movie timing test first and an option `--max-chunks-per-movie` if the full run does not fit into a Colab session.
-
-**Open issues found during testing (to be checked with the real model):**
-- Dense retrieval **always returns results**, also for the vague query M25 ("I feel like watching something.") and the misspelled M26, where TF-IDF returned nothing. That is not automatically better: returning five random movies with high confidence may be worse than returning none. We plan to look at the score distribution and consider a minimum-similarity threshold.
-- Four semantic variants add ~300 new query/movie pairs to `mood_judgments.csv` on the sample alone. We need to decide as a team whether to judge all variants or only the best two.
-
-### Experiment 6 — 2026-11-20 — First real run of semantic search: one movie dominates, negation still fails
+### Experiment 5 — 2026-11-20 — First real run of semantic search: one movie dominates, negation still fails
 
 **Team member:** Tomáš
 
@@ -132,18 +119,18 @@ TF-IDF provides a useful and interpretable baseline, but it relies on vocabulary
 
 **What we changed / plan:** (1) human relevance labels for the pooled results before claiming which method is better; (2) test a hub correction — normalise each movie's subtitle scores (e.g. subtract the movie's average similarity to generic queries) so movies whose dialogue is "about everything" stop dominating; (3) report negation as an unsolved limitation of both approaches rather than as an advantage of embeddings.
 
-### Experiment 7 — 2026-11-23 — Human evaluation of semantic search: better than TF-IDF, but subtitles help less than expected
+### Experiment 6 — 2026-11-23 — Human evaluation of semantic search: better than TF-IDF, but subtitles help less than expected
 
 **Team member:** Tomáš
 
 **What we tried:** Human relevance labels (0/1/2) for all 275 query/movie pairs recommended only by semantic search, plus the existing 119 TF-IDF labels, and the same metric code as for TF-IDF (`notebooks/04_semantic_mood_evaluation.ipynb`). To avoid favouring the semantic side (four variants against one TF-IDF), we fixed the main comparison **before** labelling: TF-IDF vs `sem_combined` (both use plot + subtitles). The other three variants are reported as an ablation. The labelling sheet was pooled and blind: it did not say which method recommended a movie, and the 33 pairs already judged for TF-IDF were reused, not judged again.
 
-**Why we tried it:** Experiment 6 was only qualitative; we needed numbers to compare the two approaches.
+**Why we tried it:** Experiment 5 was only qualitative; we needed numbers to compare the two approaches.
 
 **What went wrong / what we found:**
 1. **Main result (23 queries):** `sem_combined` P@5 0.461, MRR@5 0.638, nDCG@5 0.631 vs TF-IDF 0.322 / 0.456 / 0.481. Semantic search is better on 14 queries, TF-IDF on 6, 3 ties. P@5 difference +0.14 (bootstrap 95 % CI 0.03–0.25, Wilcoxon p = 0.045); nDCG@5 difference +0.15 (CI 0.03–0.28, p = 0.07). A consistent improvement, but 23 queries are too few for a strong claim.
 2. **Subtitles alone are weaker than the plot alone** (27 queries): plot-only `sem_meta` nDCG@5 0.657, subtitles-only 0.587–0.590, combined 0.641 (best P@5: 0.467). The hypothesis that dialogue carries the mood of a film is only partly supported.
-3. **The hub problem from Experiment 6 is confirmed by the labels:** *Ways to Live Forever* is in 14 of 27 `sem_combined` top-5 lists and was graded 0 in 10 of them.
+3. **The hub problem from Experiment 5 is confirmed by the labels:** *Ways to Live Forever* is in 14 of 27 `sem_combined` top-5 lists and was graded 0 in 10 of them.
 4. **Negation is still unsolved:** "No horror, just tension and psychological mystery" (M23) has 0 relevant movies for every method.
 5. **Subtitle files contain non-dialogue text:** for M23 the best chunk of *Scared* is translator credits ("German subtitles translated by …"). Our preprocessing does not remove subtitle credits, so they become searchable text.
 6. **The vague query M25** ("I feel like watching something") got grade 1 for all five semantic results, i.e. the judge treated any movie as partly fitting. TF-IDF returned nothing for M25, so it is excluded from the main comparison, but it shows that "always returning something" is hard to evaluate.
@@ -154,7 +141,7 @@ TF-IDF provides a useful and interpretable baseline, but it relies on vocabulary
 
 **What we changed / plan:** report `sem_combined` as Semantic Search 1 with all variants and the judge caveat; next steps are a hub correction (normalise each movie's scores by its average similarity to generic queries), removing subtitle credits in preprocessing, and the full-data run.
 
-### Experiment 8 — 2026-11-23 — Spelling correction for misspelled queries (tested, not adopted)
+### Experiment 7 — 2026-11-23 — Spelling correction for misspelled queries (tested, not adopted)
 
 **Team member:** Tomáš
 
