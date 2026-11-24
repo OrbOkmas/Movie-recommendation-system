@@ -65,7 +65,7 @@ On the 23 queries where both methods returned five judged movies:
 | MRR@5 | 0.456 | **0.638** |
 | nDCG@5 (judged pool) | 0.481 | **0.631** |
 
-Semantic search is better on 14 queries, worse on 6, with 3 ties. The P@5 gain is +0.14 (bootstrap 95% CI 0.03–0.25, Wilcoxon p = 0.045). Plot alone (nDCG@5 0.657 on 27 queries) beats subtitles alone (0.587–0.590), so dialogue helps less than we expected. Source: `evaluation/results/comparison_metrics.csv`, `comparison_per_query.csv`.
+Semantic search is better on 14 queries, worse on 6, with 3 ties. The P@5 gain is +0.14 (bootstrap 95% CI 0.03–0.25, Wilcoxon p = 0.045). Plot alone (nDCG@5 0.657 on 27 queries) beats subtitles alone (0.587–0.590), so dialogue helps less than we expected. Source: `evaluation/results/comparison/comparison_metrics.csv`, `comparison_per_query.csv`.
 
 ### Example recommendation
 
@@ -107,7 +107,7 @@ A second failure shared by both methods is negation: "No horror, just tension an
 From the repository root, with the 100-movie sample:
 
 ```bash
-python -m pip install numpy pandas scipy scikit-learn joblib spacy nltk pyarrow sentence-transformers tqdm jupyter matplotlib
+python -m pip install -r requirements.txt
 python -m nltk.downloader wordnet omw-1.4
 python -m spacy download en_core_web_sm
 

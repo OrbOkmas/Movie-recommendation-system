@@ -1,0 +1,6 @@
+﻿method,precision@5,mrr@5,ndcg@5,n_queries
+sem_combined,0.461,0.638,0.631,23
+sem_meta,0.409,0.621,0.648,23
+sem_subs_max,0.374,0.509,0.579,23
+sem_subs_top3,0.4,0.52,0.558,23
+tfidf,0.322,0.456,0.481,23

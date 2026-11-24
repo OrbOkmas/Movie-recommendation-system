@@ -135,7 +135,7 @@ TF-IDF provides a useful and interpretable baseline, but it relies on vocabulary
 5. **Subtitle files contain non-dialogue text:** for M23 the best chunk of *Scared* is translator credits ("German subtitles translated by …"). Our preprocessing does not remove subtitle credits, so they become searchable text.
 6. **The vague query M25** ("I feel like watching something") got grade 1 for all five semantic results, i.e. the judge treated any movie as partly fitting. TF-IDF returned nothing for M25, so it is excluded from the main comparison, but it shows that "always returning something" is hard to evaluate.
 
-**Evidence / Example:** `evaluation/results/comparison_metrics.csv`, `comparison_per_query.csv`, `semantic_failure_candidates.csv`; M09 "A warm romance…": semantic grades 2,1,0,0,0 vs TF-IDF 0,0,0,0,0 (TF-IDF ranked the horror film *Bhoot* second).
+**Evidence / Example:** `../evaluation/results/comparison/comparison_metrics.csv`, `comparison_per_query.csv`, `semantic_failure_candidates.csv`; M09 "A warm romance…": semantic grades 2,1,0,0,0 vs TF-IDF 0,0,0,0,0 (TF-IDF ranked the horror film *Bhoot* second).
 
 **Threat to validity:** all pairs were judged by the same team member, so both methods are measured on the same scale, but by one subjective judge. The TF-IDF and semantic sheets were labelled in separate sessions and the semantic sheet contained only semantic results, so blinding between the methods was only partial. A second judge re-labelling a sample of pairs would let us measure agreement.
 

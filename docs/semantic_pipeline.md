@@ -93,7 +93,7 @@ Semantic: *Perfect Match* (grade 2; best chunk is a love-song lyric), *Extreme D
 ## 6. How to run
 
 ```bash
-pip install sentence-transformers pyarrow matplotlib scipy
+pip install -r requirements.txt
 
 # build the index (sample: ~2.5 min on a laptop CPU)
 python -m src.semantic train --data data/processed/sample_clean_movies.csv --output models/semantic_sample
@@ -102,7 +102,7 @@ python -m src.semantic train --data data/processed/sample_clean_movies.csv --out
 python -m src.semantic search --index models/semantic_sample --query "dark but not scary" --source combined --top-k 10
 ```
 
-Evaluation: open `notebooks/04_semantic_mood_evaluation.ipynb` and **Run All**. It runs the 28 queries, writes `evaluation/results/sem_*_mood_rankings.csv`, creates/extends the labelling sheet `evaluation/mood_judgment_semantic.csv` (only pairs without a grade) and computes the metrics from `evaluation/mood_judgment_tfidf.csv` + `evaluation/mood_judgment_semantic.csv`. Scripted equivalent: `python -m src.run_semantic_eval run --index models/semantic_sample` and `python -m src.run_semantic_eval metrics`.
+Evaluation: open `notebooks/04_semantic_mood_evaluation.ipynb` and **Run All**. It runs the 28 queries, writes `evaluation/results/semantic1/sem_*_mood_rankings.csv`, creates/extends the labelling sheet `evaluation/mood_judgment_semantic.csv` (only pairs without a grade) and computes the metrics from `evaluation/mood_judgment_tfidf.csv` + `evaluation/mood_judgment_semantic.csv`. Scripted equivalent: `python -m src.run_semantic_eval run --index models/semantic_sample` and `python -m src.run_semantic_eval metrics`.
 
 **Using the model from Python (e.g. in the application):**
 

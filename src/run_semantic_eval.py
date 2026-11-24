@@ -33,14 +33,26 @@ import numpy as np
 import pandas as pd
 
 from src.semantic import SemanticMovieRecommender, SemanticError
+from src.metrics import metrics_at_k
 
 ROOT = Path(__file__).resolve().parents[1]
 QUERY_FILE = ROOT / "evaluation" / "mood_queries.json"
 RESULTS = ROOT / "evaluation" / "results"
+SEMANTIC_DIR = RESULTS / "semantic1"
+COMPARISON_DIR = RESULTS / "comparison"
+TFIDF_DIR = RESULTS / "tfidf"
+
 TFIDF_JUDGMENTS = ROOT / "evaluation" / "mood_judgment_tfidf.csv"      # human labels for TF-IDF (read only)
 JUDGMENTS = ROOT / "evaluation" / "mood_judgment_semantic.csv"         # human labels for semantic-only pairs
 REFERENCE = ROOT / "data" / "processed" / "sample_clean_movies.csv"
-TFIDF_RANKINGS = RESULTS / "tfidf_mood_rankings.csv"
+
+def _find_tfidf_rankings() -> Path:
+    p = TFIDF_DIR / "tfidf_mood_rankings.csv"
+    if not p.is_file() and (RESULTS / "tfidf_mood_rankings.csv").is_file():
+        return RESULTS / "tfidf_mood_rankings.csv"
+    return p
+
+TFIDF_RANKINGS = _find_tfidf_rankings()
 
 VARIANTS = {
     "sem_meta":      dict(source="meta"),
@@ -57,7 +69,8 @@ def run(index: Path, top_k: int, variants: list[str], pool_variants: list[str], 
         extend_sheet: bool = False) -> None:
     model = SemanticMovieRecommender.load(index)
     queries = json.loads(QUERY_FILE.read_text(encoding="utf-8"))
-    RESULTS.mkdir(parents=True, exist_ok=True)
+    SEMANTIC_DIR.mkdir(parents=True, exist_ok=True)
+    COMPARISON_DIR.mkdir(parents=True, exist_ok=True)
 
     all_rows, status_rows, full = [], [], []
     for name in variants:
@@ -82,14 +95,14 @@ def run(index: Path, top_k: int, variants: list[str], pool_variants: list[str], 
 
     rankings = pd.DataFrame(all_rows)
     for name in variants:
-        rankings[rankings.method == name].to_csv(RESULTS / f"{name}_mood_rankings.csv", index=False, encoding="utf-8-sig")
-    pd.DataFrame(status_rows).to_csv(RESULTS / "semantic_query_status.csv", index=False, encoding="utf-8-sig")
-    (RESULTS / "semantic_mood_results.json").write_text(json.dumps(full, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Saved rankings for {len(variants)} variants to {RESULTS.relative_to(ROOT)}")
+        rankings[rankings.method == name].to_csv(SEMANTIC_DIR / f"{name}_mood_rankings.csv", index=False, encoding="utf-8-sig")
+    pd.DataFrame(status_rows).to_csv(SEMANTIC_DIR / "semantic_query_status.csv", index=False, encoding="utf-8-sig")
+    (SEMANTIC_DIR / "semantic_mood_results.json").write_text(json.dumps(full, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Saved rankings for {len(variants)} variants to {SEMANTIC_DIR.relative_to(ROOT)}")
 
     overlap = overlap_table(rankings, top_k)
     if overlap is not None:
-        overlap.to_csv(RESULTS / "method_overlap.csv", index=False, encoding="utf-8-sig")
+        overlap.to_csv(SEMANTIC_DIR / "method_overlap.csv", index=False, encoding="utf-8-sig")
         print("\nMean overlap of top-k lists with TF-IDF (share of shared movies):")
         print(overlap.drop(columns="query_id").mean(numeric_only=True).round(3).to_string())
 
@@ -102,10 +115,11 @@ def run(index: Path, top_k: int, variants: list[str], pool_variants: list[str], 
 
 def overlap_table(rankings: pd.DataFrame, top_k: int) -> pd.DataFrame | None:
     """|top-k(semantic) ∩ top-k(tfidf)| / k per query — computable before any human labels."""
-    if not TFIDF_RANKINGS.is_file():
+    tfidf_file = _find_tfidf_rankings()
+    if not tfidf_file.is_file():
         print("No TF-IDF rankings found; skipping overlap.")
         return None
-    tf = pd.read_csv(TFIDF_RANKINGS, dtype={"movie_id": str})
+    tf = pd.read_csv(tfidf_file, dtype={"movie_id": str})
     tf_sets = tf.groupby("query_id")["movie_id"].apply(set)
     rows = []
     for qid in sorted(set(rankings.query_id) | set(tf_sets.index)):
@@ -142,16 +156,7 @@ def extend_judgments(rankings: pd.DataFrame, queries: list[dict], reference: Pat
 
 # --------------------------------------------------------------------------- metrics
 
-def metrics_at_k(grades, k=5) -> dict[str, float]:
-    """Same definitions as notebooks/02_mood_query_evaluation.ipynb (judged-pool nDCG)."""
-    vals = np.asarray(grades, dtype=int)
-    binary = vals >= 1
-    pos = np.flatnonzero(binary)
-    disc = np.log2(np.arange(2, k + 2))
-    dcg = float(np.sum((2.0 ** vals - 1) / disc))
-    idcg = float(np.sum((2.0 ** np.sort(vals)[::-1] - 1) / disc))
-    return {"precision@5": float(binary.mean()), "mrr@5": float(1 / (pos[0] + 1)) if len(pos) else 0.0,
-            "ndcg@5": dcg / idcg if idcg else 0.0}
+# metrics_at_k imported from src.metrics
 
 
 def read_judgments(path: Path) -> pd.DataFrame:
@@ -183,7 +188,13 @@ def metrics(top_k: int = 5) -> None:
     grade = load_grades(TFIDF_JUDGMENTS, JUDGMENTS)
     print(f"Loaded {len(grade)} graded query/movie pairs from {TFIDF_JUDGMENTS.name} + {JUDGMENTS.name}")
 
-    files = {"tfidf": TFIDF_RANKINGS, **{n: RESULTS / f"{n}_mood_rankings.csv" for n in VARIANTS}}
+    def _find_variant_path(n: str) -> Path:
+        p = SEMANTIC_DIR / f"{n}_mood_rankings.csv"
+        if not p.is_file() and (RESULTS / f"{n}_mood_rankings.csv").is_file():
+            return RESULTS / f"{n}_mood_rankings.csv"
+        return p
+
+    files = {"tfidf": _find_tfidf_rankings(), **{n: _find_variant_path(n) for n in VARIANTS}}
     per_query = []
     for method, path in files.items():
         if not path.is_file():
@@ -197,26 +208,31 @@ def metrics(top_k: int = 5) -> None:
                 row |= metrics_at_k(g, top_k)
             per_query.append(row)
     pq = pd.DataFrame(per_query)
-    pq.to_csv(RESULTS / "comparison_per_query.csv", index=False, encoding="utf-8-sig")
-    done = pq.dropna(subset=["precision@5"]) if "precision@5" in pq else pq.iloc[0:0]
+    COMPARISON_DIR.mkdir(parents=True, exist_ok=True)
+    pq.to_csv(COMPARISON_DIR / "comparison_per_query.csv", index=False, encoding="utf-8-sig")
+    done = pq.dropna(subset=["precision@5"]) if "precision@5" in pq and not pq.empty else pq.iloc[0:0]
     if done.empty:
         print(f"No fully judged queries yet. Fill `relevance` in {JUDGMENTS.name} first.")
-        print(pq.groupby("method")[["judged"]].sum())
+        if "method" in pq.columns:
+            print(pq.groupby("method")[["judged"]].sum())
         return
     # Compare only on queries judged for EVERY method, otherwise means are not comparable.
     common = set.intersection(*[set(g.query_id) for _, g in done.groupby("method")])
     summary = (done[done.query_id.isin(common)].groupby("method")[["precision@5", "mrr@5", "ndcg@5"]]
                .mean().round(3).assign(n_queries=len(common)))
-    summary.to_csv(RESULTS / "comparison_metrics.csv", encoding="utf-8-sig")
+    summary.to_csv(COMPARISON_DIR / "comparison_metrics.csv", encoding="utf-8-sig")
     print(f"Metrics on {len(common)} queries judged for all methods:\n{summary}")
 
 
 def _set_paths(results_dir: Path | None, judgments: Path | None) -> None:
     """Redirect outputs (e.g. for the full dataset) so sample results and labels are never overwritten."""
-    global RESULTS, JUDGMENTS, TFIDF_RANKINGS
+    global RESULTS, JUDGMENTS, TFIDF_RANKINGS, SEMANTIC_DIR, COMPARISON_DIR, TFIDF_DIR
     if results_dir is not None:
         RESULTS = results_dir if results_dir.is_absolute() else ROOT / results_dir
-        TFIDF_RANKINGS = RESULTS / "tfidf_mood_rankings.csv"
+        SEMANTIC_DIR = RESULTS / "semantic1"
+        COMPARISON_DIR = RESULTS / "comparison"
+        TFIDF_DIR = RESULTS / "tfidf"
+        TFIDF_RANKINGS = _find_tfidf_rankings()
     if judgments is not None:
         JUDGMENTS = judgments if judgments.is_absolute() else ROOT / judgments
 
