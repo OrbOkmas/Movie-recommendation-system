@@ -142,3 +142,36 @@ def load_queries(*paths: str | Path) -> list[dict]:
     for p in paths:
         out += json.loads(Path(p).read_text(encoding="utf-8"))
     return out
+
+
+def cohen_kappa(a: list[int], b: list[int], weights: str | None = None) -> float:
+    """Cohen's kappa for ordinal labels 0/1/2 (weights=None: exact, "linear": partial credit for near misses)."""
+    cats = sorted(set(a) | set(b))
+    k = len(cats)
+    if k < 2:
+        return float("nan")
+    idx = {c: i for i, c in enumerate(cats)}
+    obs = np.zeros((k, k))
+    for x, y in zip(a, b):
+        obs[idx[x], idx[y]] += 1
+    obs /= obs.sum()
+    exp = np.outer(obs.sum(axis=1), obs.sum(axis=0))
+    w = np.zeros((k, k))
+    for i in range(k):
+        for j in range(k):
+            w[i, j] = 0 if i == j else (abs(i - j) / (k - 1) if weights == "linear" else 1)
+    denom = (w * exp).sum()
+    return float(1 - (w * obs).sum() / denom) if denom else float("nan")
+
+
+def agreement(path_a: str | Path, path_b: str | Path) -> dict:
+    ga, gb = load_judgments(path_a), load_judgments(path_b)
+    keys = sorted(set(ga) & set(gb))
+    a, b = [ga[k] for k in keys], [gb[k] for k in keys]
+    if not keys:
+        return {"n": 0}
+    ba, bb = [int(x >= 1) for x in a], [int(x >= 1) for x in b]
+    return {"n": len(keys), "exact_agreement": round(float(np.mean([x == y for x, y in zip(a, b)])), 3),
+            "kappa_exact": round(cohen_kappa(a, b), 3), "kappa_linear_weighted": round(cohen_kappa(a, b, "linear"), 3),
+            "binary_relevant_agreement": round(float(np.mean([x == y for x, y in zip(ba, bb)])), 3),
+            "kappa_binary": round(cohen_kappa(ba, bb), 3)}

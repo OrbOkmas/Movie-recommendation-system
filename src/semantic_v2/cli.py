@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 
 from .config import MODEL_REGISTRY, SOURCES, BuildConfig, QueryConfig, SearchConfig, SemanticV2Error
-from .evaluate import (hub_stats, labeled_summary, load_judgments, load_queries, status_accuracy, stability,
+from .evaluate import (agreement, hub_stats, labeled_summary, load_judgments, load_queries, status_accuracy, stability,
                        suggest_threshold, weak_genre_hit_rate)
 from .fields import LoadStats, iter_frames, iter_movies, is_missing
 
@@ -192,6 +192,13 @@ def cmd_calibrate(a) -> None:
     print("Use it with --min-confidence <threshold>. Re-check after every change of weights or models.")
 
 
+def cmd_agreement(a) -> None:
+    r = agreement(a.a, a.b)
+    print(json.dumps(r, indent=2))
+    if r.get("n", 0) and r["kappa_binary"] < 0.6:
+        print("Note: binary kappa below 0.6 - discuss the disagreements and refine the labeling guide.")
+
+
 def cmd_profile(a) -> None:
     cfg = BuildConfig()
     stats = LoadStats()
@@ -265,6 +272,9 @@ def build_parser() -> argparse.ArgumentParser:
     c = sub.add_parser("calibrate", help="suggest the abstention threshold from dev queries")
     c.add_argument("--index", required=True); c.add_argument("--queries", nargs="+", required=True); c.add_argument("--device")
     add_search_args(c); c.set_defaults(fn=cmd_calibrate)
+
+    ag = sub.add_parser("agreement", help="agreement (Cohen's kappa) between two judgment files")
+    ag.add_argument("--a", required=True); ag.add_argument("--b", required=True); ag.set_defaults(fn=cmd_agreement)
 
     pr = sub.add_parser("profile", help="data profile (missing rates, lengths, genres) for the design decisions")
     pr.add_argument("--data", required=True); pr.add_argument("--max-rows", type=int); pr.add_argument("--out")

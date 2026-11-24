@@ -82,3 +82,15 @@ NEG_META_MAP: dict[str, dict[str, list[str]]] = {
     "romance": {"genres": ["Romance"], "keywords": []},
     "war": {"genres": ["War"], "keywords": []},
 }
+
+# Words that carry no search criteria. A query made only of these ("Surprise me", "A good movie") is too vague.
+VAGUE_WORDS = {
+    "i", "me", "my", "we", "you", "a", "an", "the", "to", "of", "in", "for", "and", "or", "but", "just", "really",
+    "very", "so", "some", "any", "anything", "something", "someone", "whatever", "good", "great", "nice", "decent",
+    "fine", "ok", "okay", "movie", "movies", "film", "films", "watch", "watching", "see", "seeing", "want", "wanna",
+    "need", "feel", "feeling", "like", "would", "could", "can", "cannot", "can't", "do", "don't", "dont", "does", "did",
+    "know", "what", "think", "not", "no", "is", "it", "that", "this", "there", "be", "am", "are", "surprise", "pick",
+    "recommend", "give", "show", "tell", "suggest", "find", "please", "maybe", "different", "genre", "name", "one",
+    "else", "entertaining", "interesting", "tonight", "today", "now", "right", "i'd", "i'm", "i'll", "i've", "let",
+    "let's", "us", "random", "best", "with", "on", "at", "up", "out", "have", "has", "get", "got", "something's",
+}

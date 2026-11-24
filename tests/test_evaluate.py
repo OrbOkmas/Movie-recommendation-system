@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from semantic_v2.evaluate import (bootstrap_ci, hub_stats, labeled_summary, query_metrics, stability, status_accuracy,
+from semantic_v2.evaluate import (agreement, bootstrap_ci, cohen_kappa, hub_stats, labeled_summary, query_metrics, stability, status_accuracy,
                                   suggest_threshold, weak_genre_hit_rate)
 
 
@@ -54,3 +54,18 @@ def test_stability_and_weak_genre_and_status():
 def test_suggest_threshold():
     r = suggest_threshold([0.1, 0.2], [0.4, 0.5, 0.6])
     assert r["separable"] and 0.2 < r["threshold"] <= 0.4
+
+
+def test_kappa_perfect_chance_and_weighted():
+    assert cohen_kappa([0, 1, 2, 1], [0, 1, 2, 1]) == pytest.approx(1.0)
+    assert cohen_kappa([0, 0, 1, 1], [0, 1, 0, 1]) == pytest.approx(0.0)
+    near, far = [0, 1, 2, 0, 1, 2], [1, 1, 2, 0, 2, 2], 
+    assert cohen_kappa(near, far, "linear") > cohen_kappa(near, far)
+
+
+def test_agreement_files(tmp_path):
+    a = pd.DataFrame({"query_id": ["q"] * 4, "movie_id": list("abcd"), "relevance": [0, 1, 2, 0]})
+    b = pd.DataFrame({"query_id": ["q"] * 4, "movie_id": list("abcd"), "relevance": [0, 1, 1, 1]})
+    a.to_csv(tmp_path / "a.csv", index=False); b.to_csv(tmp_path / "b.csv", index=False)
+    r = agreement(tmp_path / "a.csv", tmp_path / "b.csv")
+    assert r["n"] == 4 and r["exact_agreement"] == 0.5 and r["binary_relevant_agreement"] == 0.75

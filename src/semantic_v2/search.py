@@ -105,12 +105,17 @@ class SemanticSearcher:
             if not isinstance(top_k, int) or top_k < 1:
                 raise SemanticV2Error("top_k must be a positive integer.")
             pq = self.processor.process(query)
-            if not pq.searchable:
+            scorable_anyway = return_all and pq.status == "low_confidence" and bool(pq.whole_text.strip())
+            if not pq.searchable and not scorable_anyway:
                 return SearchResponse(pq.status, pq.to_dict(), pq.warnings, None, [], MESSAGES.get(pq.status, ""))
             prep = self.prepare(pq)
             results, conf = self.rank(pq, prep, top_k=top_k, exclude_imdb_id=exclude_imdb_id, snippets=snippets)
             status, msg = pq.status, ""
-            if self.cfg.min_confidence > 0 and conf < self.cfg.min_confidence:
+            if pq.status == "low_confidence":                     # vague / unrecognised: no results unless asked for
+                msg = MESSAGES["low_confidence"]
+                if not return_all:
+                    results = []
+            elif self.cfg.min_confidence > 0 and conf < self.cfg.min_confidence:
                 status, msg = "low_confidence", MESSAGES["low_confidence"]
                 if not return_all:
                     results = []

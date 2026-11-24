@@ -51,3 +51,9 @@ After tuning, the tuned file replaces the default; the app only needs the new JS
 `scripts/build_full_indexes.ps1` builds three indexes in sequence (A: bge-base fields + bge-small chunks = main,
 B: bge-base + bge-base, C: minilm-l6 + minilm-l6), resumable, with logs in `logs/`. Indexes are large (GBs):
 do not commit them (see .gitignore lines in the README of this branch); share them via the team drive.
+
+## Label agreement (LLM-assisted labels vs. human check)
+```powershell
+python -m src.semantic_v2 agreement --a evaluation/mood_judgments_v2_labeled.csv --b evaluation/judgments_<initials>.csv
+```
+Reports exact agreement, Cohen's kappa (exact, linear-weighted, and binary relevant/not relevant). Aim for binary kappa >= 0.6.

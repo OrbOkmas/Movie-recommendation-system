@@ -50,7 +50,7 @@ def test_plot_like_queries_are_not_split_or_negated(dev_queries, processor):
 
 
 def test_expected_status(dev_queries, processor):
-    structural = {"empty", "negation_only", "ok", "ok_with_warning"}      # low_confidence needs the scorer
+    structural = {"empty", "negation_only", "ok", "ok_with_warning", "low_confidence"}
     for q in dev_queries:
         exp = q.get("expected_status")
         if exp in structural:
@@ -121,3 +121,21 @@ def test_parse_negation_leaves_non_negations_alone(text):
 def test_filler():
     assert strip_filler("I would like a calm, slow film.") == "calm, slow film"
     assert strip_filler("Romantic and tense at the same time.") == "romantic and tense"
+
+
+@pytest.mark.parametrize("q", ["Anything, really.", "Surprise me.", "I don't know what I want.", "A good movie.",
+                               "I feel like watching something.", "A genre I cannot name, just something different."])
+def test_vague_queries_are_flagged(processor, q):
+    pq = processor.process(q)
+    assert pq.status == "low_confidence" and pq.warnings[0]["code"] == "too_vague"
+
+
+def test_gibberish_is_flagged_but_typos_are_not(processor):
+    assert processor.process("asdfgh qwerty zxcv").warnings[0]["code"] == "unrecognized_words"
+    pq = processor.process("gloooomy thriling mistree")
+    assert pq.status == "ok_with_warning" and "gloomy" in pq.text and "thrilling" in pq.text
+
+
+@pytest.mark.parametrize("q", ["melancholy", "romantic comedy", "something scary", "a lonely city at midnight"])
+def test_short_but_specific_queries_are_fine(processor, q):
+    assert processor.process(q).status == "ok"

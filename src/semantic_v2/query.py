@@ -17,7 +17,7 @@ from pathlib import Path
 
 from .config import QueryConfig
 from .lexicon import (AUX, COPULA, FILLER_PATTERNS, GENERIC_NOUNS, LEADING_JUNK, LIKE_VERBS, NEG_CUES, PROTECTED_WORDS,
-                      SPAN_BOUNDARY, SPAN_LIST_SEP, SPAN_STOP, TRAILING_JUNK)
+                      SPAN_BOUNDARY, SPAN_LIST_SEP, SPAN_STOP, TRAILING_JUNK, VAGUE_WORDS)
 
 LOGGER = logging.getLogger("semantic_v2")
 TOKEN = re.compile(r"[a-z0-9]+(?:'[a-z]+)?(?:-[a-z0-9]+)*|[,.;:!?]")
@@ -250,16 +250,17 @@ class SpellCorrector:
             return None
         return best.term
 
-    def correct(self, text: str, max_unknown_fraction: float) -> tuple[str, dict[str, str]]:
+    def correct(self, text: str, max_unknown_fraction: float) -> tuple[str, dict[str, str], bool]:
+        """Returns (text, corrections, looks_like_gibberish)."""
         words = [m for m in re.finditer(r"[A-Za-z][A-Za-z']*", text)]
         checkable = [m for m in words if "'" not in m.group() and len(m.group()) >= 3]
         unknown = [m for m in checkable if not self.known(m.group().lower())]
         if not checkable or not unknown:
-            return text, {}
+            return text, {}, False
         cands = {m: self._candidate(m.group().lower()) for m in unknown}
         uncorrectable = sum(1 for c in cands.values() if not c)
         if uncorrectable / len(checkable) > max_unknown_fraction:   # mostly gibberish: do not invent words
-            return text, {}
+            return text, {}, True
         fixes: dict[str, str] = {}
         out, last = [], 0
         for m, cand in cands.items():
@@ -270,7 +271,7 @@ class SpellCorrector:
             fixes[w] = cand
             out.append(text[last:m.start()]); out.append(cand); last = m.end()
         out.append(text[last:])
-        return "".join(out), fixes
+        return "".join(out), fixes, False
 
 
 # ----------------------------------------------------------------------------- processor
@@ -293,6 +294,7 @@ class QueryProcessor:
 
     def process(self, query) -> ProcessedQuery:
         pq = ProcessedQuery(original=query if isinstance(query, str) else repr(query))
+        gibberish = False
         if not isinstance(query, str):
             pq.status = "empty"; pq.warn("not_a_string", "The query must be text."); return pq
         text = unicodedata.normalize("NFKC", query).replace("\u2019", "'").replace("\u2018", "'")
@@ -301,7 +303,7 @@ class QueryProcessor:
             pq.status = "empty"; pq.warn("empty_query", "The query is empty."); return pq
         letters = [c for c in text if c.isalpha()]
         if not letters:
-            pq.text = text
+            pq.text = pq.whole_text = text
             pq.status = "low_confidence"; pq.warn("no_text", "The query has no words to search for."); return pq
         if len(letters) >= 4 and sum(c.isupper() for c in letters) / len(letters) > 0.7:
             text = text.lower()                                   # SHOUTING -> normal case (silent)
@@ -314,7 +316,7 @@ class QueryProcessor:
             text = " ".join(words[:self.cfg.hard_max_words])
             pq.warn("query_truncated", f"Only the first {self.cfg.hard_max_words} words were used.")
         if self.spell is not None:
-            text, fixes = self.spell.correct(text, self.cfg.spell_max_unknown_fraction)
+            text, fixes, gibberish = self.spell.correct(text, self.cfg.spell_max_unknown_fraction)
             if fixes:
                 pq.corrections = fixes
                 pq.warn("spelling_corrected", "Corrected: " + ", ".join(f"{a} -> {b}" for a, b in fixes.items()))
@@ -325,6 +327,15 @@ class QueryProcessor:
         if terms and not strip_filler(pos_text).strip(" ,.;:!?"):
             pq.status = "negation_only"
             pq.warn("negation_only", "The query only says what you do NOT want; describe what you do want.")
+            return pq
+        if gibberish:
+            pq.status = "low_confidence"
+            pq.warn("unrecognized_words", "Most words in the query were not recognised; check the spelling.")
+            return pq
+        content = [w for w in re.findall(r"[a-z][a-z'-]*", pos_text.lower()) if w not in VAGUE_WORDS]
+        if not content:
+            pq.status = "low_confidence"
+            pq.warn("too_vague", "The query does not say what you are looking for; describe a mood, theme or story.")
             return pq
         pq.clauses = split_clauses(pos_text if terms else text, self.nlp, self.cfg) if self.cfg.clauses else []
         pq.status = "ok_with_warning" if pq.warnings else "ok"
