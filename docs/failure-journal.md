@@ -27,7 +27,7 @@ This journal documents experiments, unsuccessful approaches, errors, and lessons
 
 ## Experiment Log
 
-### Experiment 2 — TF-IDF Baseline: Query Processing and Retrieval Limitations
+### Experiment 2 [19.11.2026]— TF-IDF Baseline: Query Processing and Retrieval Limitations
 
 **Team member: Eliška**
 
