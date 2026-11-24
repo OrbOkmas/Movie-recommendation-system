@@ -1,0 +1,24 @@
+{
+  "index_version": 1,
+  "method": "semantic",
+  "config": {
+    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "text_column": "text_embedding",
+    "chunk_words": 150,
+    "chunk_overlap": 0,
+    "max_chunks_per_movie": 0,
+    "query_prefix": "",
+    "doc_prefix": "",
+    "batch_size": 64,
+    "query_mode": "raw"
+  },
+  "stats": {
+    "indexed_movies": 100,
+    "movies_without_dialogue": 0,
+    "n_chunks": 4155,
+    "n_chunks_before_cap": 4155,
+    "mean_chunks_per_movie": 41.55,
+    "embedding_dim": 384,
+    "encode_seconds": 152.2
+  }
+}

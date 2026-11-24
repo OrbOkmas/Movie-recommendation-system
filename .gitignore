@@ -361,3 +361,7 @@ $RECYCLE.BIN/
 # local files
 data/*, *.csv, *.srt, *.txt, *.zip, .env
 .idea/
+# semantic search: large / copyrighted generated files
+models/semantic_*/chunk_text.parquet
+models/semantic_*/*.npy
+!models/semantic_sample/*.npy
