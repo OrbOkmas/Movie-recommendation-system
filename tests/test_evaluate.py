@@ -69,3 +69,10 @@ def test_agreement_files(tmp_path):
     a.to_csv(tmp_path / "a.csv", index=False); b.to_csv(tmp_path / "b.csv", index=False)
     r = agreement(tmp_path / "a.csv", tmp_path / "b.csv")
     assert r["n"] == 4 and r["exact_agreement"] == 0.5 and r["binary_relevant_agreement"] == 0.75
+
+
+def test_cli_reads_rankings_with_other_column_names(tmp_path):
+    from semantic_v2.cli import _read_rankings
+    pd.DataFrame({"QID": ["q", "q"], "imdb_id": ["a", "b"]}).rename(columns={"QID": "qid"}).to_csv(tmp_path / "r.csv", index=False)
+    df = _read_rankings(tmp_path / "r.csv")
+    assert list(df["rank"]) == [1, 2] and set(df.columns) >= {"query_id", "movie_id", "rank"}

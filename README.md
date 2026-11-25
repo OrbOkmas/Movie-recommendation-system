@@ -85,3 +85,7 @@ For setup instructions, training and search commands, evaluation procedures, ful
 ## Project Status
 
 In development.
+
+### Semantic search v2 (Matyáš)
+
+Improved semantic retrieval: separate plot/keyword/genre vectors, calibrated fusion, hub correction, negation and typo handling, rule-based abstention. Usage and design: `docs/semantic_v2.md`, `docs/semantic_v2_plan.md`; results: `docs/semantic_v2_results.md`; run everything on the sample with `scripts/run_sample_eval.ps1`.

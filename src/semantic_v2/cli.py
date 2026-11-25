@@ -124,7 +124,8 @@ def cmd_run(a) -> None:
 
 
 def extend_judgments(rk: pd.DataFrame, queries: list[dict], movies: pd.DataFrame, path: Path) -> int:
-    old = pd.read_csv(path, encoding="utf-8-sig", dtype={"movie_id": str}) if path.is_file() else pd.DataFrame(columns=LABEL_COLUMNS)
+    old = (pd.read_csv(path, encoding="utf-8-sig", dtype=str, keep_default_na=False) if path.is_file()
+           else pd.DataFrame(columns=LABEL_COLUMNS))
     seen = set(zip(old.query_id.astype(str), old.movie_id.astype(str)))
     qtext = {q["query_id"]: q["query"] for q in queries}
     snip = dict(zip(movies.imdb_id, movies.get("plot_snippet", pd.Series([""] * len(movies)))))
@@ -139,12 +140,30 @@ def extend_judgments(rk: pd.DataFrame, queries: list[dict], movies: pd.DataFrame
     return len(add)
 
 
+def _read_rankings(path) -> pd.DataFrame:
+    """Rankings CSV of any method; tolerates `imdb_id`/`qid`/`position` column names and a missing rank column."""
+    df = pd.read_csv(path, dtype=str, encoding="utf-8-sig", keep_default_na=False)
+    low = {c.lower().strip(): c for c in df.columns}
+    for target, names in {"movie_id": ("movie_id", "imdb_id"), "query_id": ("query_id", "qid"), "rank": ("rank", "position")}.items():
+        for n in names:
+            if n in low:
+                df = df.rename(columns={low[n]: target}) if low[n] != target else df
+                break
+    for need in ("movie_id", "query_id"):
+        if need not in df.columns:
+            raise SemanticV2Error(f"{path}: no {need} column (found {list(df.columns)})")
+    if "rank" not in df.columns:
+        df["rank"] = df.groupby("query_id").cumcount() + 1
+    df["rank"] = pd.to_numeric(df["rank"], errors="coerce")
+    return df.dropna(subset=["rank"])
+
+
 def cmd_metrics(a) -> None:
     grades = load_judgments(a.judgments)
     rankings = {}
     for spec in a.rankings:
         name, _, path = spec.partition("=") if "=" in spec else (Path(spec).stem.replace("_rankings", ""), "", spec)
-        rankings[name] = pd.read_csv(path, dtype={"movie_id": str})
+        rankings[name] = _read_rankings(path)
     per_q, summary = labeled_summary(rankings, grades, a.k)
     if summary.empty:
         print("No query is fully judged for every method yet. Fill `relevance` in the judgments file first.")
