@@ -1,0 +1,43 @@
+{
+  "index_version": 2,
+  "fingerprint": "f73d1bc981d1",
+  "config": {
+    "field_model": "bge-base",
+    "chunk_model": "bge-small",
+    "chunk_words": 150,
+    "chunk_overlap": 0,
+    "max_chunks_per_movie": 0,
+    "min_dialogue_words": 50,
+    "max_plot_words": 250,
+    "max_keywords": 15,
+    "keywords_template": "Keywords: {}",
+    "genres_template": "Genres: {}",
+    "shard_movies": 2000,
+    "batch_size": 64,
+    "hub_bank_templated": 400,
+    "hub_bank_plot_sentences": 400,
+    "hub_k": 10,
+    "agg_topk": 3,
+    "seed": 13
+  },
+  "complete": true,
+  "data": "data/processed/sample_clean_movies.csv",
+  "max_rows": null,
+  "stats": {
+    "rows_read": 100,
+    "duplicate_ids": 0,
+    "excluded_no_text": 0,
+    "kept": 100,
+    "no_plot": 0,
+    "no_keywords": 29,
+    "no_genres": 4,
+    "no_dialogue": 0,
+    "indexed_movies": 100,
+    "n_shards": 1,
+    "n_chunks": 4155,
+    "hub_bank_size": 483,
+    "field_dim": 768,
+    "chunk_dim": 384,
+    "build_seconds": 6.9
+  }
+}
