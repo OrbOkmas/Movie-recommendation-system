@@ -51,9 +51,11 @@ Implemented in `src/semantic.py`, evaluated in `notebooks/04_semantic_mood_evalu
 
 Movies and queries are encoded with the pre-trained model `all-MiniLM-L6-v2`, so a query can match a movie by meaning without sharing words. The model reads only about 200 words, so each movie gets one vector for metadata and plot and one vector per 150-word subtitle chunk (about 42 per movie). Final score = 0.5 × plot similarity + 0.5 × mean of the 3 best subtitle chunks. Unlike TF-IDF, the query is not stop-word filtered or lemmatised, and each result comes with the dialogue passage that matched. See [Semantic Search 1 documentation](docs/semantic_pipeline.md).
 
-**In progress, Semantic Search v2** (`src/semantic_v2/`, [docs](docs/semantic_v2.md)): separate plot, keyword and genre vectors, a correction for "hub" movies, a negation penalty, spelling correction and an abstention status. It is implemented and has offline tests, but its results are not labelled yet.
-
 **Evaluation (both approaches):** the same 28 mood queries (`evaluation/mood_queries.json`; direct moods, mood themes, subtle vibes, negation, edge cases), one judge grading each query/movie pair 0 / 1 / 2 in pooled sheets (`evaluation/mood_judgment_tfidf.csv`, `evaluation/mood_judgment_semantic.csv`), and Precision@5, MRR@5 and nDCG@5.
+
+### Approach 3: Semantic Search v2
+
+Improved semantic retrieval: separate plot/keyword/genre vectors, calibrated fusion, hub correction, negation and typo handling, rule-based abstention. Usage and design: `docs/semantic_v2.md`, `docs/semantic_v2_plan.md`; results: `docs/semantic_v2_results.md`; run everything on the sample with `scripts/run_sample_eval.ps1`.
 
 ## Results
 
