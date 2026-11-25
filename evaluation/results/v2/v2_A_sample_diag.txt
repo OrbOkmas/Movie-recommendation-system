@@ -1,0 +1,3 @@
+﻿HUB CONCENTRATION {"queries": 27, "slots": 135, "distinct_movies": 51, "max_appearances": 14, "most_frequent": "tt0105342", "gini": 0.442}
+
+LATENCY ms: median=36 p95=81

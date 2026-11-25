@@ -365,3 +365,9 @@ data/*, *.csv, *.srt, *.txt, *.zip, .env
 models/semantic_*/chunk_text.parquet
 models/semantic_*/*.npy
 !models/semantic_sample/*.npy
+
+# semantic v2: indexes are large and reproducible; keep only the small sample index
+models/v2_*
+!models/v2_sample_bge/
+!models/v2_sample_l6/
+logs/

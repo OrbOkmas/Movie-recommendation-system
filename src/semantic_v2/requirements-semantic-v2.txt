@@ -1,0 +1,10 @@
+numpy
+pandas
+pyarrow
+scikit-learn
+sentence-transformers
+spacy
+symspellpy
+pytest
+# CUDA build of PyTorch for the GPU (Windows/NVIDIA): see https://pytorch.org/get-started/locally/
+# spaCy model:  python -m spacy download en_core_web_sm

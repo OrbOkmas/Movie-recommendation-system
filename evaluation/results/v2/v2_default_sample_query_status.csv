@@ -1,0 +1,29 @@
+method,query_id,category,query,status,confidence,n_warnings,warning_codes,latency_ms
+v2_default_sample,M01,direct_mood,I feel like watching something gloomy and thrilling.,ok,0.31995,0,,326
+v2_default_sample,M02,direct_mood,"I want a cozy, comforting movie for a rainy evening.",ok,0.29392,0,,33
+v2_default_sample,M03,direct_mood,Something eerie and unsettling that slowly builds tension.,ok,0.34787,0,,17
+v2_default_sample,M04,direct_mood,An uplifting and hopeful film that makes me feel better.,ok,0.37713,0,,17
+v2_default_sample,M05,direct_mood,I am in the mood for something melancholic and reflective.,ok,0.28517,0,,20
+v2_default_sample,M06,direct_mood,"Give me a funny, chaotic movie that does not take itself seriously.",ok,0.31919,0,,21
+v2_default_sample,M07,mood_theme,A tense mystery set in an isolated place with secrets.,ok,0.33011,0,,17
+v2_default_sample,M08,mood_theme,A bittersweet coming-of-age story about friendship and growing apart.,ok,0.41845,0,,17
+v2_default_sample,M09,mood_theme,A warm romance about two people finding each other unexpectedly.,ok,0.40983,0,,17
+v2_default_sample,M10,mood_theme,"A haunting movie about grief, memory and loss.",ok,0.44662,0,,17
+v2_default_sample,M11,mood_theme,"An adventurous story full of wonder, exploration and discovery.",ok,0.31994,0,,18
+v2_default_sample,M12,mood_theme,A paranoid psychological thriller about betrayal and deception.,ok,0.40946,0,,17
+v2_default_sample,M13,subtle_vibe,I want a movie that feels like autumn rain and quiet dread.,ok,0.32696,0,,20
+v2_default_sample,M14,subtle_vibe,Something that feels like a lonely city at midnight.,ok,0.33114,0,,17
+v2_default_sample,M15,subtle_vibe,"A movie with the vibe of an old, forgotten seaside town.",ok,0.34325,0,,18
+v2_default_sample,M16,subtle_vibe,I want to feel uneasy and curious at the same time.,ok,0.21447,0,,19
+v2_default_sample,M17,subtle_vibe,A dreamy and surreal movie with a beautiful but disturbing atmosphere.,ok,0.38203,0,,18
+v2_default_sample,M18,subtle_vibe,"An intimate, quiet film with hidden emotional intensity.",ok,0.35807,0,,19
+v2_default_sample,M19,negation,"A dark mystery, but not something too scary.",ok,0.3586,0,,28
+v2_default_sample,M20,negation,I want something sad but not hopeless.,ok,0.30015,0,,20
+v2_default_sample,M21,negation,Suspense without violence or gore.,ok,0.31682,0,,18
+v2_default_sample,M22,negation,A funny movie that is not childish.,ok,0.31663,0,,22
+v2_default_sample,M23,negation,"No horror, just tension and psychological mystery.",ok,0.2805,0,,19
+v2_default_sample,M24,negation,Exciting but without loud action and explosions.,ok,0.21754,0,,18
+v2_default_sample,M25,edge_case,I feel like watching something.,ok,0.24654,0,,16
+v2_default_sample,M26,edge_case,gloooomy thriling mistree,ok_with_warning,0.41878,1,spelling_corrected,17
+v2_default_sample,M27,edge_case,"A genre I cannot name, just something different.",ok,0.32465,0,,17
+v2_default_sample,M28,edge_case,,empty,,1,empty_query,0
