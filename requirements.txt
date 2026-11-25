@@ -1,0 +1,26 @@
+# Core data manipulation and math
+numpy
+pandas
+scipy
+pyarrow
+
+# Machine learning & TF-IDF baseline
+scikit-learn
+joblib
+
+# Natural language processing
+spacy
+nltk
+
+# Semantic search & neural embeddings
+sentence-transformers
+
+# Plotting & Jupyter notebooks
+matplotlib
+jupyter
+ipykernel
+
+# External data extraction & utilities
+requests
+python-dotenv
+tqdm

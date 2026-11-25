@@ -27,7 +27,7 @@ This journal documents experiments, unsuccessful approaches, errors, and lessons
 
 ## Experiment Log
 
-### Experiment 2 — TF-IDF Baseline: Query Processing and Retrieval Limitations
+### Experiment 2 [19.11.2026]— TF-IDF Baseline: Query Processing and Retrieval Limitations
 
 **Team member: Eliška**
 
@@ -97,21 +97,8 @@ TF-IDF provides a useful and interpretable baseline, but it relies on vocabulary
 
 **What we learned:** Test small helper functions on hand-made inputs before running them on hours of data.
 
-### Experiment 5 — 2026-11-20 — Development environment without model access
 
-**Team member:** Tomáš
-
-**What we tried:** Develop and run the semantic pipeline in the same environment where the code was written.
-
-**What went wrong:** The environment had no access to the Hugging Face model hub (download blocked, HTTP 403) and no GPU. Measured on a team laptop (CPU only): encoding the 100-movie sample (4,155 chunks) took 152 s, i.e. ~27 chunks/s. The full data (~50,000 movies × ~42 chunks ≈ 2 million chunks) would take roughly 21 hours on CPU.
-
-**What we changed:** The pipeline was tested end-to-end with an offline stand-in encoder (`--model debug-hashing`, hashing bag-of-words — explicitly not semantic, never used for results). Real encoding runs in Google Colab with a T4 GPU (`notebooks/03_semantic_search_colab.ipynb`), with a 500-movie timing test first and an option `--max-chunks-per-movie` if the full run does not fit into a Colab session.
-
-**Open issues found during testing (to be checked with the real model):**
-- Dense retrieval **always returns results**, also for the vague query M25 ("I feel like watching something.") and the misspelled M26, where TF-IDF returned nothing. That is not automatically better: returning five random movies with high confidence may be worse than returning none. We plan to look at the score distribution and consider a minimum-similarity threshold.
-- Four semantic variants add ~300 new query/movie pairs to `mood_judgments.csv` on the sample alone. We need to decide as a team whether to judge all variants or only the best two.
-
-### Experiment 6 — 2026-11-20 — First real run of semantic search: one movie dominates, negation still fails
+### Experiment 5 — 2026-11-20 — First real run of semantic search: one movie dominates, negation still fails
 
 **Team member:** Tomáš
 
@@ -132,198 +119,41 @@ TF-IDF provides a useful and interpretable baseline, but it relies on vocabulary
 
 **What we changed / plan:** (1) human relevance labels for the pooled results before claiming which method is better; (2) test a hub correction — normalise each movie's subtitle scores (e.g. subtract the movie's average similarity to generic queries) so movies whose dialogue is "about everything" stop dominating; (3) report negation as an unsolved limitation of both approaches rather than as an advantage of embeddings.
 
-### Experiment 7 — 2026-11-22 — Semantic v2: design numbers taken from a damaged copy of the sample
+### Experiment 6 — 2026-11-23 — Human evaluation of semantic search: better than TF-IDF, but subtitles help less than expected
 
-**Team member:** Matyáš
+**Team member:** Tomáš
 
-**What we tried:**
+**What we tried:** Human relevance labels (0/1/2) for all 275 query/movie pairs recommended only by semantic search, plus the existing 119 TF-IDF labels, and the same metric code as for TF-IDF (`notebooks/04_semantic_mood_evaluation.ipynb`). To avoid favouring the semantic side (four variants against one TF-IDF), we fixed the main comparison **before** labelling: TF-IDF vs `sem_combined` (both use plot + subtitles). The other three variants are reported as an ablation. The labelling sheet was pooled and blind: it did not say which method recommended a movie, and the 33 pairs already judged for TF-IDF were reused, not judged again.
 
-To plan v2 we profiled the 100-movie `sample_clean_movies.csv` (a copy with the transcript column removed and re-saved) to learn missing rates, plot lengths and the year range.
+**Why we tried it:** Experiment 5 was only qualitative; we needed numbers to compare the two approaches.
 
-**Why we tried it:**
+**What went wrong / what we found:**
+1. **Main result (23 queries):** `sem_combined` P@5 0.461, MRR@5 0.638, nDCG@5 0.631 vs TF-IDF 0.322 / 0.456 / 0.481. Semantic search is better on 14 queries, TF-IDF on 6, 3 ties. P@5 difference +0.14 (bootstrap 95 % CI 0.03–0.25, Wilcoxon p = 0.045); nDCG@5 difference +0.15 (CI 0.03–0.28, p = 0.07). A consistent improvement, but 23 queries are too few for a strong claim.
+2. **Subtitles alone are weaker than the plot alone** (27 queries): plot-only `sem_meta` nDCG@5 0.657, subtitles-only 0.587–0.590, combined 0.641 (best P@5: 0.467). The hypothesis that dialogue carries the mood of a film is only partly supported.
+3. **The hub problem from Experiment 5 is confirmed by the labels:** *Ways to Live Forever* is in 14 of 27 `sem_combined` top-5 lists and was graded 0 in 10 of them.
+4. **Negation is still unsolved:** "No horror, just tension and psychological mystery" (M23) has 0 relevant movies for every method.
+5. **Subtitle files contain non-dialogue text:** for M23 the best chunk of *Scared* is translator credits ("German subtitles translated by …"). Our preprocessing does not remove subtitle credits, so they become searchable text.
+6. **The vague query M25** ("I feel like watching something") got grade 1 for all five semantic results, i.e. the judge treated any movie as partly fitting. TF-IDF returned nothing for M25, so it is excluded from the main comparison, but it shows that "always returning something" is hard to evaluate.
 
-We wanted to base the design (missing-field handling, encoder for short texts, limitations) on facts about the data instead of guesses.
+**Evidence / Example:** `../evaluation/results/comparison/comparison_metrics.csv`, `comparison_per_query.csv`, `semantic_failure_candidates.csv`; M09 "A warm romance…": semantic grades 2,1,0,0,0 vs TF-IDF 0,0,0,0,0 (TF-IDF ranked the horror film *Bhoot* second).
 
-**What went wrong:**
+**Threat to validity:** all pairs were judged by the same team member, so both methods are measured on the same scale, but by one subjective judge. The TF-IDF and semantic sheets were labelled in separate sessions and the semantic sheet contained only semantic results, so blinding between the methods was only partial. A second judge re-labelling a sample of pairs would let us measure agreement.
 
-The re-saved copy was damaged: it was comma-separated with about 315 empty trailing columns, plot text was cut at its first comma, and some rows were empty after `keywords`. Conclusions drawn from it were wrong: "13 % of movies have no plot", "plots have a median of 13 words", "the corpus ends in 2016".
+**What we changed / plan:** report `sem_combined` as Semantic Search 1 with all variants and the judge caveat; next steps are a hub correction (normalise each movie's scores by its average similarity to generic queries), removing subtitle credits in preprocessing, and the full-data run.
 
-**Evidence / Example:**
+### Experiment 7 — 2026-11-23 — Spelling correction for misspelled queries (tested, not adopted)
 
-In the damaged copy the `plot_word_count` column said median 39 words while the actual `clean_plot` had median 13. The real profile of `clean_movies.parquet` (51,616 movies, `evaluation/results/v2/data_profile.json`): plot missing for 0.5 % (270 movies), keywords 27.6 %, plot median 43 words, years 1895–2026.
+**Team member:** Tomáš
 
-**What we changed:**
+**What we tried:** Correct misspelled query words before encoding, with `pyspellchecker` (edit distance ≤ 2) after collapsing repeated letters ("gloooomy" → "gloomy"). Three versions on the 28 test queries and a few extra typos.
 
-We added a streaming `profile` command and rebuilt every number in the plan from the full corpus. Statements that came from the damaged copy were removed from the plan and marked as corrected.
-
-**What we learned:**
-
-Never derive data facts from a re-exported file. Compare a derived value with its own metadata column (`plot_word_count` vs. the real text length) and profile the original data.
-
-### Experiment 8 — 2026-11-23 — Semantic v2: the negation parser produced false negations
-
-**Team member:** Matyáš
-
-**What we tried:**
-
-A rule-based parser that finds negation cues ("not", "without", "no", "never", "avoid", "n't"), cuts the negated phrase out of the query and penalises films similar to it, because the encoder treats "no horror" like "horror" (experiment 6).
-
-**Why we tried it:**
-
-Negation was the one failure of v1 that the encoder cannot fix by itself, and TF-IDF deletes "not" as a stop word.
+**Why we tried it:** Neither method handles M26 "gloooomy thriling mistree": it shares no movie with the correctly spelled M01 in three of four semantic variants, and TF-IDF returns nothing.
 
 **What went wrong:**
+1. **General English dictionary:** fixes "gloomy" and "thrilling" but breaks film vocabulary: "horor" → "honor", "scarry" → "carry", "noir" → "nor", "romcom" → "room".
+2. **Dictionary boosted with all words from our plots and keywords:** fixes "scary" and keeps "noir", but introduces new errors: "thriling" → "thriving", "mistree" → "mistress" (words from the plots).
+3. **Dictionary boosted with a small hand-made list of genres and ~80 mood words:** works ("horor comedy" → "horror comedy", "suspensfull" → "suspenseful", "creppy" → "creepy"), changes none of the 27 correctly spelled queries, but still turns "mistree" into "mistake" (too far from "mystery" for edit distance 2) and would damage short words and names ("neo" → "no", "Amelie" → "amelia").
 
-The first version also fired on sentences that are not negations. "Give me a funny, chaotic movie that does not take itself seriously." (M06) was parsed as "avoid *itself seriously*" because "take" was in the list of verbs that may follow "do not" ("can't take violence"). "We do not want anything too long either" kept the word "either" in the negated term, and removing a phrase left fragments such as "funny but, with ghosts".
+**What we changed:** Not adopted for now. Only one of 28 test queries contains typos, so the effect on the metrics would be negligible, and a lexicon written with knowledge of our test queries risks tuning to the test set. Documented as a limitation; the better next step is a context-aware spelling model (e.g. a seq2seq spelling-correction model from Hugging Face) evaluated on new typo queries that were not used during development.
 
-**Evidence / Example:**
-
-M06 produced a negated term although the user asks for something funny. The cases "I don't know what I want", "a genre I cannot name", "nothing but fun", "not only funny but moving" and "dislike each other" must not be parsed as negation.
-
-**What we changed:**
-
-We removed "take", added filler words to the span stop list, cleaned dangling conjunctions after removal, and wrote 7 gold-annotated negation dev queries (`evaluation/dev_queries.json`, tested in `tests/test_query.py`) plus explicit "must stay untouched" tests. Any case the parser is unsure about is left alone, because the whole query is always scored as well.
-
-**What we learned:**
-
-A false negation is worse than a missed one: it silently removes good films. Rules for natural language need negative tests (sentences that look like negation but are not), not only positive examples.
-
-### Experiment 9 — 2026-11-23 — Semantic v2: spell correction invents words and cannot fix real-word errors
-
-**Team member:** Matyáš
-
-**What we tried:**
-
-SymSpell correction (edit distance ≤ 2) with an English frequency dictionary plus the corpus vocabulary, to repair queries such as "gloooomy thriling mistree" (M26), which in v1 shared no movie with the correctly spelled query.
-
-**Why we tried it:**
-
-A subword tokenizer turns typos into unrelated tokens, so the encoder cannot recover them.
-
-**What went wrong:**
-
-The correction itself produced errors: "humor" was changed to "humour" (US spelling missing from the dictionary), "litle" became "title" instead of "little" (equal distance, higher frequency), "thriling" became "thriving". "mistree" (intended "mystery") is still wrong, and real words used as typos ("griping" for "gripping", "grimm" for "grim") are never corrected.
-
-**Evidence / Example:**
-
-On the full index the typo queries retrieve different films than the clean ones: D23 "Cozy and a little bit grim" vs. its typo version D35 shares 0 of 10 movies, D02 vs. D34 shares 4 of 10 (`evaluation/results/v2/v2_A_full_diag.txt`).
-
-**What we changed:**
-
-US/UK spelling variants are never "corrected", candidates must start with the same letter, missing, extra or transposed letters are preferred to substitutions, distance 2 is only allowed for non-substitution edits, and queries that are mostly unrecognisable are left unchanged (and flagged, see experiment 11). Every correction is shown to the user in a warning.
-
-**What we learned:**
-
-Edit-distance correction helps with simple typos but cannot fix real-word errors or names, and every correction is a risk. The honest result is a measured limit (typo overlap 0.0 and 0.4), not a claim that typos are solved.
-
-### Experiment 10 — 2026-11-23 — Semantic v2: clause splitting cut phrases in the wrong places
-
-**Team member:** Matyáš
-
-**What we tried:**
-
-Splitting a query at "and", "but", "with" and commas into clauses ("cozy" / "a little bit grim") and combining the clause scores with a soft minimum, so that a film must fit all moods.
-
-**Why we tried it:**
-
-One vector for "cozy and a little grim" averages two opposite moods.
-
-**What went wrong:**
-
-The first rule split topical phrases and adjective pairs: "A bleak drama about poverty and survival" became "bleak drama about poverty" + "survival", "…a beautiful but disturbing atmosphere" became "a beautiful" + "disturbing atmosphere" (M17), "the vibe of an old, forgotten seaside town" became "the vibe of an old" + "forgotten seaside town" (M15).
-
-**Evidence / Example:**
-
-The three queries above, run through the processor (see `tests/test_query.py`, which now fixes the expected clauses for the 6 multi-aspect dev queries and asserts that the 5 plot-like queries are not split).
-
-**What we changed:**
-
-Splitting is only allowed when the query contains no finite verb, no preposition other than "with", and no dangling "a + adjective" piece; at most 4 clauses of at most 5 words. Everything else is scored as one query. The whole query is always part of the final score (`alpha`).
-
-**What we learned:**
-
-A conservative splitter that does nothing is better than a clever one that damages the query; the benefit of splitting has to be shown by the ablation, not assumed.
-
-### Experiment 11 — 2026-11-24 — Semantic v2: a numeric confidence threshold cannot detect vague or nonsense queries
-
-**Team member:** Matyáš
-
-**What we tried:**
-
-Abstain ("no confident match") when the best raw similarity is below a threshold calibrated on dev queries (`calibrate`), so that "Surprise me" or gibberish does not return five confident-looking films (v1 returned five films for M25 "I feel like watching something").
-
-**Why we tried it:**
-
-It is the standard approach and needs no rules.
-
-**What went wrong:**
-
-With BGE the cosine similarities are compressed into a narrow band, and the confidence of nonsense queries lies inside the range of normal queries. The z-score of the best movie is also useless, because the top of a distribution is always several standard deviations high.
-
-**Evidence / Example:**
-
-Dev queries with the default settings (`evaluation/results/v2/v2_A_full_calibrate.txt`): normal queries 0.542–0.663, gibberish "asdfgh qwerty zxcv" 0.571, "Surprise me." 0.628. Best threshold: Youden J = 0.381, not separable. The top-1 z-score of the gibberish query (3.67) was above the median of the normal queries (3.22). Status accuracy of the full run before the fix: 12/17 (71 %), all 5 errors were vague/gibberish queries.
-
-**What we changed:**
-
-Rule-based abstention in the query processor (`too_vague` for queries made only of words without criteria, `unrecognized_words` for mostly unknown tokens); the numeric threshold stays off (`min_confidence = 0`). Unit tests cover 6 vague queries, gibberish, and short specific queries ("melancholy", "romantic comedy") that must still pass. The rerun of the diagnostics is in `evaluation/results/v2/v2_A_full_diag.txt` (the result before the fix is kept in `…_before_patch3.txt`).
-
-**What we learned:**
-
-Similarity scores of a dense encoder are not calibrated probabilities. This fix was motivated by test queries M25 and M27, so the sample results cannot count as an untouched test; this is stated in the results.
-
-### Experiment 12 — 2026-11-23 — Semantic v2: the encoder was chosen
-
-**Team member:** Matyáš
-
-**What we tried:**
-
-Replacing MiniLM-L6 by stronger encoders. We timed `minilm-l6`, `bge-small` and `bge-base` as the chunk encoder on 500 movies (21,748 chunks) on an RTX 2060 laptop.
-
-**Why we tried it:**
-
-2.25 M subtitle chunks have to be encoded; the time decides what is possible before the deadline.
-
-**What went wrong:**
-
-Nothing failed, but we could not decide by quality: without labels we cannot show that a bigger encoder is better for mood retrieval, and the assumption "bge-base cannot be worse than bge-small" is untested (published gains are small and measured on question-answering benchmarks, and subtitles are our weakest signal).
-
-**Evidence / Example:**
-
-18.6 s, 32.0 s and 74.3 s per 500 movies (`evaluation/results/v2/encoder_timing.csv`), i.e. about 32 min, 55 min and 2.1 h for 51,616 movies. The main index (bge-base for plot/keywords/genres, bge-small for chunks) took 3,474 s (26 shards, 2,254,879 chunks).
-
-**What we changed:**
-
-The expensive channel got the cheaper encoder, the short fields got the stronger one, and the other two encoder combinations are built as ablation indexes (`scripts/build_full_indexes.ps1`). The choice is documented as a decision under a time budget.
-
-**What we learned:**
-
-Report what was measured (time) separately from what was assumed (quality). The ablation must test the assumption before the final report claims anything.
-
-### Experiment 13 — 2026-11-22 — The shared nDCG@5 cannot see relevant movies that were not retrieved
-
-**Team member:** Matyáš
-
-**What we tried:**
-
-Reusing the team's metric definition (`notebooks/02_mood_query_evaluation.ipynb`, `run_semantic_eval.py`) to compare v2 with TF-IDF and semantic v1.
-
-**Why we tried it:**
-
-All methods should be measured identically on the same judgments.
-
-**What went wrong:**
-
-The ideal DCG in that definition is computed from the same five retrieved movies, so a list of five "somewhat relevant" movies gets nDCG@5 = 1.0 even if the pool contains clearly relevant movies it missed. The metric rewards ordering, not retrieval quality.
-
-**Evidence / Example:**
-
-Unit test `tests/test_evaluate.py`: a list of five movies with relevance 1 while the judged pool also holds two movies with relevance 2 gets 1.00 with the team definition and about 0.47 when the ideal ranking comes from the whole judged pool.
-
-**What we changed:**
-
-We report both: `ndcg@k_team` (identical to the team notebook, for comparability) and `ndcg@k_pool` (ideal from all judged movies of the query), with per-query bootstrap intervals. We also report P@5 and MRR@5 unchanged.
-
-**What we learned:**
-
-A metric inherited from a teammate still needs a sanity test. The pool-based version is also imperfect (the pool depends on which methods were pooled), which is why both are shown.
+**What we learned:** a general-purpose tool can be worse than doing nothing in a specialised domain; any domain fix must be checked for false corrections on correctly spelled input.
