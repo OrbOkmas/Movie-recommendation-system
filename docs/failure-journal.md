@@ -9,21 +9,40 @@ This journal documents experiments, unsuccessful approaches, errors, and lessons
 
 ## Experiment Log
 
-### Experiment 1 — [Date]
+### Experiment 1 — 2026-11-18 — Data Pipeline & Preprocessing: OPUS Extraction, Windows Multiprocessing Locks, and PyArrow Memory Bottlenecks
 
-**Team member:**
+**Team member:** Vojta
 
 **What we tried:**
 
+We built a reproducible pipeline to acquire the OPUS OpenSubtitles `v2018` English corpus (`en.zip`), parse 446,612 XML subtitle files, align unique IMDb IDs with TMDB metadata, and lemmatize all 51,616 matched feature films on Windows using multi-core `spaCy` (`nlp.pipe(..., n_process=-1)`) followed by Pandas exploratory analysis on the full Parquet dataset.
+
 **Why we tried it:**
+
+We needed a clean, deduplicated, full-dialogue dataset for both TF-IDF and dense transformer models without manually downloading bilingual alignment files or hitting RAM/runtime bottlenecks on a Windows laptop.
 
 **What went wrong:**
 
+1. **Missing XML `<meta>` headers & `opustools` bloat:** Using `opustools` triggered multi-gigabyte bilingual alignment downloads (`af-en`, `ar-en`), and parsing `<meta>` nodes inside OPUS `v2018` XML files returned `0` IMDb IDs because header metadata had been stripped.
+2. **API checkpoint blind spot on TV episodes:** Over 63% of unique IMDb IDs in OPUS belong to TV series episodes. Saving only matched movies caused script restarts to re-query thousands of non-movie IDs against TMDB `/find`.
+3. **Windows `spaCy` multiprocessing file lock (`OSError [Errno 22]`) & neural stalls:** Spawning 11 worker processes on Windows caused simultaneous reads on `venv` package metadata (`annotated_types-.../entry_points.txt`), crashing with `OSError: [Errno 22] Invalid argument`. Running `en_core_web_sm` with its default neural `tok2vec` + `tagger` pipeline also stalled for minutes whenever a batch hit concatenated mega-subtitle files (`> 30,000` words).
+4. **PyArrow `ArrowMemoryError` during Pandas EDA:** Calling `.copy()` and `.explode("genre_list")` on the full 51,616-row DataFrame duplicated multi-gigabyte subtitle text arrays in memory, triggering `ArrowMemoryError: realloc of size 3215201408 failed`.
+
 **Evidence / Example:**
+
+- XML `<meta>` parsing yielded `0 / 446,612` IMDb IDs; directory-path parsing recovered `140,044` unique IMDb IDs (`51,616` feature films after TMDB filtering).
+- Multi-core `nlp.pipe` traceback on Windows: `OSError: [Errno 22] Invalid argument: '...\venv\Lib\site-packages\annotated_types-0.8.0.dist-info\entry_points.txt'`.
+- Full-DataFrame `.explode()` in `notebooks/01_data_exploration.ipynb` failed with `ArrowMemoryError: realloc of size 3215201408 failed` (~3.2 GB contiguous allocation).
 
 **What we changed:**
 
+- **Direct archive & path parsing:** Streamed `en.zip` directly via `requests` and parsed `release_year` and zero-padded `imdb_id` (`ttXXXXXXX`) from internal archive paths (`OpenSubtitles/xml/en/{year}/{imdb_id}/{file}.xml`), alongside a `checked_imdb_ids.txt` log for API checkpointing.
+- **Fast single-process lemmatization & length caps:** Reinstalled the locked `venv` package, capped extreme outlier documents at `10,000` words for `text_tfidf`, switched to single-process `spaCy` tokenization paired with `WordNetLemmatizer` (`n_process=1`), and added a `< 50`-word subtitle fallback (`has_valid_subtitles`) so noisy files fall back to plot summaries.
+- **Column-sliced EDA & Parquet storage:** Exported the master dataset as Apache Parquet (`clean_movies.parquet`) and sliced only lightweight metadata columns (`genres`, `release_year`, `subtitle_word_count`) before `.explode()` or filtering in `notebooks/01_data_exploration.ipynb`.
+
 **What we learned:**
+
+On Windows, multiprocessing (`spawn`) introduces heavy IPC and filesystem contention that makes single-process tokenization + `WordNetLemmatizer` far faster and more reliable than multi-core neural `spaCy` pipelines. Furthermore, when working with multi-gigabyte text columns in Pandas/PyArrow, lightweight metadata slices must always be projected before filtering or exploding rows.
 
 ### Experiment 2 [19.11.2026]— TF-IDF Baseline: Query Processing and Retrieval Limitations
 

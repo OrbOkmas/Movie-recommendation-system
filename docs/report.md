@@ -17,15 +17,17 @@ Develop and evaluate a movie recommendation system that helps users discover rel
 ## 1. Data and Methodology
 
 ### Dataset
-- **Source:** [Dataset name and link]
-- **Size:** [Number of movies and records]
-- **Features:** [Descriptions, genres, tags, ratings, etc.]
-- **Data quality:** [Missing values, duplicates, noisy descriptions]
+- **Source:** OPUS OpenSubtitles `v2018` English corpus (`en.zip`, 24 GB; Lison & Tiedemann, 2016) aligned by IMDb identifier with metadata from The Movie Database (TMDB API v3/v4).
+- **Size:** **51,616** verified feature films (filtered down from 446,612 raw XML subtitle files and 140,044 unique IMDb IDs after removing duplicate uploads and TV series episodes), stored in `data/processed/clean_movies.parquet` alongside a 100-movie evaluation sample (`data/processed/sample_clean_movies.csv`).
+- **Features:** Unique cross-platform identifiers (`opus_id`, `imdb_id`, `tmdb_id`), `tmdb_title`, `release_year` (1895–2018 corpus cutoff), `genres` (pipe-delimited), `keywords` (pipe-delimited), `plot` synopsis, `poster_url`, `original_language`, `runtime`, `vote_average`, `vote_count`, cleaned subtitle dialogue (`clean_subtitles`), and diagnostic length/quality flags (`plot_word_count`, `subtitle_word_count`, `has_valid_subtitles`).
+- **Data quality:** Primary keys (`opus_id`, `imdb_id`, `tmdb_id`) have **0** duplicates. Missing rates are low: `0.52%` (270 movies) lack a TMDB plot, `27.64%` (14,265 movies) lack TMDB keywords, `0.18%` (92 movies) have incomplete subtitles (`< 50` words), and `0.07%` (34 movies) exceed `30,000` subtitle words. Because the corpus originates from the English OPUS archive (`en.zip`) with a 2018 cutoff, it skews toward post-2000 releases and Anglophone productions.
 
 ### Preprocessing
-[Describe the exact cleaning and transformation steps implemented.]
-
-### Recommendation Approaches
+Implemented as a reproducible, streaming pipeline in `src/preprocessing.py` (with exploratory diagnostics in `notebooks/01_data_exploration.ipynb`) that produces two distinct text representations tailored to downstream model families:
+1. **Shared Stage 1 Cleaning & Detokenization:** Streams `raw_subtitles.txt` line-by-line for the 51,616 matched films, normalizes Unicode (`NFKC`), strips XML/HTML tags, hearing-impaired brackets (`[Music]`, `(Sighs)`), musical symbols, speaker hyphens, and uploader watermarks, and restores natural punctuation/contraction spacing split by OPUS `<w>` token joins.
+2. **Quality-Flag Fallback (`has_valid_subtitles`):** Movies with fewer than 50 cleaned subtitle words (92 records) are flagged (`has_valid_subtitles = False`) and omit dialogue from both downstream text representations, falling back cleanly to `Title + Genres + Keywords + Plot`.
+3. **Track A — Lexical Input (`text_tfidf`):** Combines title, genres, keywords, plot, and valid dialogue (capped at 10,000 words per document to prevent extreme-length outliers from skewing term weights), then applies lowercasing, `spaCy` tokenization, English stop-word removal, and `WordNet` lemmatization.
+4. **Track B — Dense Semantic Input (`text_embedding`):** Preserves natural casing, punctuation, and sentence boundaries in a structured template (`Title: ... | Genres: ... | Keywords: ... | Plot: ... | Dialogue: ...`) for transformer encoders (`all-MiniLM-L6-v2`, `BGE`).
 
 ## TF-IDF Baseline
 
