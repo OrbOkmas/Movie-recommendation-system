@@ -5,15 +5,17 @@ Run from the repository root (or double-click start_app.bat):
     py -m streamlit run app.py
 
 Optional env vars:
-    MOVIE_INDEX       index folder       (default: models/v2_sample_bge)
+    MOVIE_INDEX       index folder       (default: models/v2_bgebase_bgesmall, full 51k-movie index)
     MOVIE_CONFIG      config JSON        (default: configs/v2_default.json)
-    MOVIE_DATA        movie data file, CSV or Parquet (default: data/processed/sample_clean_movies.csv)
+    MOVIE_DATA        movie data file, CSV or Parquet (default: data/processed/clean_movies.parquet)
+                      for the 100-movie sample use models/v2_sample_bge + data/processed/sample_clean_movies.csv
     HF_HUB_OFFLINE=1  skip HuggingFace network calls after the first run
 
 Posters and plots come from the movie data file (columns imdb_id, poster_url, clean_plot).
 On the first start the app copies just those columns into app_details.csv (a few MB),
 and from then on reads only that small file, so the big data file is no longer needed.
-Delete app_details.csv whenever you switch to a different data file.
+Delete app_details.csv whenever you switch to a different data file (it is generated, keep it out of Git
+unless you deploy without the data file).
 Without either file the app still works: short plot snippet from the index, no posters.
 """
 import os
@@ -33,6 +35,7 @@ DETAIL_COLS = ["imdb_id", "poster_url", "clean_plot"]
 FIRST_N = 3   # movies shown right after a search
 STEP_N = 3    # added by each "Show more" click
 MAX_N = 10    # upper limit (also how many the search returns)
+MAX_QUERY_CHARS = 300  # long enough for plot-like queries
 
 
 def imdb_tt(movie_id) -> str:
@@ -124,7 +127,40 @@ def details_lookup():
 
 
 def clean_genres(raw: str) -> str:
-    return str(raw).replace("[", "").replace("]", "").replace("'", "").replace('"', "").strip()
+    """'Drama|Comedy' (or a list-like string) -> 'Drama, Comedy'."""
+    s = str(raw).replace("[", "").replace("]", "").replace("'", "").replace('"', "")
+    return ", ".join(g.strip() for g in s.replace("|", ",").split(",") if g.strip())
+
+
+MD_SPECIAL = "\\`*_{}[]<>#|~$"
+
+
+def md_escape(text: str) -> str:
+    """Stops plot text from being read as Markdown/LaTeX ($ -> math, * -> italics, ...)."""
+    return "".join("\\" + ch if ch in MD_SPECIAL else ch for ch in str(text))
+
+
+# Warning codes from src/semantic_v2/query.py
+INFO_CODES = {"spelling_corrected"}                      # helpful notes, shown in blue
+STATUS_CODES = {"negation_only", "too_vague", "unrecognized_words", "no_text",
+                "empty_query", "not_a_string"}           # already explain why there are no results
+
+
+def show_feedback(r) -> None:
+    """Status message + warnings, without saying the same thing twice."""
+    warnings = [w if isinstance(w, dict) else {"code": "", "message": str(w)} for w in (r.warnings or [])]
+    if r.status == "error":
+        st.error(r.message or "Something went wrong while searching.")
+        return
+    for w in warnings:
+        text = w.get("message", "")
+        if w.get("code") in INFO_CODES:
+            st.info(text.replace(" -> ", " → "))
+        else:
+            st.warning(text)
+    # the generic status message only adds something if no warning already explains the problem
+    if r.message and not any(w.get("code") in STATUS_CODES for w in warnings):
+        st.info(r.message)
 
 
 st.set_page_config(page_title="Movie mood picker", page_icon="🎬")
@@ -136,7 +172,7 @@ plots = plot_lookup(searcher)
 details = details_lookup()
 
 with st.form("search"):
-    query = st.text_input("Your mood", max_chars=100,
+    query = st.text_input("Your mood", max_chars=MAX_QUERY_CHARS,
                           placeholder="something cozy and a little bit grim")
     submitted = st.form_submit_button("Find movies")
 
@@ -147,18 +183,13 @@ if submitted:
         st.session_state.pop("response", None)
         st.warning("Type something first.")
     else:
-        with st.spinner("Searching..."):
+        with st.spinner("Searching through the movies (a few seconds)..."):
             st.session_state.response = searcher.search(query.strip(), top_k=MAX_N, snippets=False)
         st.session_state.shown = FIRST_N
 
 r = st.session_state.get("response")
 if r is not None:
-    if r.status == "error":
-        st.error(r.message)
-    elif r.message:
-        st.info(r.message)
-    for w in r.warnings or []:  # warnings are dicts: {"code": ..., "message": ...}
-        st.warning(w.get("message", str(w)) if isinstance(w, dict) else str(w))
+    show_feedback(r)
 
     results = r.results or []
     shown = min(st.session_state.get("shown", FIRST_N), len(results))
@@ -175,11 +206,13 @@ if r is not None:
                 st.image(info["poster"])
         with text_col:
             year = m.get("year")
-            st.subheader(f"{m['rank']}. {m['title']}" + (f" ({year})" if year else ""))
-            meta = [clean_genres(m.get("genres", "")), f"match score {m['score']:.2f}"]
-            st.caption(" · ".join(x for x in meta if x))
+            st.subheader(f"{m['rank']}. {md_escape(m['title'])}" + (f" ({year})" if year else ""))
+            # no score shown: it is a fused z-score (can be negative), not a percentage
+            genres = clean_genres(m.get("genres", ""))
+            if genres:
+                st.caption(md_escape(genres))
             if description:
-                st.write(description)
+                st.markdown(md_escape(description))
             st.markdown(f"[IMDb](https://www.imdb.com/title/{tt}/)")
 
     if shown < len(results):
