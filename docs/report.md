@@ -5,7 +5,7 @@
 
 ## 0. Goal and Results
 
-**Goal.** A user describes a *mood* in free text ("something gloomy and thrilling", "no horror, just tension") and gets five matching movies. We test two questions: (1) does ranking by **meaning** (sentence embeddings) beat ranking by **shared words** (TF-IDF)? (2) does **subtitle dialogue** carry mood information beyond the plot summary?
+**Goal.** A user describes a *mood* in free text ("something gloomy and thrilling", "no horror, just tension") and gets top matching movies. We test two questions: (1) does ranking by **meaning** (sentence embeddings) beat ranking by **shared words** (TF-IDF)? (2) does **subtitle dialogue** carry mood information beyond the plot summary?
 
 **Main results** (100-movie sample, 28 mood queries, human/AI-assisted 0/1/2 relevance labels, top 5):
 
