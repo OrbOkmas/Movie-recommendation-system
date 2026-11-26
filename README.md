@@ -151,3 +151,7 @@ The Streamlit app (`app.py`) answers a free-text mood with the top 3 movies from
 ## Project Status
 
 Prefinal (26 November 2026, tag `prefinal`). **Finished:** data pipeline on the full 51,616-movie corpus; TF-IDF baseline, Semantic Search 1 and Semantic Search v2, all evaluated on the 100-movie sample; v2 full-corpus index (2.25 M subtitle chunks) built and run on 78 queries (unlabelled); Streamlit demo app on v2 (runnable via Docker or `start_app.bat`).
+
+## Attribution
+
+App uses the TMDB API but is not endorsed or certified by TMDB.
