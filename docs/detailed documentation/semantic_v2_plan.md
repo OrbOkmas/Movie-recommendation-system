@@ -4,18 +4,18 @@ Status: implemented except tuning, real-model runs and rerank (D10 = backup only
 
 ## 1. Goal and scope
 
-Build a better *semantic* retriever than v1 (`src/semantic.py`: MiniLM-L6, one plot vector + subtitle chunks, fixed 0.5/0.5 fusion). TF-IDF stays the baseline. Show the improvement with an ablation ladder, and document where v2 still fails.
+Build a better *semantic* retriever than v1 (`../../src/semantic.py`: MiniLM-L6, one plot vector + subtitle chunks, fixed 0.5/0.5 fusion). TF-IDF stays the baseline. Show the improvement with an ablation ladder, and document where v2 still fails.
 
 Fixed constraints
 - No generative LLM anywhere (small encoder / cross-encoder models are allowed).
 - English-only queries; too-long queries produce a warning.
 - Pure `.py` modules with a CLI (same style as v1: `train`, `search`, `run`, `metrics`). Notebooks only for analysis.
-- Never overwrite v1 results or the team's `mood_judgments.csv`; v2 writes to `evaluation/results/v2/` and its own judgments file.
+- Never overwrite v1 results or the team's `mood_judgments.csv`; v2 writes to `../../evaluation/results/v2` and its own judgments file.
 - Hardware: RTX 2060 laptop (6 GB, fp16). Possible second machine (RTX 5060) for the final run — not to be relied on.
 
 ## 2. What the data shows
 
-Full corpus profile (`evaluation/results/v2/data_profile.json`, 51,616 movies, no duplicate ids, none unrankable):
+Full corpus profile (`../../evaluation/results/v2/data_profile.json`, 51,616 movies, no duplicate ids, none unrankable):
 
 | Fact | Value | Consequence |
 |---|---|---|
@@ -76,7 +76,7 @@ For query q and movie m, with source set S = {plot, keywords, genres, subtitles}
 | small-12L | bge-small-en-v1.5, e5-small-v2, gte-small, all-MiniLM-L12-v2 | 33M | 512 (bge/e5/gte); **128 for MiniLM-L12** | ~2× |
 | base | bge-base-en-v1.5, e5-base-v2, gte-base, all-mpnet-base-v2 | 110M | 512 (mpnet 384) | ~6–8× |
 
-- GPU memory is not the limit; **time on ~2.25M chunks is**. Measured on the RTX 2060 (500 movies = 21,748 chunks, `evaluation/results/v2/encoder_timing.csv`): minilm-l6 18.6 s, bge-small 32.0 s, bge-base 74.3 s, i.e. about 32 min, 55 min and 2.1 h for the full corpus (upper bounds: they include model loading).
+- GPU memory is not the limit; **time on ~2.25M chunks is**. Measured on the RTX 2060 (500 movies = 21,748 chunks, `../../evaluation/results/v2/encoder_timing.csv`): minilm-l6 18.6 s, bge-small 32.0 s, bge-base 74.3 s, i.e. about 32 min, 55 min and 2.1 h for the full corpus (upper bounds: they include model loading).
 - Allocation (main run A): **bge-base for the short fields** (~150k short texts, minutes); **small-12L or v1 model for the subtitle chunks** (2.25M texts: bge-small for the main run, bge-base and minilm-l6 as ablation runs). Whether the larger model actually helps mood retrieval is an empirical question, so it is an ablation, not an assumption.
 - MiniLM-L12's 128-token window would force ~90-word chunks (more chunks) and cancel its benefit — a trap to document.
 - Encoding must be **sharded and resumable** (manifest + shard files per movie range): the run can survive sleep/crash and be split with the second machine.
@@ -85,7 +85,7 @@ For query q and movie m, with source set S = {plot, keywords, genres, subtitles}
 
 ## 7. Evaluation protocol
 
-- **Dev set:** `evaluation/dev_queries.json` (50 queries; 33 `core` need human labels, 17 `robustness` are mostly label-free). **Test set:** M01–M28, locked; run once at the end.
+- **Dev set:** `../../evaluation/dev_queries.json` (50 queries; 33 `core` need human labels, 17 `robustness` are mostly label-free). **Test set:** M01–M28, locked; run once at the end.
 - **Leakage disclosure:** M01–M28 failures are documented in the journal and motivated the design (negation, typos, hubs). Tuning uses dev only; the report states that the *design* was informed by the test-set failure categories. Optional strengthening: a teammate who has not seen the system writes ~15 fresh queries as a final holdout.
 - **Labeled metrics:** P@5, MRR@5, nDCG@5 as in the team notebook, plus nDCG with the ideal ranking taken from the whole judged pool for the query, plus per-query bootstrap 95% CI.
 - **Label-free metrics:** hub concentration (max appearances of one movie, distinct movies over all queries, Gini of appearances); typo stability (overlap@5 of D34/D35 vs D02/D23); paraphrase stability (P1, P2); status accuracy on edge cases; weak-genre hit rate (`weak_genre_expect`, a sanity check only, with known false negatives); latency per query; index size.

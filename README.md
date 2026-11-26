@@ -45,19 +45,19 @@ The lexical movie recommendation baseline is implemented in `src/baseline.py`, w
 
 The notebook `notebooks/02_mood_query_evaluation.ipynb` runs the shared mood queries, exports ranked recommendations, and supports human relevance judgments and evaluation metrics.
 
-For setup instructions, training and search commands, evaluation procedures, full-dataset execution, and troubleshooting, see the [TF-IDF Pipeline Usage Guide](docs/tfidf_pipeline.md).
+For setup instructions, training and search commands, evaluation procedures, full-dataset execution, and troubleshooting, see the [TF-IDF Pipeline Usage Guide](docs/detailed%20documentation/tfidf_pipeline.md).
 
 ### Approach 2: Semantic Search 1 (sentence embeddings)
 
 Implemented in `src/semantic.py`, evaluated in `notebooks/04_semantic_mood_evaluation.ipynb` (`src/run_semantic_eval.py` is the scripted version).
 
-Movies and queries are encoded with the pre-trained model `all-MiniLM-L6-v2`, so a query can match a movie by meaning without sharing words. The model reads only about 200 words, so each movie gets one vector for metadata and plot and one vector per 150-word subtitle chunk (about 42 per movie). Final score = 0.5 × plot similarity + 0.5 × mean of the 3 best subtitle chunks. Unlike TF-IDF, the query is not stop-word filtered or lemmatised, and each result comes with the dialogue passage that matched. See [Semantic Search 1 documentation](docs/semantic_pipeline.md).
+Movies and queries are encoded with the pre-trained model `all-MiniLM-L6-v2`, so a query can match a movie by meaning without sharing words. The model reads only about 200 words, so each movie gets one vector for metadata and plot and one vector per 150-word subtitle chunk (about 42 per movie). Final score = 0.5 × plot similarity + 0.5 × mean of the 3 best subtitle chunks. Unlike TF-IDF, the query is not stop-word filtered or lemmatised, and each result comes with the dialogue passage that matched. See [Semantic Search 1 documentation](docs/detailed%20documentation/semantic_pipeline.md).
 
 **Evaluation (both approaches):** the same 28 mood queries (`evaluation/mood_queries.json`; direct moods, mood themes, subtle vibes, negation, edge cases), one judge grading each query/movie pair 0 / 1 / 2 in pooled sheets (`evaluation/mood_judgment_tfidf.csv`, `evaluation/mood_judgment_semantic.csv`), and Precision@5, MRR@5 and nDCG@5.
 
 ### Approach 3: Semantic Search v2
 
-Implemented in `src/semantic_v2/` (70 tests in `tests/`). Improved semantic retrieval: separate plot/keyword/genre vectors, calibrated fusion, hub correction, negation and typo handling, rule-based abstention. Usage and design: `docs/semantic_v2.md`, `docs/semantic_v2_plan.md`; results: `docs/semantic_v2_results.md`; run everything on the sample with `scripts/run_sample_eval.ps1`.
+Implemented in `src/semantic_v2/` (70 tests in `tests/`). Improved semantic retrieval: separate plot/keyword/genre vectors, calibrated fusion, hub correction, negation and typo handling, rule-based abstention. Usage and design: `docs/detailed documentation/semantic_v2.md`, `docs/detailed documentation/semantic_v2_plan.md`; results: `docs/detailed documentation/semantic_v2_results.md`; run everything on the sample with `scripts/run_sample_eval.ps1`.
 
 ## Results
 
@@ -79,7 +79,7 @@ Semantic search is better on 14 queries, worse on 6, with 3 ties. The P@5 gain i
 | MRR@5 | 0.449 | 0.707 | **0.745** |
 | nDCG@5 (ideal from all judged movies) | 0.255 | 0.434 | **0.504** |
 
-v2 beats TF-IDF on 19 of 24 queries (nDCG +0.26, CI +0.15…+0.37); the gain over v1 (+0.07, CI −0.05…+0.20) is not yet significant. Full tables with intervals, categories and error analysis: `docs/semantic_v2_results.md`.
+v2 beats TF-IDF on 19 of 24 queries (nDCG +0.26, CI +0.15…+0.37); the gain over v1 (+0.07, CI −0.05…+0.20) is not yet significant. Full tables with intervals, categories and error analysis: `docs/detailed documentation/semantic_v2_results.md`.
 
 ### Example recommendation
 
@@ -109,14 +109,15 @@ A second failure shared by TF-IDF and v1 is negation: "No horror, just tension a
 - `app.py` — Streamlit demo app on top of Semantic Search v2; how to run it: [`APP_README.md`](APP_README.md)
   - `requirements-app.txt` (packages for the app only), `start_app.bat` (Windows one-click start), `Dockerfile` + `.dockerignore` (Docker image)
 - `notebooks/` — Experiments and analysis (`02` TF-IDF evaluation, `03` Colab GPU run, `04` semantic evaluation, `data_exploration`)
+- `scripts/` — scripts including a Python script creating an advanced semantic model
 - `data/processed/sample_clean_movies.csv` — 100-movie sample (`;`-separated)
 - `evaluation/` — mood queries, human judgments, and `results/` with rankings, metrics and failure candidates
 - `models/` — saved sample indexes (`tfidf_sample`, `semantic_sample`), so nothing needs re-training to inspect results
 - `docs/report.md` — Prefinal report
 - `docs/failure-journal.md` — Experiment and failure diary
 - `docs/contributions.md` — Team contributions (half page; details in `docs/contributions_detailed.md`)
-- `docs/semantic_v2_results.md` — Generated evaluation of all methods (metrics, intervals, error analysis)
-- `docs/tfidf_pipeline.md`, `docs/semantic_pipeline.md`, `docs/semantic_v2.md` — how each approach works and how to run it
+- `docs/detailed documentation/semantic_v2_results.md` — Generated evaluation of all methods (metrics, intervals, error analysis)
+- `docs/detailed documentation/tfidf_pipeline.md`, `docs/detailed documentation/semantic_pipeline.md`, `docs/detailed documentation/semantic_v2.md` — how each approach works and how to run it
 
 ## How to Run
 
@@ -137,7 +138,7 @@ python -m src.semantic search --index models/semantic_sample --query "I feel lik
 python -m src.run_semantic_eval metrics
 ```
 
-To re-run the evaluations, open `notebooks/02_mood_query_evaluation.ipynb` (TF-IDF) and `notebooks/04_semantic_mood_evaluation.ipynb` (semantic). Semantic v2 on the sample, all metrics in one go: `scripts/run_sample_eval.ps1`. Training, full-dataset runs (Colab GPU via `notebooks/03_semantic_search_colab.ipynb`) and troubleshooting are in the docs listed above. Semantic v2: see `docs/semantic_v2.md`.
+To re-run the evaluations, open `notebooks/02_mood_query_evaluation.ipynb` (TF-IDF) and `notebooks/04_semantic_mood_evaluation.ipynb` (semantic). Semantic v2 on the sample, all metrics in one go: `scripts/run_sample_eval.ps1`. Training, full-dataset runs (Colab GPU via `notebooks/03_semantic_search_colab.ipynb`) and troubleshooting are in the docs listed above. Semantic v2: see `docs/detailed documentation/semantic_v2.md`.
 
 ### Demo app
 
@@ -149,6 +150,4 @@ The Streamlit app (`app.py`) answers a free-text mood with the top 3 movies from
 
 ## Project Status
 
-Prefinal (26 November 2026, tag `prefinal`). **Finished:** data pipeline on the full 51,616-movie corpus; TF-IDF baseline, Semantic Search 1 and Semantic Search v2, all evaluated on the 100-movie sample; v2 full-corpus index (2.25 M subtitle chunks) built and run on 78 queries (unlabelled); Streamlit demo app on v2 (runnable via Docker or `start_app.bat`). **Not done yet:** tuning v2's weights on the labelled dev set, labels on the full corpus, a second human judge, the v2 ablation ladder.
-
-Future work: a calibrated "no good match" answer, better negation and misspelling handling, down-weighting the subtitle channel unless the full-corpus ablation shows a gain, and approximate nearest-neighbour search (median 4.5 s per query on the full index today).
+Prefinal (26 November 2026, tag `prefinal`). **Finished:** data pipeline on the full 51,616-movie corpus; TF-IDF baseline, Semantic Search 1 and Semantic Search v2, all evaluated on the 100-movie sample; v2 full-corpus index (2.25 M subtitle chunks) built and run on 78 queries (unlabelled); Streamlit demo app on v2 (runnable via Docker or `start_app.bat`).

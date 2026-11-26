@@ -1,10 +1,10 @@
 # Semantic Search v2 — Usage Guide and Documentation
 
-Improved semantic retrieval next to the TF-IDF baseline (`docs/tfidf_pipeline.md`) and semantic search v1 (`docs/semantic_pipeline.md`). Same data, same 28 mood queries, same relevance scale (0/1/2). Author: Matyáš. Design decisions and alternatives: `docs/semantic_v2_plan.md`. Results on the 100-movie sample (generated from the files, not typed in): `docs/semantic_v2_results.md`. What failed on the way: `docs/failure-journal.md`, experiments 7–13.
+Improved semantic retrieval next to the TF-IDF baseline (`tfidf_pipeline.md`) and semantic search v1 (`semantic_pipeline.md`). Same data, same 28 mood queries, same relevance scale (0/1/2). Author: Matyáš. Design decisions and alternatives: `semantic_v2_plan.md`. Results on the 100-movie sample (generated from the files, not typed in): `semantic_v2_results.md`. What failed on the way: `docs/failure-journal.md`, experiments 7–13.
 
 ## What changed compared with v1
 
-| v1 problem (from `docs/failure-journal.md`, exp. 6) | v2 answer |
+| v1 problem (from `../failure-journal.md`, exp. 6) | v2 answer |
 |---|---|
 | one string "title + genres + keywords + plot" per movie; short plots and title words dominate | **separate vectors** for plot, keywords and genres; the title is not embedded. A missing field has no vector and no score (no empty-string embedding) |
 | raw cosines of different sources mixed 0.5/0.5 | each source is **z-scored per query** and combined with weights; weights are renormalised over the sources a movie really has |
@@ -25,9 +25,9 @@ Improved semantic retrieval next to the TF-IDF baseline (`docs/tfidf_pipeline.md
 | Encode | `bge-base-en-v1.5` (fields, 768-d) and `bge-small-en-v1.5` (chunks, 384-d); L2-normalised, float16 on disk, sharded | compute budget |
 | Hub offsets | 800 background queries (templated mood phrases + random plot sentences, never evaluation queries); offset = mean of the 10 highest scores of a movie | removes movies that are similar to everything |
 | Query | normalise → length check → spell correction → negation parse → clause split → encode | see query processing |
-| Score | `z_f = (s_f − mean_f(query)) / std_f(query)`; `z(m) = Σ w_f z_f / Σ w_f`; `score = α·z_whole + (1−α)·softmin(z_clauses) − λ·max(0, z_neg − τ)` | formulas in `docs/semantic_v2_plan.md`, section 5 |
+| Score | `z_f = (s_f − mean_f(query)) / std_f(query)`; `z(m) = Σ w_f z_f / Σ w_f`; `score = α·z_whole + (1−α)·softmin(z_clauses) − λ·max(0, z_neg − τ)` | formulas in `semantic_v2_plan.md`, section 5 |
 
-## Data (profile of the full corpus, `evaluation/results/v2/data_profile.json`)
+## Data (profile of the full corpus, `../../evaluation/results/v2/data_profile.json`)
 
 51,616 movies (all rankable), 2,254,879 chunks. Missing: plot 0.5 %, keywords 27.6 %, genres 1.3 %, dialogue 0.2 %. Plot: median 43 words. Years 1895–2026 (median 2003). Genres: Drama 50 %, Comedy 29 %, Romance 17 %, Thriller 17 %, Action 15 %, Horror 11 %.
 
@@ -47,7 +47,7 @@ python -m src.semantic_v2 diag --rankings evaluation/results/v2/v2_A_full_rankin
 python -m src.semantic_v2 agreement --a evaluation/mood_judgments_v2.csv --b evaluation/judgments_<initials>.csv
 ```
 
-Sample run and evaluation in one go: `scripts/run_sample_eval.ps1` (builds or reuses `models/v2_sample_bge`, runs the 28 queries, computes metrics for TF-IDF, semantic v1 and v2 on the same judgments, writes `docs/semantic_v2_results.md`). Full-corpus builds of the three encoder variants: `scripts/build_full_indexes.ps1`.
+Sample run and evaluation in one go: `../../scripts/run_sample_eval.ps1` (builds or reuses `models/v2_sample_bge`, runs the 28 queries, computes metrics for TF-IDF, semantic v1 and v2 on the same judgments, writes `semantic_v2_results.md`). Full-corpus builds of the three encoder variants: `scripts/build_full_indexes.ps1`.
 
 `train` is resumable (shards of 2,000 movies; rerun the same command after an interruption). Changing models, chunk size or `--max-chunks-per-movie` needs a new index; every other setting is a search-time option (`--config`, `--w-plot`, `--lam`, `--no-clauses`, `--meta-negation`, …).
 
@@ -65,7 +65,7 @@ Sample run and evaluation in one go: `scripts/run_sample_eval.ps1` (builds or re
 
 Queries above 150 words are truncated (warning `query_truncated`). English only.
 
-## Settings (`configs/v2_default.json`, `SearchConfig`)
+## Settings (`../../configs/v2_default.json`, `SearchConfig`)
 
 | Setting | Default | Meaning |
 |---|---|---|
@@ -92,7 +92,7 @@ r.results                            # list of dicts: rank, movie_id (IMDb id), 
 
 The app can take `r.results[:3]` directly; no CSV is needed. The index is several GB and is not in git (share it via the team drive); the `chunk_text.parquet` files are only needed for dialogue snippets (`snippets=True`). After the first run, `HF_HUB_OFFLINE=1` avoids network calls at start-up. Measured on the full index (RTX 2060 machine, GPU for the query encoder): median 4.5 s per query, p95 5.5 s, dominated by scoring 2.25 M chunks.
 
-## Outputs (`evaluation/results/v2/`)
+## Outputs (`../../evaluation/results/v2`)
 
 | File | Content |
 |---|---|
@@ -100,11 +100,11 @@ The app can take `r.results[:3]` directly; no CSV is needed. The index is severa
 | `encoder_timing.csv` | measured encoding time per encoder (500 movies) |
 | `v2_A_full_*` | 78 queries (50 dev + 28 test) on the full index: rankings (top-10), status and latency, diagnostics |
 | `v2_A_sample_*`, `sample_*` | the 28 queries on the 100-movie sample, metrics and summaries |
-| `docs/semantic_v2_results.md` | generated report: metrics with bootstrap intervals, paired differences, by category, error analysis |
+| `semantic_v2_results.md` | generated report: metrics with bootstrap intervals, paired differences, by category, error analysis |
 
 ## Evaluation protocol
 
-- **Test set:** M01–M28 (the team's queries). **Dev set:** `evaluation/dev_queries.json`, 50 queries written separately (33 core, 17 robustness), with gold annotations that double as unit tests.
+- **Test set:** M01–M28 (the team's queries). **Dev set:** `../../evaluation/dev_queries.json`, 50 queries written separately (33 core, 17 robustness), with gold annotations that double as unit tests.
 - **Metrics:** P@5, MRR@5, nDCG@5 as in the team notebook, plus an nDCG@5 whose ideal ranking comes from all judged movies of the query (the team version takes the ideal from the retrieved list itself, so it cannot see relevant movies that were missed), with per-query bootstrap 95 % intervals. Label-free: hub concentration, typo/paraphrase stability, status accuracy, latency.
 - **Labels:** pooled judgments of all methods. Vague queries M25 and M27 are scored 1 for every film and reported separately.
 

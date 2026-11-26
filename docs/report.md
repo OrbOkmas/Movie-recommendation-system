@@ -61,7 +61,7 @@ Built to fix v1's documented failures (failure journal, exp. 5–14):
 ## 2. Comparison of Approaches and Error Analysis
 
 ### Overall and by query type
-Human labels, 23 queries where all methods returned 5 judged films: TF-IDF P@5 0.322 → v1 0.461. Pooled v2 label set, 25 queries (table in §0, full results with intervals in `docs/semantic_v2_results.md`):
+Human labels, 23 queries where all methods returned 5 judged films: TF-IDF P@5 0.322 → v1 0.461. Pooled v2 label set, 25 queries (table in §0, full results with intervals in `detailed documentation/semantic_v2_results.md`):
 
 | nDCG@5 (pool) by category | TF-IDF | v1 combined | v1 plot only | v2 |
 |---|---:|---:|---:|---:|
@@ -116,4 +116,4 @@ Meaning beats word overlap consistently (the TF-IDF gap holds on both label sets
 
 **What we would defend:** fixing the main comparison before labelling; pooled blind labelling; the corrected nDCG; separate dev and test queries. **What we would do differently / next:** a second human judge on a random subset of all three methods; label the dev set and tune the weights there, not on M01–M28; evaluate on a random sample from the full corpus; drop or down-weight the subtitle channel unless an ablation on the full corpus shows a gain; an approximate-nearest-neighbour index for latency.
 
-*Full details: `docs/failure-journal.md` (14 dated experiments), `docs/semantic_v2_results.md` (generated metrics, intervals, per-query error tables), `docs/tfidf_pipeline.md`, `docs/semantic_pipeline.md`, `docs/semantic_v2.md`.*
+*Full details: `docs/failure-journal.md` (14 dated experiments), `detailed documentation/semantic_v2_results.md` (generated metrics, intervals, per-query error tables), `detailed documentation/tfidf_pipeline.md`, `detailed documentation/semantic_pipeline.md`, `detailed documentation/semantic_v2.md`.*

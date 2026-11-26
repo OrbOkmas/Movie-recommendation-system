@@ -1,8 +1,8 @@
 # Semantic Search 1 — Sentence Embeddings with Subtitle Chunking
 
-Author: Tomáš · Code: `src/semantic.py`, `src/run_semantic_eval.py` · Evaluation: `notebooks/04_semantic_mood_evaluation.ipynb`
+Author: Tomáš · Code: `../../src/semantic.py`, `src/run_semantic_eval.py` · Evaluation: `notebooks/04_semantic_mood_evaluation.ipynb`
 
-The second retrieval approach next to the TF-IDF baseline (`docs/tfidf_pipeline.md`). Same 100-movie sample, same 28 mood queries, same 0/1/2 relevance scale and the same metric code, so the results are directly comparable.
+The second retrieval approach next to the TF-IDF baseline (`tfidf_pipeline.md`). Same 100-movie sample, same 28 mood queries, same 0/1/2 relevance scale and the same metric code, so the results are directly comparable.
 
 ---
 
@@ -102,7 +102,7 @@ python -m src.semantic train --data data/processed/sample_clean_movies.csv --out
 python -m src.semantic search --index models/semantic_sample --query "dark but not scary" --source combined --top-k 10
 ```
 
-Evaluation: open `notebooks/04_semantic_mood_evaluation.ipynb` and **Run All**. It runs the 28 queries, writes `evaluation/results/semantic1/sem_*_mood_rankings.csv`, creates/extends the labelling sheet `evaluation/mood_judgment_semantic.csv` (only pairs without a grade) and computes the metrics from `evaluation/mood_judgment_tfidf.csv` + `evaluation/mood_judgment_semantic.csv`. Scripted equivalent: `python -m src.run_semantic_eval run --index models/semantic_sample` and `python -m src.run_semantic_eval metrics`.
+Evaluation: open `../../notebooks/04_semantic_mood_evaluation.ipynb` and **Run All**. It runs the 28 queries, writes `evaluation/results/semantic1/sem_*_mood_rankings.csv`, creates/extends the labelling sheet `evaluation/mood_judgment_semantic.csv` (only pairs without a grade) and computes the metrics from `evaluation/mood_judgment_tfidf.csv` + `evaluation/mood_judgment_semantic.csv`. Scripted equivalent: `python -m src.run_semantic_eval run --index models/semantic_sample` and `python -m src.run_semantic_eval metrics`.
 
 **Using the model from Python (e.g. in the application):**
 
@@ -113,9 +113,9 @@ results = model.search("something dark but not scary", top_k=10, source="combine
 # -> list of dicts: rank, movie_id, title, score, meta_score, subtitle_score, genres, release_year, best_chunk
 ```
 
-Full data on a GPU: `notebooks/03_semantic_search_colab.ipynb`.
+Full data on a GPU: `../../notebooks/03_semantic_search_colab.ipynb`.
 
-## 7. Output files (`evaluation/results/`)
+## 7. Output files (`../../evaluation/results`)
 
 | File | Content |
 |---|---|

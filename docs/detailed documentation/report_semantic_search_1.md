@@ -1,4 +1,4 @@
-# Report text — Semantic Search 1 (for `docs/report.md`)
+# Report text — Semantic Search 1 (for `../report.md`)
 
 > Ready-to-paste text for the prefinal report. Part A goes to **1. Data and Methodology → Approach B**, Part B to **2. Comparison of Approaches and Error Analysis**, Part C to **3. Limits and Risks**. Kept in a separate file so that report edits by other team members do not collide in a merge.
 
@@ -12,7 +12,7 @@ The TF-IDF baseline can only match words, but mood requests are paraphrastic: "g
 
 ### Model Implementation
 
-We use the pre-trained sentence-embedding model `all-MiniLM-L6-v2` (sentence-transformers; 384-dimensional vectors). It was chosen as a standard, fast encoder that runs on a laptop CPU and needs no training on our data. Movies and queries are mapped into the same vector space and ranked by cosine similarity. The implementation is in `src/semantic.py`.
+We use the pre-trained sentence-embedding model `all-MiniLM-L6-v2` (sentence-transformers; 384-dimensional vectors). It was chosen as a standard, fast encoder that runs on a laptop CPU and needs no training on our data. Movies and queries are mapped into the same vector space and ranked by cosine similarity. The implementation is in `../../src/semantic.py`.
 
 The model reads at most 256 word-pieces (about 150–200 words) and silently truncates longer input, while subtitles in our sample contain on average 6,200 words per movie. Encoding a whole movie as one vector would therefore cover less than 2 % of its dialogue. We split each movie's `text_embedding` field into (1) **metadata and plot** — one vector per movie — and (2) **dialogue**, cut into 150-word chunks (4,155 chunks, 41.6 per movie; a trailing chunk shorter than 50 words is merged into the previous one). A movie's subtitle score aggregates the similarities of its chunks (best chunk, or mean of the three best), and the final score combines both parts equally:
 
@@ -22,7 +22,7 @@ The query is encoded as written, without stop-word removal or lemmatisation, so 
 
 ### Evaluation Methodology
 
-We used the same 100-movie sample, the same 28 mood queries, the same 0/1/2 relevance scale and the same metric implementation as for TF-IDF (`notebooks/04_semantic_mood_evaluation.ipynb`). Because we tested four semantic variants against one baseline, we fixed the **main comparison before labelling**: TF-IDF vs `sem_combined`, which uses the same information (plot + subtitles). The three other variants — plot only, subtitles with best-chunk aggregation, subtitles with top-3 aggregation — are reported as an ablation.
+We used the same 100-movie sample, the same 28 mood queries, the same 0/1/2 relevance scale and the same metric implementation as for TF-IDF (`../../notebooks/04_semantic_mood_evaluation.ipynb`). Because we tested four semantic variants against one baseline, we fixed the **main comparison before labelling**: TF-IDF vs `sem_combined`, which uses the same information (plot + subtitles). The three other variants — plot only, subtitles with best-chunk aggregation, subtitles with top-3 aggregation — are reported as an ablation.
 
 Labels were collected in a pooled, blind sheet: each query–movie pair appears once regardless of how many methods retrieved it, and the sheet does not show which method recommended a movie. The 33 semantic pairs already judged for TF-IDF reused their grades; the remaining 275 pairs were judged on 23 November by the same team member who judged the TF-IDF results.
 
