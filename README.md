@@ -106,7 +106,8 @@ A second failure shared by TF-IDF and v1 is negation: "No horror, just tension a
   - TF-IDF baseline: `baseline.py`, `tfidf_text.py`
   - Semantic Search 1: `semantic.py`, `run_semantic_eval.py`
   - Semantic Search v2: `semantic_v2/`, with `configs/v2_default.json` and `tests/`
-- `app.py` — Streamlit demo app on top of Semantic Search v2 (`requirements-app.txt`)
+- `app.py` — Streamlit demo app on top of Semantic Search v2; how to run it: [`APP_README.md`](APP_README.md)
+  - `requirements-app.txt` (packages for the app only), `start_app.bat` (Windows one-click start), `Dockerfile` + `.dockerignore` (Docker image)
 - `notebooks/` — Experiments and analysis (`02` TF-IDF evaluation, `03` Colab GPU run, `04` semantic evaluation, `data_exploration`)
 - `data/processed/sample_clean_movies.csv` — 100-movie sample (`;`-separated)
 - `evaluation/` — mood queries, human judgments, and `results/` with rankings, metrics and failure candidates
@@ -136,10 +137,18 @@ python -m src.semantic search --index models/semantic_sample --query "I feel lik
 python -m src.run_semantic_eval metrics
 ```
 
-To re-run the evaluations, open `notebooks/02_mood_query_evaluation.ipynb` (TF-IDF) and `notebooks/04_semantic_mood_evaluation.ipynb` (semantic). Semantic v2 on the sample, all metrics in one go: `scripts/run_sample_eval.ps1`. Demo app: `py -m pip install -r requirements-app.txt` then `py -m streamlit run app.py` (set `MOVIE_INDEX=models/v2_sample_bge` and `MOVIE_DATA=data/processed/sample_clean_movies.csv` to use the sample index in the repository). Training, full-dataset runs (Colab GPU via `notebooks/03_semantic_search_colab.ipynb`) and troubleshooting are in the docs listed above. Semantic v2: see `docs/semantic_v2.md`.
+To re-run the evaluations, open `notebooks/02_mood_query_evaluation.ipynb` (TF-IDF) and `notebooks/04_semantic_mood_evaluation.ipynb` (semantic). Semantic v2 on the sample, all metrics in one go: `scripts/run_sample_eval.ps1`. Training, full-dataset runs (Colab GPU via `notebooks/03_semantic_search_colab.ipynb`) and troubleshooting are in the docs listed above. Semantic v2: see `docs/semantic_v2.md`.
+
+### Demo app
+
+The Streamlit app (`app.py`) answers a free-text mood with the top 3 movies from the full 51,616-movie v2 index (**Show more** reveals up to 10), with poster, genres and plot. Screenshots: [`Screenshots`](https://drive.google.com/drive/folders/19PvhkkGEimWfqCiffSmbTvsgTC7NRr5C?usp=sharing). The ready-made Docker image is too large for GitHub and is on [Google Drive](https://drive.google.com/drive/folders/1TpUzjJkJ3WstK4h4aFP1MNBWFcwiq_C5?usp=sharing).
+
+- **Docker (recommended):** download `movie-app.tar`, then `docker load -i movie-app.tar` and `docker run -p 8501:8501 movie-app`, and open http://localhost:8501.
+- **Windows without Docker:** double-click `start_app.bat` in the repository folder; the first start installs Python (if missing) and the packages into .venv.
+- **Manually:** `py -m pip install -r requirements-app.txt` then `py -m streamlit run app.py`. To use the 100-movie sample index in the repository instead, set `MOVIE_INDEX=models/v2_sample_bge` and `MOVIE_DATA=data/processed/sample_clean_movies.csv` in `app.py`, and delete `app_details.csv` if present (the app caches posters and plots there on its first start and reads only that file afterwards).
 
 ## Project Status
 
-Prefinal (26 November 2026, tag `prefinal`). **Finished:** data pipeline on the full 51,616-movie corpus; TF-IDF baseline, Semantic Search 1 and Semantic Search v2, all evaluated on the 100-movie sample; v2 full-corpus index (2.25 M subtitle chunks) built and run on 78 queries (unlabelled); Streamlit demo app on v2. **Not done yet:** tuning v2's weights on the labelled dev set, labels on the full corpus, a second human judge, the v2 ablation ladder, app screenshots.
+Prefinal (26 November 2026, tag `prefinal`). **Finished:** data pipeline on the full 51,616-movie corpus; TF-IDF baseline, Semantic Search 1 and Semantic Search v2, all evaluated on the 100-movie sample; v2 full-corpus index (2.25 M subtitle chunks) built and run on 78 queries (unlabelled); Streamlit demo app on v2 (runnable via Docker or `start_app.bat`). **Not done yet:** tuning v2's weights on the labelled dev set, labels on the full corpus, a second human judge, the v2 ablation ladder.
 
 Future work: a calibrated "no good match" answer, better negation and misspelling handling, down-weighting the subtitle channel unless the full-corpus ablation shows a gain, and approximate nearest-neighbour search (median 4.5 s per query on the full index today).
