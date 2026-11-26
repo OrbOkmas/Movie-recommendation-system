@@ -67,8 +67,8 @@ def clean_short_metadata(text: object) -> str:
     return WHITESPACE_PATTERN.sub(" ", cleaned).strip()
 
 
-def build_combined_embedding_text(row: pd.Series) -> str:
-    """Combines structured metadata and cleaned dialogue for dense transformer encoders."""
+def build_combined_embedding_text(row: pd.Series, min_subtitle_words: int = 50) -> str:
+    """Combines metadata and dialogue; omits dialogue if subtitles fall below min_subtitle_words."""
     parts: list[str] = []
 
     title = str(row.get("tmdb_title", "")).strip()
@@ -89,8 +89,10 @@ def build_combined_embedding_text(row: pd.Series) -> str:
     if plot:
         parts.append(f"Plot: {plot}")
 
+    # Only include dialogue when it passes the minimum validity threshold
     subtitles = str(row.get("clean_subtitles", "")).strip()
-    if subtitles:
+    sub_words = int(row.get("subtitle_word_count", 0))
+    if subtitles and sub_words >= min_subtitle_words:
         parts.append(f"Dialogue: {subtitles}")
 
     return " | ".join(parts)
@@ -238,24 +240,30 @@ def run_preprocessing(min_subtitle_words: int = 50) -> None:
     meta_df["subtitle_word_count"] = meta_df["clean_subtitles"].str.split().str.len()
     meta_df["has_valid_subtitles"] = meta_df["subtitle_word_count"] >= min_subtitle_words
 
-    # Track B: Dense Semantic Embedding input (preserves natural casing and sentence structure)
+    # Track B: Dense Semantic Embedding input (falls back to metadata + plot when subtitles < 50 words)
     print("Building dense embedding text representations...")
-    meta_df["text_embedding"] = meta_df.apply(build_combined_embedding_text, axis=1)
+    meta_df["text_embedding"] = meta_df.apply(
+        build_combined_embedding_text,
+        min_subtitle_words=min_subtitle_words,
+        axis=1,
+    )
 
-    # Track A: Lexical TF-IDF input (multi-core lemmatized, stopword-filtered, lowercase)
+    # Track A: Lexical TF-IDF input (only includes subtitle dialogue when has_valid_subtitles is True)
     print("Lemmatizing plot + subtitle corpus for TF-IDF...")
+    valid_dialogue_for_tfidf = meta_df["clean_subtitles"].where(meta_df["has_valid_subtitles"], "")
+
     raw_lexical_corpus = (
-        meta_df["tmdb_title"]
-        + " "
-        + meta_df["genres"].str.replace("|", " ", regex=False)
-        + " "
-        + meta_df["keywords"].str.replace("|", " ", regex=False)
-        + " "
-        + meta_df["clean_plot"]
-        + " "
-        + meta_df["clean_subtitles"]
+            meta_df["tmdb_title"]
+            + " "
+            + meta_df["genres"].str.replace("|", " ", regex=False)
+            + " "
+            + meta_df["keywords"].str.replace("|", " ", regex=False)
+            + " "
+            + meta_df["clean_plot"]
+            + " "
+            + valid_dialogue_for_tfidf
     ).tolist()
-    meta_df["text_tfidf"] = lemmatize_for_tfidf(raw_lexical_corpus, nlp, batch_size=128)
+    meta_df["text_tfidf"] = lemmatize_for_tfidf(raw_lexical_corpus, nlp, batch_size=32)
 
     # Save full master dataset as Parquet (preserves multi-thousand-word strings without delimiter issues)
     os.makedirs(os.path.dirname(parquet_out_path), exist_ok=True)
