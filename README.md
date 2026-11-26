@@ -10,14 +10,16 @@ Our goal is to develop and evaluate a movie recommendation system using natural 
 
 | Member | Responsibility |
 |---|---|
-| [?] | Project coordination and integration |
-| [?] | Dataset preparation and preprocessing |
-| Eliška [?] | Baseline recommendation approach (TF-IDF) |
-| Tomáš | Semantic recommendation approach (Semantic Search 1) |
-| [?] | Evaluation and error analysis |
-| [?] | Documentation and application development |
+| Vojta | Data collection, TMDB alignment and preprocessing |
+| Eliška | TF-IDF baseline, shared test queries, evaluation notebook, repository setup |
+| Tomáš | Semantic Search v1 (sentence embeddings) |
+| Matyáš | Semantic Search v2 and its evaluation |
+| Sam | Relevance labelling, coordination and integration of the prefinal package |
+| Matouš | Streamlit application |
 
-Also: Matyáš — Semantic Search v2 (in progress); Vojta — full-dataset runs [?]. Details in `docs/contributions.md`.
+Half-page summary: `docs/contributions.md`; per-person details: `docs/contributions_detailed.md`.
+
+**Prefinal package:** [`docs/report.md`](docs/report.md) (main report), [`docs/failure-journal.md`](docs/failure-journal.md), [`docs/contributions.md`](docs/contributions.md). The state handed in for peer review is the git tag `prefinal`.
 
 ## Project Objectives
 
@@ -55,11 +57,11 @@ Movies and queries are encoded with the pre-trained model `all-MiniLM-L6-v2`, so
 
 ### Approach 3: Semantic Search v2
 
-Improved semantic retrieval: separate plot/keyword/genre vectors, calibrated fusion, hub correction, negation and typo handling, rule-based abstention. Usage and design: `docs/semantic_v2.md`, `docs/semantic_v2_plan.md`; results: `docs/semantic_v2_results.md`; run everything on the sample with `scripts/run_sample_eval.ps1`.
+Implemented in `src/semantic_v2/` (70 tests in `tests/`). Improved semantic retrieval: separate plot/keyword/genre vectors, calibrated fusion, hub correction, negation and typo handling, rule-based abstention. Usage and design: `docs/semantic_v2.md`, `docs/semantic_v2_plan.md`; results: `docs/semantic_v2_results.md`; run everything on the sample with `scripts/run_sample_eval.ps1`.
 
 ## Results
 
-On the 23 queries where both methods returned five judged movies:
+On the 23 queries where both methods returned five judged movies (human labels):
 
 | Metric | Baseline (TF-IDF) | Alternative (Semantic Search 1) |
 |---|---|---|
@@ -68,6 +70,16 @@ On the 23 queries where both methods returned five judged movies:
 | nDCG@5 (judged pool) | 0.481 | **0.631** |
 
 Semantic search is better on 14 queries, worse on 6, with 3 ties. The P@5 gain is +0.14 (bootstrap 95% CI 0.03–0.25, Wilcoxon p = 0.045). Plot alone (nDCG@5 0.657 on 27 queries) beats subtitles alone (0.587–0.590), so dialogue helps less than we expected. Source: `evaluation/results/comparison/comparison_metrics.csv`, `comparison_per_query.csv`.
+
+**With Semantic Search v2** (pooled label set `evaluation/mood_judgments_v2.csv`, AI-assisted first pass; 78 % exact agreement with the human labels on 394 shared pairs, Cohen's κ 0.58), 25 queries:
+
+| Metric | TF-IDF | Semantic Search 1 | **Semantic Search v2** |
+|---|---|---|---|
+| Precision@5 | 0.336 | 0.488 | **0.568** |
+| MRR@5 | 0.449 | 0.707 | **0.745** |
+| nDCG@5 (ideal from all judged movies) | 0.255 | 0.434 | **0.504** |
+
+v2 beats TF-IDF on 19 of 24 queries (nDCG +0.26, CI +0.15…+0.37); the gain over v1 (+0.07, CI −0.05…+0.20) is not yet significant. Full tables with intervals, categories and error analysis: `docs/semantic_v2_results.md`.
 
 ### Example recommendation
 
@@ -85,7 +97,7 @@ Semantic search is better on 14 queries, worse on 6, with 3 ties. The P@5 gain i
 
 **Why it failed:** its dialogue talks about horror films, fear, death and feelings ("you wanted horror films … we kept expecting monsters"), so one of its chunks is close to almost any mood query. It appears in 14 of 27 top-5 lists and is irrelevant in 10 of them. Subtitle similarity measures what characters talk about, not how the film feels.
 
-A second failure shared by both methods is negation: "No horror, just tension and psychological mystery." (M23) gets 0 relevant movies from both. More cases: `docs/failure-journal.md`, `evaluation/results/*_failure_candidates.csv`.
+A second failure shared by TF-IDF and v1 is negation: "No horror, just tension and psychological mystery." (M23) gets 0 relevant movies from both; v2's negation parser gets 4 of 5 relevant (but v2 was designed after seeing this failure). More cases: `docs/failure-journal.md`, `evaluation/results/*_failure_candidates.csv`.
 
 ## Project Structure
 
@@ -93,15 +105,16 @@ A second failure shared by both methods is negation: "No horror, just tension an
   - data collection and cleaning: `extract_opus.py`, `extract_opus_metadata.py`, `aligment.py`, `enrich_tmdb_details.py`, `preprocessing.py`
   - TF-IDF baseline: `baseline.py`, `tfidf_text.py`
   - Semantic Search 1: `semantic.py`, `run_semantic_eval.py`
-  - Semantic Search v2 (in progress): `semantic_v2/`, with `configs/v2_default.json` and `tests/`
+  - Semantic Search v2: `semantic_v2/`, with `configs/v2_default.json` and `tests/`
+- `app.py` — Streamlit demo app on top of Semantic Search v2 (`requirements-app.txt`)
 - `notebooks/` — Experiments and analysis (`02` TF-IDF evaluation, `03` Colab GPU run, `04` semantic evaluation, `data_exploration`)
 - `data/processed/sample_clean_movies.csv` — 100-movie sample (`;`-separated)
 - `evaluation/` — mood queries, human judgments, and `results/` with rankings, metrics and failure candidates
 - `models/` — saved sample indexes (`tfidf_sample`, `semantic_sample`), so nothing needs re-training to inspect results
 - `docs/report.md` — Prefinal report
 - `docs/failure-journal.md` — Experiment and failure diary
-- `docs/contributions.md` — Team contributions
-- `docs/results.md` — Detailed evaluation
+- `docs/contributions.md` — Team contributions (half page; details in `docs/contributions_detailed.md`)
+- `docs/semantic_v2_results.md` — Generated evaluation of all methods (metrics, intervals, error analysis)
 - `docs/tfidf_pipeline.md`, `docs/semantic_pipeline.md`, `docs/semantic_v2.md` — how each approach works and how to run it
 
 ## How to Run
@@ -123,10 +136,10 @@ python -m src.semantic search --index models/semantic_sample --query "I feel lik
 python -m src.run_semantic_eval metrics
 ```
 
-To re-run the evaluations, open `notebooks/02_mood_query_evaluation.ipynb` (TF-IDF) and `notebooks/04_semantic_mood_evaluation.ipynb` (semantic). Training, full-dataset runs (Colab GPU via `notebooks/03_semantic_search_colab.ipynb`) and troubleshooting are in the docs listed above. Semantic v2: see `docs/semantic_v2.md`.
+To re-run the evaluations, open `notebooks/02_mood_query_evaluation.ipynb` (TF-IDF) and `notebooks/04_semantic_mood_evaluation.ipynb` (semantic). Semantic v2 on the sample, all metrics in one go: `scripts/run_sample_eval.ps1`. Demo app: `py -m pip install -r requirements-app.txt` then `py -m streamlit run app.py` (set `MOVIE_INDEX=models/v2_sample_bge` and `MOVIE_DATA=data/processed/sample_clean_movies.csv` to use the sample index in the repository). Training, full-dataset runs (Colab GPU via `notebooks/03_semantic_search_colab.ipynb`) and troubleshooting are in the docs listed above. Semantic v2: see `docs/semantic_v2.md`.
 
 ## Project Status
 
-Prefinal (26 November 2026). Finished: data pipeline, TF-IDF baseline, Semantic Search 1, and their labelled comparison on the 100-movie sample. In progress: Semantic Search v2 (implemented and tested, not yet labelled). Not done yet: runs and labels on the full 51,616-movie corpus, and a second judge to measure agreement.
+Prefinal (26 November 2026, tag `prefinal`). **Finished:** data pipeline on the full 51,616-movie corpus; TF-IDF baseline, Semantic Search 1 and Semantic Search v2, all evaluated on the 100-movie sample; v2 full-corpus index (2.25 M subtitle chunks) built and run on 78 queries (unlabelled); Streamlit demo app on v2. **Not done yet:** tuning v2's weights on the labelled dev set, labels on the full corpus, a second human judge, the v2 ablation ladder, app screenshots.
 
-Future work: a hybrid that adds emotion tagging to semantic retrieval [?], a calibrated "no good match" answer for vague or nonsense queries, and better handling of negation and misspellings.
+Future work: a calibrated "no good match" answer, better negation and misspelling handling, down-weighting the subtitle channel unless the full-corpus ablation shows a gain, and approximate nearest-neighbour search (median 4.5 s per query on the full index today).
