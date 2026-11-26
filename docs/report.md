@@ -5,7 +5,7 @@
 
 ## 0. Goal and Results
 
-**Goal.** A user describes a *mood* in free text ("something gloomy and thrilling", "no horror, just tension") and gets top matching movies. We test two questions: (1) does ranking by **meaning** (sentence embeddings) beat ranking by **shared words** (TF-IDF)? (2) does **subtitle dialogue** carry mood information beyond the plot summary?
+**Goal.** A user describes a *mood* in free text ("something gloomy and thrilling", "no horror, just tension") and gets top matching movies. We test whether ranking by **meaning** (sentence embeddings) beats ranking by **shared words** (TF-IDF).
 
 **Main results** (100-movie sample, 28 mood queries, human/AI-assisted 0/1/2 relevance labels, top 5):
 
@@ -18,7 +18,6 @@
 | **Semantic Search v2** (BGE, field fusion, negation) | **0.568** | **0.745** | **0.504** | v2 pooled, 25 queries |
 
 - Meaning beats words: v1 > TF-IDF on 14 of 23 queries (P@5 +0.14, bootstrap 95 % CI 0.03–0.25, Wilcoxon p = 0.045); v2 > TF-IDF on 19 of 24 (nDCG +0.26, CI +0.15…+0.37).
-- **Subtitles help less than we expected**: plot-only embeddings (nDCG@5 0.657) beat subtitles-only (0.587–0.590). In v2, the subtitle similarity is the same for relevant and irrelevant results (0.557 vs 0.554).
 - v2 vs v1 is a gain we **cannot yet prove**: nDCG +0.07, CI −0.05…+0.20.
 
 **Sample run (v2):** "No horror, just tension and psychological mystery." (M23) → *The Uninvited* (1), *The Nameless* (1), *A Shadow of a Doubt* (1), *The Headless Woman* (2), *Des Pardes* (0). TF-IDF and v1 return horror films (*Scared*, *Bhoot*, *Crypt of the Vampire*) — 0 relevant.
@@ -106,14 +105,25 @@ Meaning beats word overlap consistently (the TF-IDF gap holds on both label sets
 
 ## 3. Limits and Risks
 
-- **Small, non-random sample.** 100 films, the first in file order; for M11 ("adventure full of wonder") and M15 ("forgotten seaside town") hardly any relevant film exists, so low scores partly measure the corpus, not the method. The full-corpus v2 run (78 queries) is unlabelled.
+- **Small sample.** 100 films; for M11 ("adventure full of wonder") and M15 ("forgotten seaside town") hardly any relevant film exists, so low scores partly measure the corpus, not the method. The full-corpus v2 run (78 queries) is unlabelled. We are aware of this, and for the final submission we will evaluate on a larger, randomly drawn sample from the full corpus.
 - **Labels.** The TF-IDF/v1 labels are one human judge, labelled in two sessions (blinding only partial). The v2 comparison uses a pooled sheet first labelled by an AI assistant: on the 394 pairs shared with the human labels, exact agreement is **78 %**, relevant/irrelevant agreement **85 %**, Cohen's κ **0.58** (moderate). Numbers across the two label sets are therefore not directly comparable, which is why we report both.
-- **Subtitles are a weak mood signal** — our central hypothesis is only partly supported. Dialogue discusses emotions and genres rather than expressing atmosphere; it also creates hubs and carries noise (credits, lyrics).
-- **Negation and spelling are rule based.** Not handled: "anything but…", sarcasm, double negation, real-word typos ("griping" for "gripping"), names. On the full index the typo version of "Cozy and a little bit grim" shares **0 of 10** films with the clean version. A false negation silently removes good films, which is worse for a user than an ignored one.
-- **Data bias.** English-only archive, drama-heavy (50 %), many obscure titles, posters/plots from TMDB; popular films are not favoured, but users may not recognise any recommendation. No user history (cold-start by design): the system cannot personalise.
-- **Untuned v2.** Fusion weights, λ and τ are placeholders; the BGE-base/BGE-small split was chosen by measured encoding time on a compute budget, not by accuracy.
+- **Data bias.** English-only archive, drama-heavy (50 %), many obscure titles, posters/plots from TMDB. This is a known property of the free dataset, and we consider it acceptable for the scope of the project. Popular films are not favoured: this is a deliberate trade-off that supports discovery of lesser-known films, at the cost that users may not recognise the recommendations. No user history (cold-start by design): the system cannot personalise.
+- **Untuned v2.** Fusion weights, λ and τ are placeholders; the BGE-base/BGE-small split was chosen by measured encoding time on a compute budget, not by accuracy. Tuning is work in progress (see Discussion).
 - **Cost.** Full index: several GB, median **4.5 s per query** (p95 5.5 s, RTX 2060), dominated by scoring 2.25 M chunks — too slow for an interactive app without approximate search.
 
-**What we would defend:** fixing the main comparison before labelling; pooled blind labelling; the corrected nDCG; separate dev and test queries. **What we would do differently / next:** a second human judge on a random subset of all three methods; label the dev set and tune the weights there, not on M01–M28; evaluate on a random sample from the full corpus; drop or down-weight the subtitle channel unless an ablation on the full corpus shows a gain; an approximate-nearest-neighbour index for latency.
+### Discussion
+
+- **Subtitles.** We tested plot and subtitles separately only in v1. There, adding subtitles to the plot gave the best precision (P@5 0.467 vs 0.422 for plot only) and the best results on direct mood queries. On their own, however, subtitles were the weakest source (nDCG@5 0.587–0.590 vs 0.657 for plot only). The reason is that dialogue reflects what characters *talk about*, not how the film *feels*, and it contains noise such as credits and song lyrics. v2 always combines all sources (plot, keywords, genres, subtitles), so the contribution of subtitles there has not yet been measured.
+- **Negation and spelling.** Both are rule based. Not handled: "anything but…", sarcasm, double negation, real-word typos ("griping" for "gripping"), names. On the full index the typo version of "Cozy and a little bit grim" shares **0 of 10** films with the clean version, and a false negation silently removes good films, which is worse for a user than an ignored one. There is no quick fix; the next step is a BERT-based model (see Future work).
+- **Tuning.** We are working on tuning the v2 fusion weights, λ and τ on the 50 separate dev queries, so that the test queries M01–M28 stay untouched.
+- **Larger sample.** All conclusions above will be re-checked on the larger, random sample for the final submission.
+- **If challenged, we would defend:** fixing the main comparison before labelling; pooled blind labelling; the corrected nDCG; separate dev and test queries. **We would do differently:** add a second human judge on a random subset of all three methods, evaluate on a random sample from the full corpus from the start, and add an approximate-nearest-neighbour index for latency.
+
+### Future work: BERT mood labelling fused with semantic search
+
+We plan to fine-tune a BERT-based classifier that assigns each film explicit mood labels (e.g. cozy, tense, melancholic, uplifting) from its plot and dialogue. At query time, the request is mapped to the same mood labels, and the resulting mood score is fused with the semantic search score. Expected benefits:
+1. **An interpretable mood profile per film**, so each recommendation can be explained by its predicted moods rather than by a single matched sentence.
+2. **A weaker hub effect**, because films are matched on predicted atmosphere rather than on topics their characters discuss (Example 3).
+3. **More robust handling of negation and typos**, because a trained model reads the whole request in context instead of relying on hand-written rules.
 
 *Full details: `docs/failure-journal.md` (14 dated experiments), `detailed documentation/semantic_v2_results.md` (generated metrics, intervals, per-query error tables), `detailed documentation/tfidf_pipeline.md`, `detailed documentation/semantic_pipeline.md`, `detailed documentation/semantic_v2.md`.*
